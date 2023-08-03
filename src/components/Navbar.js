@@ -1,0 +1,69 @@
+'use client';
+
+import { Dropdown, Navbar } from 'flowbite-react';
+import { BsFillCarFrontFill } from "react-icons/bs";
+import { signOut } from "next-auth/react";
+
+export default function NavbarWithDropdown() {
+  return (
+    <Navbar
+      fluid
+      rounded
+    >
+      <Navbar.Brand href="/admin">
+        <BsFillCarFrontFill className="mr-3 h-6 sm:h-9"/>
+        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+          SSCP Puno
+        </span>
+      </Navbar.Brand>
+      <div className="flex md:order-2">
+          <Dropdown
+            inline
+            label={<BsFillCarFrontFill/>}
+          >
+          <Dropdown.Header>
+            <span className="block text-sm">
+              Bonnie Green
+            </span>
+            <span className="block truncate text-sm font-medium">
+              name@flowbite.com
+            </span>
+          </Dropdown.Header>
+          <Dropdown.Item>
+            Configuracion
+          </Dropdown.Item>
+          <Dropdown.Divider />
+          <Dropdown.Item onClick={()=>{signOut();}}>
+            Salir
+          </Dropdown.Item>
+        </Dropdown>
+        <Navbar.Toggle />
+      </div>
+      <Navbar.Collapse>
+        <Navbar.Link
+          active
+          href="#"
+        >
+          <p>
+            Home
+          </p>
+        </Navbar.Link>
+        <Navbar.Link href="/admin/user">
+          Usuarios
+        </Navbar.Link>
+        <Navbar.Link href="#">
+          Services
+        </Navbar.Link>
+        <Navbar.Link href="#">
+          Pricing
+        </Navbar.Link>
+        <Navbar.Link href="#">
+          SIPCOP-M
+        </Navbar.Link>
+      </Navbar.Collapse>
+    </Navbar>
+  )
+}
+
+
+//
