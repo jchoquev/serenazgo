@@ -3,7 +3,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 export default function login(){
-  const [error,setError]=useState("");
+  const [error,setError]=useState();
   const router=useRouter();
 
   const handlSubmit=async (e)=>{
