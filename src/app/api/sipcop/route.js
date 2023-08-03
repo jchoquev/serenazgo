@@ -8,3 +8,4 @@ export async function POST(request){
     const sipcop= await (new SipCop(data)).save();
     return NextResponse.json({ok:true,msg:sipcop});
 }
+

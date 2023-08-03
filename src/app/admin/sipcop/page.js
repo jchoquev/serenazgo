@@ -156,8 +156,6 @@ function TextObservacion({_id,Observacion}){
       //llenar
     }
   };
-  return <>
-    <TextInput sizing="sm" type="text"  value={obs.Observacion} onKeyDown={handleKeyDown} onChange={handleChange}/>
-  </>;
+  return <TextInput sizing="sm" type="text"  value={obs.Observacion} onKeyDown={handleKeyDown} onChange={handleChange}/>;
 }
 

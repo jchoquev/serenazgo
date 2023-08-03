@@ -9,7 +9,6 @@ export async function GET(request){
     }else{
         return NextResponse.json({ok:false,msg:"No existe vehiculos..."},{status:400});
     }
-    
 }
 
 export async function POST(request){
