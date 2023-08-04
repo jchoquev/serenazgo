@@ -27,7 +27,19 @@ const VehiculoSchema =new Schema({
     }
 });
 
+const ConfigShema=new Schema({
+    SIPkm:{type:Number},
+    SIPminutos:{type:Number},
+    TACminutos:{type:Number},
+    TACminutosadd:{type:Number},
+    Incidencias:{type:Number},
+    Tactico:{type:Number},
+    WDRuta:{type:String},
+    WDSession:{type:String},
+},{collection: 'Configuracion'});
+
 const Turno= models.Turno||model("Turno",TurnoSchema);
 const Grupo= models.Grupo||model("Grupo",GrupoSchema);
 const Vehiculo= models.Vehiculo||model("Vehiculo",VehiculoSchema);
-export {Turno,Grupo,Vehiculo,GrupoSchema};
+const Config= models.Config||model("Config",ConfigShema);
+export {Turno,Grupo,Vehiculo,Config,GrupoSchema};

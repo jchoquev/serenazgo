@@ -4,7 +4,7 @@ import { connectDB } from "@/libs/mongodb";
 import moment from "moment/moment";
 
 export async function GET(request){
-    //try {
+    try {
         const { searchParams } = new URL(request.url);
         const fechai = moment.utc(searchParams.get("fecha"),"DD/MM/YYYY")
         const fechaf= moment.utc(searchParams.get("fecha"),"DD/MM/YYYY").add(1,"day");
@@ -18,9 +18,9 @@ export async function GET(request){
             FHeliminar: null,
         };
         await connectDB();
-        const resp= await SipCop.find(filtro);
+        const resp= await SipCop.find(filtro).sort({ Numero: 1 });
         return NextResponse.json({ok:true,msg:resp});
-    /*} catch (error) {
+    } catch (error) {
         return NextResponse.json({ok:false,msg:"Ocurrio un error, intentelo de nuevo..."},{status:400})
-    }*/
+    }
 }
