@@ -25,9 +25,11 @@ export default function Reporte({params}){
         }).catch(()=>{setConfig(null)});
     }
     useEffect(()=>{
-        fetchData({fecha:decodeURIComponent(params.data[0]),turno:decodeURIComponent(params.data[1])});
+        if(config!=null){
+            fetchData({fecha:decodeURIComponent(params.data[0]),turno:decodeURIComponent(params.data[1])});
+        }
         Config();
-    },[params]);
+    },[config,params]);
 
     return <>
         <div className="flex h-screen items-center justify-center">
