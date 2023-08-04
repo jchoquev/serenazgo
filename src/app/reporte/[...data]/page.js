@@ -24,16 +24,10 @@ export default function Reporte({params}){
           console.log(data)
         }).catch(()=>{setConfig(null)});
     }
-
-    useEffect(() => {
-        Config();
-    },[]);
-
     useEffect(()=>{
-        if(config!=null){
-            fetchData({fecha:decodeURIComponent(params.data[0]),turno:decodeURIComponent(params.data[1])});
-        }
-    },[config,params.data]);
+        fetchData({fecha:decodeURIComponent(params.data[0]),turno:decodeURIComponent(params.data[1])});
+        Config();
+    },[params]);
 
     return <>
         <div className="flex h-screen items-center justify-center">
