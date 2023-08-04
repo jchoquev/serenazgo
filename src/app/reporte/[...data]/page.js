@@ -1,5 +1,5 @@
 "use client"
-import React, { useState,useEffect,useContext } from "react";
+import React, { useState,useEffect } from "react";
 import moment from "moment";
 import axios from "axios";
 export default function Reporte({params}){
@@ -12,6 +12,7 @@ export default function Reporte({params}){
       axios.get(`${process.env.API_URL}/sipcop/getday`,{params}).then(({data,status})=>{
         if(status===400) setData(null);
         setData(data);
+        console.log(data)
       }).catch(()=>(null));
     }
 
@@ -22,10 +23,11 @@ export default function Reporte({params}){
           console.log(data)
         }).catch(()=>(null));
     }
+
     useEffect(() => {
         fetchData({fecha:decodeURIComponent(params.data[0]),turno:decodeURIComponent(params.data[1])});
         Config();
-    },[params.data]);
+    },[]);
 
     return <>
         <div className="flex h-screen items-center justify-center">
