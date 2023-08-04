@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 export default function Login(){
   const [error,setError]=useState(null);
-  const [user, setUsername] = useState(null);
   const router=useRouter();
 
   const handlSubmit=async (e)=>{
@@ -36,7 +35,6 @@ export default function Login(){
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
                       placeholder="Tu usuario"
                       name="User"
-                      value={username}
                     />
                   </div>
                   <div className="mb-4">
@@ -48,7 +46,6 @@ export default function Login(){
                       name="Password"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
                       placeholder="Tu clave"
-                      value={password}
                     />
                   </div>
                   <button
