@@ -88,7 +88,7 @@ function TableGPSControl(){
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-              {data&&data.ok&&data.msg.map((row)=>(<TableRow {...row}/>))}
+              {data&&data.ok&&data.msg.map((row)=>(<TableRow key={row._id} {...row}/>))}
           </Table.Body>
         </Table>
       )
