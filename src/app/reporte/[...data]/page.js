@@ -9,31 +9,24 @@ export default function Reporte({params}){
     if(params&&params.data.length<2) return <>Ocurrio un error</>;
 
     const fetchData= (param)=>{
-        
       axios.get(`${process.env.API_URL}/sipcop/getday`,{params:param}).then(({data,status})=>{
         if(status===400) setData(null);
         setData(data);
         console.log(data)
       }).catch(()=>{setData(null)});
+
+      axios.get(`${process.env.API_URL}/configuracion`,{}).then(({data,status})=>{
+        if(status===400) setConfig(null);
+        setConfig(data.msg);
+        console.log(data)
+      }).catch(()=>{setConfig(null)});
+
     }
 
-    const fetchConfig= ()=>{
-        axios.get(`${process.env.API_URL}/configuracion`,{}).then(({data,status})=>{
-          if(status===400) setConfig(null);
-          setConfig(data.msg);
-          console.log(data)
-        }).catch(()=>{setConfig(null)});
-    }
 
-    useEffect(() => {
-        fetchConfig();
-    }, []);
-    
     useEffect(()=>{
-        if(config!=null){
-            fetchData({fecha:decodeURIComponent(params.data[0]),turno:decodeURIComponent(params.data[1])});
-        };
-    },[config,params]);
+        fetchData({fecha:decodeURIComponent(params.data[0]),turno:decodeURIComponent(params.data[1])});
+    },[params]);
 
     return <>
         <div className="flex h-screen items-center justify-center">
