@@ -2,10 +2,9 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-export default function login(){
-  const [error,setError]=useState();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+export default function Login(){
+  const [error,setError]=useState(null);
+  const [user, setUsername] = useState(null);
   const router=useRouter();
 
   const handlSubmit=async (e)=>{
