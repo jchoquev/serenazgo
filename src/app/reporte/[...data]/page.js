@@ -8,12 +8,13 @@ export default function Reporte({params}){
 
     if(params&&params.data.length<2) return <>Ocurrio un error</>;
 
-    const fetchData= (params)=>{
-      axios.get(`${process.env.API_URL}/sipcop/getday`,{params}).then(({data,status})=>{
+    const fetchData= (param)=>{
+        
+      axios.get(`${process.env.API_URL}/sipcop/getday`,{params:param}).then(({data,status})=>{
         if(status===400) setData(null);
         setData(data);
         console.log(data)
-      }).catch(()=>{setConfig(null)});
+      }).catch(()=>{setData(null)});
     }
 
     const Config= ()=>{
