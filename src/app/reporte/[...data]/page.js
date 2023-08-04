@@ -23,8 +23,10 @@ export default function Reporte({params}){
     }
     useEffect(() => {
         fetchData({fecha:decodeURIComponent(params.data[0]),turno:decodeURIComponent(params.data[1])});
+    },[]);
+
+    useEffect(() => {
         Config();
-        console.log(decodeURIComponent(params.data[0]),params.data[1]);
     },[]);
 
     return <>
