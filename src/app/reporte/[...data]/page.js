@@ -1,6 +1,6 @@
 "use client"
 import React, { useState,useEffect,useContext } from "react";
-import { Router } from "next/router";
+import moment from "moment";
 import axios from "axios";
 export default function Reporte({params}){
     const [data, setData] = useState(null);
@@ -32,6 +32,12 @@ export default function Reporte({params}){
             <table className="border-collapse">
                 <thead>
                     <tr>
+                        <td className="p-2 text-center font-bold text-white border-l border-b bg-[#011526]">EXTRACTO</td>
+                        <td className="p-2 text-[#05C7F2] text-center font-bold  bg-[#011526] border-b">{moment().format("DD/MM/YYYY")}</td>
+                        <td colSpan={2} className="p-2 text-center font-bold text-white border-l border-b bg-[#011526]">A.-M.-T.</td>
+                        <td colSpan={3} className="p-2 text-center font-bold text-white border-l border-b bg-[#011526]">REPORTES</td>
+                    </tr>
+                    <tr>
                         <td className="p-2 text-center font-bold text-white border-l bg-[#011526]">NRO P</td>
                         <td className="p-2 text-center font-bold text-white bg-[#011526]">PLACA</td>
                         <td className="p-2 text-center font-bold text-white border-l bg-[#011526]">KM <br /> FALTANTE</td>
@@ -43,6 +49,16 @@ export default function Reporte({params}){
                 </thead>
                 <tbody>
                     {data&&config&&data.ok&&data.msg.map((res)=>(<TableTr {...res} Config={config} FindTable={data}/>))}
+                </tbody>
+                <tbody>
+                    <tr>
+                        <td colSpan={7}>
+                            <div className="text-center font-semibold w-[500px] bg-slate-200 p-2 rounded-3xl mt-1">
+                                <p>ESTRACTO ACTUALIZADO SEGUN SIPCOP-M TURNO {decodeURIComponent(params.data[1])=="NOCHE"?"AMANECIDA":decodeURIComponent(params.data[1])} SIENDO LAS 
+                                 <span className="font-bold p-1  text-lg rounded-lg ml-2 bg-[#8C0707] text-white"> {moment().format("HH:mm A")}</span>.</p>
+                            </div>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
