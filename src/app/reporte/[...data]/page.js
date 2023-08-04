@@ -26,8 +26,8 @@ export default function Reporte({params}){
     }
 
     useEffect(() => {
-        fetchData({fecha:decodeURIComponent(params.data[0]),turno:decodeURIComponent(params.data[1])});
         Config();
+        fetchData({fecha:decodeURIComponent(params.data[0]),turno:decodeURIComponent(params.data[1])});
     },[params.data]);
 
     return <>
@@ -51,7 +51,7 @@ export default function Reporte({params}){
                     </tr>
                 </thead>
                 <tbody>
-                    {data&&config&&data.ok&&data.msg.map((res)=>(<TableTr key={res._id} {...res} Config={config} FindTable={data}/>))}
+                    {data&&config&&data.ok&&data.msg.map((res)=>(<TableTr key={res._id} {...res} Config={config}/>))}
                 </tbody>
                 <tbody>
                     <tr>
