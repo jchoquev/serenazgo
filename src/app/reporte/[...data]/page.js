@@ -24,11 +24,8 @@ export default function Reporte({params}){
     }
     useEffect(() => {
         fetchData({fecha:decodeURIComponent(params.data[0]),turno:decodeURIComponent(params.data[1])});
-    },[params.data]);
-
-    useEffect(() => {
         Config();
-    },[]);
+    },[params.data]);
 
     return <>
         <div className="flex h-screen items-center justify-center">
@@ -51,7 +48,7 @@ export default function Reporte({params}){
                     </tr>
                 </thead>
                 <tbody>
-                    {data&&config&&data.ok&&data.msg.map((res)=>(<TableTr {...res} Config={config} FindTable={data}/>))}
+                    {data&&config&&data.ok&&data.msg.map((res)=>(<TableTr key={res._id} {...res} Config={config} FindTable={data}/>))}
                 </tbody>
                 <tbody>
                     <tr>
@@ -68,7 +65,7 @@ export default function Reporte({params}){
     </>;
 }
 
-function TableTr({Config,_id,Activo,Numero,IdPlaca,Kilometraje,Tiempo,Incidencias}){
+function TableTr({Config,Activo,Numero,IdPlaca,Kilometraje,Tiempo,Incidencias}){
     let km=(Config.SIPkm-Kilometraje);
     let minutos=(Config.SIPminutos-Tiempo);
     if(km<=0) km="CUMPLIO";
@@ -77,7 +74,7 @@ function TableTr({Config,_id,Activo,Numero,IdPlaca,Kilometraje,Tiempo,Incidencia
     let Imanana=Incidencias.filter((item) => item.Turno === "MAÑANA").length;
     let Itarde=Incidencias.filter((item) => item.Turno === "TARDE").length;
     return <>
-        <tr key={_id}>
+        <tr>
             <td className={`p-1 font-bold bg-[#011526] border-t border-white ${Activo?"text-[#F2C230]":"text-white"} text-center`}>{Numero}</td>
             <td className={`p-1 font-bold bg-[#011526] border-t border-white ${Activo?"text-[#F2C230]":"text-white"} text-center`}>{IdPlaca}</td>
             <td className={`p-1 text-center border border-[#011526] ${Activo&&"bg-[#F2C230] font-bold"}`}>{km}</td>
