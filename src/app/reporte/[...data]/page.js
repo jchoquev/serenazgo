@@ -13,7 +13,7 @@ export default function Reporte({params}){
         if(status===400) setData(null);
         setData(data);
         console.log(data)
-      }).catch(()=>(null));
+      }).catch(()=>{setConfig(null)});
     }
 
     const Config= ()=>{
@@ -21,13 +21,13 @@ export default function Reporte({params}){
           if(status===400) setConfig(null);
           setConfig(data.msg);
           console.log(data)
-        }).catch(()=>(null));
+        }).catch(()=>{setConfig(null)});
     }
 
     useEffect(() => {
         fetchData({fecha:decodeURIComponent(params.data[0]),turno:decodeURIComponent(params.data[1])});
         Config();
-    },[]);
+    },[params.data]);
 
     return <>
         <div className="flex h-screen items-center justify-center">
