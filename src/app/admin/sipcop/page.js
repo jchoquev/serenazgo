@@ -31,7 +31,7 @@ export default function sipcop(){
                     <p>
                     This is
                     <span className="font-medium text-gray-800 dark:text-white">
-                        Dashboard tab's associated content
+                        Dashboard tabs associated content
                     </span>
                     .
                     Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to

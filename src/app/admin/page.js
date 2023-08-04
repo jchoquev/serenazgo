@@ -2,7 +2,7 @@
 import { useSession,signOut } from "next-auth/react";
 import Navbar from "@/components/Navbar";
 export default function admin(){
-    const {data:session,status}=useSession();
+    const {session,status}=useSession();
     //console.log(session,status);
     return (
         <>
