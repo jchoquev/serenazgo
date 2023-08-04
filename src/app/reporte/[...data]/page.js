@@ -17,18 +17,22 @@ export default function Reporte({params}){
       }).catch(()=>{setData(null)});
     }
 
-    const Config= ()=>{
+    const fetchConfig= ()=>{
         axios.get(`${process.env.API_URL}/configuracion`,{}).then(({data,status})=>{
           if(status===400) setConfig(null);
           setConfig(data.msg);
           console.log(data)
         }).catch(()=>{setConfig(null)});
     }
+
+    useEffect(() => {
+        fetchConfig();
+    }, []);
+    
     useEffect(()=>{
         if(config!=null){
             fetchData({fecha:decodeURIComponent(params.data[0]),turno:decodeURIComponent(params.data[1])});
-        }
-        Config();
+        };
     },[config,params]);
 
     return <>
