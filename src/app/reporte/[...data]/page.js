@@ -67,7 +67,7 @@ export default function Reporte({params}){
     </>;
 }
 
-function TableTr({Config,Activo,Numero,IdPlaca,Kilometraje,Tiempo,Incidencias}){
+function TableTr({Config,_id,Activo,Numero,IdPlaca,Kilometraje,Tiempo,Incidencias}){
     let km=(Config.SIPkm-Kilometraje);
     let minutos=(Config.SIPminutos-Tiempo);
     if(km<=0) km="CUMPLIO";
@@ -76,7 +76,7 @@ function TableTr({Config,Activo,Numero,IdPlaca,Kilometraje,Tiempo,Incidencias}){
     let Imanana=Incidencias.filter((item) => item.Turno === "MAÑANA").length;
     let Itarde=Incidencias.filter((item) => item.Turno === "TARDE").length;
     return <>
-        <tr >
+        <tr key={_id}>
             <td className={`p-1 font-bold bg-[#011526] border-t border-white ${Activo?"text-[#F2C230]":"text-white"} text-center`}>{Numero}</td>
             <td className={`p-1 font-bold bg-[#011526] border-t border-white ${Activo?"text-[#F2C230]":"text-white"} text-center`}>{IdPlaca}</td>
             <td className={`p-1 text-center border border-[#011526] ${Activo&&"bg-[#F2C230] font-bold"}`}>{km}</td>
