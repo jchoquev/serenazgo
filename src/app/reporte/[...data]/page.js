@@ -19,11 +19,12 @@ export default function Reporte({params}){
         axios.get(`${process.env.API_URL}/configuracion`,{}).then(({data,status})=>{
           if(status===400) setConfig(null);
           setConfig(data.msg);
+          console.log(data)
         }).catch(()=>(null));
     }
     useEffect(() => {
         fetchData({fecha:decodeURIComponent(params.data[0]),turno:decodeURIComponent(params.data[1])});
-    },[]);
+    },[params.data]);
 
     useEffect(() => {
         Config();
