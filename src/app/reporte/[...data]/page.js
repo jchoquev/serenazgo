@@ -6,20 +6,25 @@ export default function Reporte({params}){
     const [data, setData] = useState(null);
     
     useEffect(()=>{
-        fetchData({fecha:decodeURIComponent(params.data[0]),turno:decodeURIComponent(params.data[1])});
-        console.log(params,decodeURIComponent(params.data[0]),decodeURIComponent(params.data[1]));
+        let parametros;
+        if(params.data.length===4){
+            parametros={fecha:`${params.data[0]}/${params.data[1]}/${params.data[2]}`,turno:decodeURIComponent(params.data[3])}
+            fetchData(parametros);
+        }
+        console.log(parametros);
     },[params.data]);
 
     
     const fetchData= (param)=>{
+        
       axios.get(`${process.env.API_URL}/reporte`,{params:param}).then(({data,status})=>{
         if(status===400) setData(null);
         setData(data);
         console.log(data)
       }).catch(()=>{setData(null)});
     }
-    
-    if(params&&params.data.length<2) return <>Ocurrio un error</>;
+
+    if(params&&params.data.length!=4) return <>Ocurrio un error</>;
     return <>
         <div className="flex h-screen items-center justify-center">
             <table className="border-collapse">
