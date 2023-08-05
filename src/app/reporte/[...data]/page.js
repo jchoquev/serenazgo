@@ -11,16 +11,13 @@ export default function Reporte({params}){
             parametros={fecha:`${params.data[0]}/${params.data[1]}/${params.data[2]}`,turno:decodeURIComponent(params.data[3])}
             fetchData(parametros);
         }
-        console.log(parametros);
     },[params.data]);
 
     
     const fetchData= (param)=>{
-        
       axios.get(`${process.env.API_URL}/reporte`,{params:param}).then(({data,status})=>{
         if(status===400) setData(null);
         setData(data);
-        console.log(data)
       }).catch(()=>{setData(null)});
     }
 
@@ -63,7 +60,7 @@ export default function Reporte({params}){
     </>;
 }
 
-function TableTr({Config,Activo,Numero,IdPlaca,Kilometraje,Tiempo,Incidencias}){
+function TableTr({Activo,Numero,IdPlaca,Kilometraje,Tiempo,Incidencias}){
     let Iamanecida=Incidencias.filter((item) => item.Turno === "NOCHE").length;
     let Imanana=Incidencias.filter((item) => item.Turno === "MAÑANA").length;
     let Itarde=Incidencias.filter((item) => item.Turno === "TARDE").length;
