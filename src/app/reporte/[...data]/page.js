@@ -48,7 +48,7 @@ export default function Reporte({params}){
                     <tr>
                         <td colSpan={7}>
                             <div className="text-center font-semibold w-[500px] bg-slate-200 p-2 rounded-3xl mt-1">
-                                <p>ESTRACTO ACTUALIZADO SEGUN SIPCOP-M TURNO {decodeURIComponent(params.data[3])=="NOCHE"?"AMANECIDA":decodeURIComponent(params.data[1])} SIENDO LAS 
+                                <p>ESTRACTO ACTUALIZADO SEGUN SIPCOP-M TURNO {decodeURIComponent(params.data[3])=="NOCHE"?"AMANECIDA":decodeURIComponent(params.data[3])} SIENDO LAS 
                                  <span className="font-bold p-1  text-lg rounded-lg ml-2 bg-[#8C0707] text-white"> {moment().format("HH:mm A")}</span>.</p>
                             </div>
                         </td>
