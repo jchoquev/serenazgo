@@ -7,10 +7,10 @@ export default function Reporte({params}){
     
     useEffect(()=>{
         fetchData({fecha:decodeURIComponent(params.data[0]),turno:decodeURIComponent(params.data[1])});
+        console.log(params,decodeURIComponent(params.data[0]),decodeURIComponent(params.data[1]));
     },[params.data]);
 
-    if(params&&params.data.length<2) return <>Ocurrio un error</>;
-
+    
     const fetchData= (param)=>{
       axios.get(`${process.env.API_URL}/reporte`,{params:param}).then(({data,status})=>{
         if(status===400) setData(null);
@@ -18,9 +18,8 @@ export default function Reporte({params}){
         console.log(data)
       }).catch(()=>{setData(null)});
     }
-
     
-
+    if(params&&params.data.length<2) return <>Ocurrio un error</>;
     return <>
         <div className="flex h-screen items-center justify-center">
             <table className="border-collapse">
