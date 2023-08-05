@@ -4,29 +4,22 @@ import moment from "moment";
 import axios from "axios";
 export default function Reporte({params}){
     const [data, setData] = useState(null);
-    const [config, setConfig] = useState(null);
+    
+    useEffect(()=>{
+        fetchData({fecha:decodeURIComponent(params.data[0]),turno:decodeURIComponent(params.data[1])});
+    },[params.data]);
 
     if(params&&params.data.length<2) return <>Ocurrio un error</>;
 
     const fetchData= (param)=>{
-      axios.get(`${process.env.API_URL}/sipcop/getday`,{params:param}).then(({data,status})=>{
+      axios.get(`${process.env.API_URL}/reporte`,{params:param}).then(({data,status})=>{
         if(status===400) setData(null);
         setData(data);
         console.log(data)
       }).catch(()=>{setData(null)});
-
-      axios.get(`${process.env.API_URL}/configuracion`,{}).then(({data,status})=>{
-        if(status===400) setConfig(null);
-        setConfig(data.msg);
-        console.log(data)
-      }).catch(()=>{setConfig(null)});
-
     }
 
-
-    useEffect(()=>{
-        fetchData({fecha:decodeURIComponent(params.data[0]),turno:decodeURIComponent(params.data[1])});
-    },[params]);
+    
 
     return <>
         <div className="flex h-screen items-center justify-center">
@@ -49,7 +42,7 @@ export default function Reporte({params}){
                     </tr>
                 </thead>
                 <tbody>
-                    {data&&config&&data.ok&&data.msg.map((res)=>(<TableTr key={res._id} {...res} Config={config}/>))}
+                    {data&&data.ok&&data.msg.map((res)=>(<TableTr key={res._id} {...res}/>))}
                 </tbody>
                 <tbody>
                     <tr>
@@ -67,10 +60,6 @@ export default function Reporte({params}){
 }
 
 function TableTr({Config,Activo,Numero,IdPlaca,Kilometraje,Tiempo,Incidencias}){
-    let km=(Config.SIPkm-Kilometraje);
-    let minutos=(Config.SIPminutos-Tiempo);
-    if(km<=0) km="CUMPLIO";
-    if(minutos<=0) minutos="CUMPLIO";
     let Iamanecida=Incidencias.filter((item) => item.Turno === "NOCHE").length;
     let Imanana=Incidencias.filter((item) => item.Turno === "MAÑANA").length;
     let Itarde=Incidencias.filter((item) => item.Turno === "TARDE").length;
@@ -78,8 +67,8 @@ function TableTr({Config,Activo,Numero,IdPlaca,Kilometraje,Tiempo,Incidencias}){
         <tr>
             <td className={`p-1 font-bold bg-[#011526] border-t border-white ${Activo?"text-[#F2C230]":"text-white"} text-center`}>{Numero}</td>
             <td className={`p-1 font-bold bg-[#011526] border-t border-white ${Activo?"text-[#F2C230]":"text-white"} text-center`}>{IdPlaca}</td>
-            <td className={`p-1 text-center border border-[#011526] ${Activo&&"bg-[#F2C230] font-bold"}`}>{km}</td>
-            <td className={`p-1 text-center border border-[#011526] ${Activo&&"bg-[#F2C230] font-bold"}`}>{minutos}</td>
+            <td className={`p-1 text-center border border-[#011526] ${Activo&&"bg-[#F2C230] font-bold"}`}>{Kilometraje}</td>
+            <td className={`p-1 text-center border border-[#011526] ${Activo&&"bg-[#F2C230] font-bold"}`}>{Tiempo}</td>
             <td className={`p-1 text-center border border-[#011526] ${Activo&&"bg-[#F2C230] font-bold"}`}>{Iamanecida}</td>
             <td className={`p-1 text-center border border-[#011526] ${Activo&&"bg-[#F2C230] font-bold"}`}>{Imanana}</td>
             <td className={`p-1 text-center border border-[#011526] ${Activo&&"bg-[#F2C230] font-bold"}`}>{Itarde}</td>
