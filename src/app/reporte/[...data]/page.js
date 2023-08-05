@@ -13,7 +13,6 @@ export default function Reporte({params}){
         }
     },[params.data]);
 
-    
     const fetchData= (param)=>{
       axios.get(`${process.env.API_URL}/reporte`,{params:param}).then(({data,status})=>{
         if(status===400) setData(null);
@@ -75,4 +74,15 @@ function TableTr({Activo,Numero,IdPlaca,Kilometraje,Tiempo,Incidencias}){
             <td className={`p-1 text-center border border-[#011526] ${Activo&&"bg-[#F2C230] font-bold"}`}>{Itarde}</td>
         </tr>
     </>
+}
+
+
+/*
+
+
+vercel appp
+ */
+
+function sumaa(a,b){
+    return a+b;
 }
