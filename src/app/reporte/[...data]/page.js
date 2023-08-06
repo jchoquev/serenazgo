@@ -102,8 +102,8 @@ function RespModal({openModal,setOpenModal,Resposable}){
             <Modal.Header>Resposables</Modal.Header>
             <Modal.Body>
                 {
-                    Resposable&&Resposable.map((ele)=>{
-                        return <div className="space-y-0">
+                    Resposable&&Resposable.map((ele,index)=>{
+                        return <div key={index} className="space-y-0">
                             <h4 className="font-bold mt-1 pl-3 bg-slate-300 rounded-2xl">{ele.Conductor?"CONDUCTOR":"OPERADOR"}</h4>
                             <p><b>Nombres:</b> {ele.Nombres}</p>
                             <p><b>Cargo:</b> {ele.Cargo}</p>
