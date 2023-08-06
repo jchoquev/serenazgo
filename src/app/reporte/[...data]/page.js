@@ -80,7 +80,7 @@ function TableTr({Activo,Numero,IdPlaca,Kilometraje,Tiempo,Incidencias,setOpenMo
     let Itarde=Incidencias.filter((item) => item.Turno === "TARDE").length;
     return <>
         <tr>
-            <td className={`text-center border border-[#011526] ${Activo&&"bg-[#F2C230] font-bold"}`}><Button pill size="xs" className="text-center w-full" onClick={() => {setOpenModal(Responsables.length>0);setResponsable(Responsables)}} Resposable={Responsables}>{Numero}</Button></td>
+            <td className={`text-center border border-[#011526] ${Activo&&"bg-[#F2C230] font-bold"}`}>{(Responsables.length>0)&&<Button pill size="xs" className="text-center w-full" onClick={() => {setOpenModal(true);setResponsable(Responsables)}} Resposable={Responsables}>{Numero}</Button>}</td>
             <td className=""></td>
             <td className={`p-1 font-bold bg-[#011526] border-t border-white ${Activo?"text-[#F2C230]":"text-white"} text-center`}>{Numero}</td>
             <td className={`p-1 font-bold bg-[#011526] border-t border-white ${Activo?"text-[#F2C230]":"text-white"} text-center`}>{IdPlaca}</td>
