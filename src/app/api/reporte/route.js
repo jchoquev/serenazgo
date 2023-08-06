@@ -19,14 +19,14 @@ export async function GET(request){
             FHeliminar: null,
         };
         await connectDB();
-        let resp= await SipCop.find(filtro).sort({ Numero: 1 }).select('Activo Numero IdPlaca Kilometraje Tiempo Incidencias');
+        let resp= await SipCop.find(filtro).sort({ Numero: 1 }).select('Activo Numero IdPlaca Kilometraje Tiempo Incidencias Responsables Zona DNIConductor');
         const config=await Config.findOne();
         resp=resp.map((ele) => {
             let Kilometraje=(config.SIPkm-ele.Kilometraje)
             let Tiempo=(config.SIPminutos-ele.Tiempo)
             if(Kilometraje<=0) Kilometraje="CUMPLIO";
             if(Tiempo<=0) Tiempo="CUMPLIO";
-            return {Activo:ele.Activo,Numero:ele.Numero,IdPlaca:ele.IdPlaca,Incidencias:ele.Incidencias,Kilometraje,Tiempo};
+            return {Activo:ele.Activo,Responsables:ele.Responsables,Numero:ele.Numero,IdPlaca:ele.IdPlaca,Incidencias:ele.Incidencias,Zona:ele.Zona,DNIConductor:ele.DNIConductor,Kilometraje,Tiempo};
         });
         return NextResponse.json({ok:true,msg:resp});
     } catch (error) {
