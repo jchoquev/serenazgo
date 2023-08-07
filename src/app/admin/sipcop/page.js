@@ -9,7 +9,6 @@ import {BiSolidEditLocation,BiSolidTimeFive} from "react-icons/bi"
 import {BsPersonLinesFill,BsPatchPlusFill} from "react-icons/bs"
 import axios from "axios";
 export default function sipcop(){
-
     return <>
         <Navbar/>
         <div className='container mx-auto p-5 overflow-x-auto'>
@@ -45,7 +44,7 @@ export default function sipcop(){
 }
 
 function TableGPSControl(){
-  const [data, setData] = useState(null);
+    const [data, setData] = useState(null);
     const fetchData= (params)=>{
       axios.get(`${process.env.API_URL}/sipcop/getday`,{params}).then(({data,status})=>{
         if(status===400) setData(null);

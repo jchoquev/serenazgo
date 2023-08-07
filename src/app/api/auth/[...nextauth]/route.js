@@ -12,7 +12,7 @@ const handler = NextAuth({
         username: { label: "Username", type: "text", placeholder: "jsmith" },
         password: { label: "Password", type: "password" }
       },
-      async authorize(credentials,req) {
+      async authorize(credentials) {
         await connectDB();
         console.log(credentials);
         const userFound=await User.findOne({User:credentials.username}).select("+Password");
@@ -20,7 +20,6 @@ const handler = NextAuth({
         if(!userFound) throw new Error("Ocurrio un error...");
         const passwordMatch=await bcrypt.compare(credentials.password,userFound.Password);
         if(!passwordMatch) throw new Error("Ocurrio un error...");
-        const user = { id: "1", name: "J Smith", email: "jsmith@example.com",alias: "zorrita" };
         return userFound;
       },
     }),

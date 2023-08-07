@@ -1,14 +1,20 @@
 import { Schema, model ,models} from "mongoose";
 
 const TurnoSchema =new Schema({
-    Value:{type:String},
-    Anterior:{type:String},
-    dAnterior:{type:Boolean},
-    Grupos:{
-        type:Boolean,
-        default:false,
-    }
+    Turno:{type:String},
+    HEntrada:{type:String},
+    HSalida:{type:String},
+    FHregistro:{type:Date,default:Date.now},
+    FHactualizacion:{type:Date,default:Date.now},
+    FHeliminar:{type:Date,default:null},
 },{ collection: 'Turno' });
+
+TurnoSchema.pre('findOneAndUpdate',function(next){
+    const update = this.getUpdate();
+    update.FHactualizacion=Date.now();
+    next();
+});
+
 
 const GrupoSchema =new Schema({
     Value:{type:String},

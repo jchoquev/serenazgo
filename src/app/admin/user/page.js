@@ -5,7 +5,7 @@ import { HiAdjustments, HiClipboardList, HiUserCircle } from 'react-icons/hi';
 import {PiUserList} from "react-icons/pi"
 import { MdDashboard } from 'react-icons/md';
 
-export default function admin(){
+export default function User(){
     return (
         <>
           <Navbar/>

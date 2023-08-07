@@ -4,7 +4,7 @@ import { Dropdown, Navbar } from 'flowbite-react';
 import { BsFillCarFrontFill } from "react-icons/bs";
 import { signOut } from "next-auth/react";
 
-export default function NavbarWithDropdown() {
+export default function NavbarAdmin() {
   return (
     <Navbar
       fluid
@@ -54,9 +54,10 @@ export default function NavbarWithDropdown() {
         <Navbar.Link href="#">
           Services
         </Navbar.Link>
-        <Navbar.Link href="#">
-          Pricing
+        <Navbar.Link href="/admin/configs">
+          Configuraciones
         </Navbar.Link>
+        
         <Navbar.Link href="#">
           SIPCOP-M
         </Navbar.Link>
