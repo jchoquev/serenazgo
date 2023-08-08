@@ -7,7 +7,7 @@ const TurnoSchema =new Schema({
     FHregistro:{type:Date,default:Date.now},
     FHactualizacion:{type:Date,default:Date.now},
     FHeliminar:{type:Date,default:null},
-},{ collection: 'Turno' });
+},{ collection: 'Turnos' });
 
 TurnoSchema.pre('findOneAndUpdate',function(next){
     const update = this.getUpdate();
@@ -15,12 +15,20 @@ TurnoSchema.pre('findOneAndUpdate',function(next){
     next();
 });
 
-
 const GrupoSchema =new Schema({
     Value:{type:String},
     Turno:{type:TurnoSchema,default:null},
     Desde:{type:Date},
-    Hasta:{type:Date}
+    Hasta:{type:Date},
+    FHregistro:{type:Date,default:Date.now},
+    FHactualizacion:{type:Date,default:Date.now},
+    FHeliminar:{type:Date,default:null},
+},{ collection:'Groups'});
+
+GrupoSchema.pre('findOneAndUpdate',function(next){
+    const update = this.getUpdate();
+    update.FHactualizacion=Date.now();
+    next();
 });
 
 const VehiculoSchema =new Schema({
@@ -44,8 +52,22 @@ const ConfigShema=new Schema({
     WDSession:{type:String},
 },{collection: 'Configuracion'});
 
+const ZoneSchema =new Schema({
+    Zona:{type:String, default:""},
+    FHregistro:{type:Date,default:Date.now},
+    FHactualizacion:{type:Date,default:Date.now},
+    FHeliminar:{type:Date,default:null},
+},{collection:"Zones"});
+
+ZoneSchema.pre('findOneAndUpdate',function(next){
+    const update = this.getUpdate();
+    update.FHactualizacion=Date.now();
+    next();
+});
+
 const Turno= models.Turno||model("Turno",TurnoSchema);
 const Grupo= models.Grupo||model("Grupo",GrupoSchema);
 const Vehiculo= models.Vehiculo||model("Vehiculo",VehiculoSchema);
 const Config= models.Config||model("Config",ConfigShema);
-export {Turno,Grupo,Vehiculo,Config,GrupoSchema};
+const Zones= models.Zones||model("Zones",ZoneSchema);
+export {Turno,Grupo,Vehiculo,Config,Zones,GrupoSchema};
