@@ -19,7 +19,8 @@ export async function POST(request){
             Grupo:Group.Grupo.toUpperCase(),
             Turno:Group.Turno,
             Desde:Group.Desde,
-            Hasta:Group.Hasta
+            Hasta:Group.Hasta,
+            Activo:Group.Activo
         }
         await connectDB();
         const group= await (new Grupo(send)).save();
@@ -36,7 +37,8 @@ export async function PUT(request){
             Grupo:Group.Grupo.toUpperCase(),
             Turno:Group.Turno,
             Desde:Group.Desde,
-            Hasta:Group.Hasta
+            Hasta:Group.Hasta,
+            Activo:Group.Activo
         }
         await connectDB();
         const GroupFound = await Grupo.findOne({_id:Group._id});

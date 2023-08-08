@@ -1,6 +1,6 @@
 import { useState,useEffect } from "react";
 import axios from "axios";
-import {Button, Label, TextInput,Table,Modal,Alert,Select } from "flowbite-react";
+import {Button, Label, TextInput,Table,Modal,Alert,Select,Checkbox,ToggleSwitch } from "flowbite-react";
 import {MdPlaylistAddCircle,MdEditSquare,MdDelete} from 'react-icons/md'
 import { HiInformationCircle } from 'react-icons/hi';
 import moment from "moment-timezone";
@@ -9,6 +9,7 @@ const form={
     Turno:"",
     Desde:"",
     Hasta:"",
+    Activo:true,
 }
 export default function Group({DataTurno}) {
     const [openModal, setOpenModal] = useState({open:false,update:false,form:form});
@@ -40,6 +41,11 @@ function ShiftTable({Data,setOpenModal,fetchData}){
         <Table className="table-auto">
             <Table.Head>
                 <Table.HeadCell>
+                    <span className="sr-only">
+                        Activo
+                    </span>
+                </Table.HeadCell>
+                <Table.HeadCell>
                     Grupo
                 </Table.HeadCell>
                 <Table.HeadCell>
@@ -64,7 +70,7 @@ function ShiftTable({Data,setOpenModal,fetchData}){
     </div>
 }
 
-function TableRow({_id,Grupo,Turno,Desde,Hasta,setOpenModal,fetchData}){
+function TableRow({_id,Activo,Grupo,Turno,Desde,Hasta,setOpenModal,fetchData}){
     const handleDelete=(_id)=>{
         if(window.confirm("¿Estás seguro de que deseas eliminar?")){
             axios.delete(`${process.env.API_URL}group`,{data:{_id}}).then(_=>{
@@ -72,7 +78,16 @@ function TableRow({_id,Grupo,Turno,Desde,Hasta,setOpenModal,fetchData}){
             }).catch(err=>{alert("Intentelo mas tarde...");});
         }
     }
+    const handleCheck=(Activo,_id)=>{
+        axios.put(`${process.env.API_URL}group/activo`, {_id,Activo}).then(_=> {
+            fetchData();
+        }).catch(_ => {alert("Intentelo mas tarde...")});
+    }
+    
     return <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+        <Table.Cell className="p-4">
+            <Checkbox checked={Activo} onChange={(e)=>handleCheck(!Activo,_id)}/>
+        </Table.Cell>
         <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
             {Grupo}
         </Table.Cell>
@@ -93,6 +108,7 @@ function TableRow({_id,Grupo,Turno,Desde,Hasta,setOpenModal,fetchData}){
                         Turno,
                         Desde:moment.tz(Desde, "UTC").format("YYYY-MM-DD"),
                         Hasta:moment.tz(Hasta, "UTC").format("YYYY-MM-DD"),
+                        Activo,
                         _id
                     }
                     })}} >
@@ -117,6 +133,10 @@ function ZoneModal({openModal,fetchData,setOpenModal,DataTurno}){
         if(option.length>0){
             setOpenModal({...openModal,form:{...form,Turno:option[0]}})
         }
+    }
+
+    const handleCheck=(Activo)=>{
+        setOpenModal({...openModal,form:{...form,Activo:Activo}})
     }
     const fetchUpdate=(data)=>{
         if(!openModal.update){
@@ -171,6 +191,13 @@ function ZoneModal({openModal,fetchData,setOpenModal,DataTurno}){
                             <Label value="Hasta" />
                         </div>
                         <TextInput sizing="sm" name="Hasta" type="date" value={form.Hasta} onChange={handleChange} required/>
+                    </div>
+                    <div>
+                        <ToggleSwitch
+                            checked={form.Activo}
+                            label="Activo"
+                            onChange={()=>{handleCheck(!form.Activo)}}
+                        />
                     </div>
                     <div className="w-full pt-1">
                         <Button size="sm" className="w-full" type="submit">{!openModal.update?"GUARDAR":"ACTUALIZAR"}</Button>
