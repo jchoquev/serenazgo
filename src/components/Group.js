@@ -157,7 +157,7 @@ function ZoneModal({openModal,fetchData,setOpenModal,DataTurno}){
                         </div>
                         <Select name="Turno" sizing="sm" onChange={handleSelect} required>
                             <option></option>
-                            {DataTurno&&DataTurno.map((option)=>(<option value={option._id} selected={option.Turno===form.Turno.Turno}>{option.Turno}</option>))}
+                            {DataTurno&&DataTurno.map((option)=>(<option key={option._id} value={option._id} selected={option.Turno===form.Turno.Turno}>{option.Turno}</option>))}
                         </Select>
                     </div>
                     <div>
