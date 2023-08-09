@@ -51,13 +51,12 @@ export default function NavbarAdmin() {
         <Navbar.Link href="/admin/user">
           Usuarios
         </Navbar.Link>
-        <Navbar.Link href="#">
-          Services
+        <Navbar.Link href="/admin/vehicles">
+          Vehiculos
         </Navbar.Link>
         <Navbar.Link href="/admin/configs">
           Configuraciones
         </Navbar.Link>
-        
         <Navbar.Link href="#">
           SIPCOP-M
         </Navbar.Link>
