@@ -3,11 +3,12 @@ import { Vehiculo } from "@/models/default";
 import { connectDB } from "@/libs/mongodb";
 
 export async function GET(request){
-    const vehiculos = await Vehiculo.find().sort({ Activo: -1,Numero: 1});
-    if(vehiculos){
-        return NextResponse.json({ok:true,msg:vehiculos});
-    }else{
-        return NextResponse.json({ok:false,msg:"No existe vehiculos..."},{status:400});
+    try {
+        await connectDB();
+        const veh = await Vehiculo.find().sort({ Activo: -1,Numero: 1});
+        return NextResponse.json({ok:true,msg:veh});
+    } catch (error) {
+        return NextResponse.json({ok:false,msg:"Ocurrio un error, intentelo mas tarde..."},{status:400});
     }
 }
 

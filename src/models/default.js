@@ -33,14 +33,13 @@ GrupoSchema.pre('findOneAndUpdate',function(next){
 });
 
 const VehiculoSchema =new Schema({
-    Placa:{type:String},
     Numero:{type:Number},
+    Placa:{type:String},
     Activo:{type:Boolean},
-    Insert:{
-        type:Date,
-        default: new Date(),
-    }
-});
+    FHregistro:{type:Date,default:Date.now,select:false},
+    FHactualizacion:{type:Date,default:Date.now,select:false},
+    FHeliminar:{type:Date,default:null,select:false}
+},{collection:"Vehicles"});
 
 const ConfigShema=new Schema({
     SIPkm:{type:Number},
@@ -66,9 +65,25 @@ ZoneSchema.pre('findOneAndUpdate',function(next){
     next();
 });
 
+const HandySchema =new Schema({
+    Numero:{type:String, default:""},
+    Activo:{type:Boolean, default:true},
+    Observacion:{type:String, default:""},
+    FHregistro:{type:Date,default:Date.now,select:false},
+    FHactualizacion:{type:Date,default:Date.now,select:false},
+    FHeliminar:{type:Date,default:null,select:false},
+},{collection:"Handys"});
+
+HandySchema.pre('findOneAndUpdate',function(next){
+    const update = this.getUpdate();
+    update.FHactualizacion=Date.now();
+    next();
+});
+
 const Turno= models.Turno||model("Turno",TurnoSchema);
 const Grupo= models.Grupo||model("Grupo",GrupoSchema);
 const Vehiculo= models.Vehiculo||model("Vehiculo",VehiculoSchema);
 const Config= models.Config||model("Config",ConfigShema);
 const Zones= models.Zones||model("Zones",ZoneSchema);
-export {Turno,Grupo,Vehiculo,Config,Zones,GrupoSchema};
+const Handy= models.Handy||model("Handy",HandySchema);
+export {Turno,Grupo,Vehiculo,Config,Zones,Handy,GrupoSchema};

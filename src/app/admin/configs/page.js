@@ -10,6 +10,7 @@ import { Tabs } from "flowbite-react";
 import Shift from "@/components/Shift";
 import Zones from "@/components/Zones";
 import Group from "@/components/Group";
+import Handy from "@/components/Handy";
 export default function Configs(){
     return <>
         <Template Dynamic={TabsConfig}/>
@@ -51,7 +52,7 @@ function TabsConfig(){
                 icon={MdSpeakerPhone}
                 title="Handy's"
             >
-                05
+                <Handy/>
             </Tabs.Item>
             <Tabs.Item
                 icon={ImUserTie}
