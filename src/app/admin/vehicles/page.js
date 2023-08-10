@@ -5,6 +5,7 @@ import {FaCar} from 'react-icons/fa';
 import { BsCardChecklist } from 'react-icons/bs';
 import { Tabs } from "flowbite-react";
 import TypeVehicles from "@/components/typeVehicles";
+import Vehicles from "@/components/Vehicles";
 export default function Vehicle(){
     return <>
         <Template Dynamic={TabsVehicle}/>
@@ -22,7 +23,7 @@ function TabsVehicle(){
                 icon={FaCar}
                 title="Vehiculos"
             >
-                01
+                <Vehicles DataTipo={DataTipo}/>
             </Tabs.Item>
             <Tabs.Item
                 icon={BsCardChecklist}

@@ -51,6 +51,7 @@ const VehiculoSchema =new Schema({
     Numero:{type:Number},
     Placa:{type:String},
     Activo:{type:Boolean},
+    Tipo:{type:new Schema({_id:{type:Object},Tipo:{type:String},Prioridad:{type:Number}})},
     FHregistro:{type:Date,default:Date.now,select:false},
     FHactualizacion:{type:Date,default:Date.now,select:false},
     FHeliminar:{type:Date,default:null,select:false}
