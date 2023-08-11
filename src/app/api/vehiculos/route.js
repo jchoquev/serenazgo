@@ -5,7 +5,7 @@ import { connectDB } from "@/libs/mongodb";
 export async function GET(request){
     try {
         await connectDB();
-        const veh = await Vehiculo.find({FHeliminar:null}).sort({ 'Tipo.Prioridad':-1,Activo: -1,Numero: 1});
+        const veh = await Vehiculo.find({FHeliminar:null}).sort({ 'Tipo.Prioridad':1,Activo: -1,Numero: 1});
         return NextResponse.json({ok:true,msg:veh});
     } catch (error) {
         return NextResponse.json({ok:false,msg:"Ocurrio un error, intentelo mas tarde..."},{status:400});

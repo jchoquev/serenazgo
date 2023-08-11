@@ -3,7 +3,6 @@ import axios from "axios";
 import {Button, Label, TextInput,Table,Modal,Alert,Checkbox,ToggleSwitch } from "flowbite-react";
 import {MdPlaylistAddCircle,MdEditSquare,MdDelete} from 'react-icons/md'
 import { HiInformationCircle } from 'react-icons/hi';
-import moment from "moment-timezone";
 import Select from 'react-select'
 const form={
     Numero:"",

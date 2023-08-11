@@ -47,6 +47,10 @@ typesVehicleSchema.pre('findOneAndUpdate',function(next){
     next();
 });
 
+/*typesVehicleSchema.post('findOneAndUpdate',async function (doc) {
+    await Vehiculo.updateMany({'Tipo._id':doc._id},{Tipo:doc.Tipo,Prioridad:doc.Prioridad});
+});*/
+
 const VehiculoSchema =new Schema({
     Numero:{type:Number},
     Placa:{type:String},
@@ -102,6 +106,8 @@ HandySchema.pre('findOneAndUpdate',function(next){
     next();
 });
 
+
+
 const Turno= models.Turno||model("Turno",TurnoSchema);
 const Grupo= models.Grupo||model("Grupo",GrupoSchema);
 const Vehiculo= models.Vehiculo||model("Vehiculo",VehiculoSchema);
@@ -109,4 +115,5 @@ const Config= models.Config||model("Config",ConfigShema);
 const Zones= models.Zones||model("Zones",ZoneSchema);
 const Handy= models.Handy||model("Handy",HandySchema);
 const typesVehicle= models.typesVehicle||model("typesVehicle",typesVehicleSchema);
+
 export {Turno,Grupo,Vehiculo,Config,Zones,Handy,typesVehicle,GrupoSchema};

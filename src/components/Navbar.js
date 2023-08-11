@@ -54,6 +54,9 @@ export default function NavbarAdmin() {
         <Navbar.Link href="/admin/vehicles">
           Vehiculos
         </Navbar.Link>
+        <Navbar.Link href="/admin/personal">
+          Personal
+        </Navbar.Link>
         <Navbar.Link href="/admin/configs">
           Configuraciones
         </Navbar.Link>

@@ -29,7 +29,8 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.10.1",
     "react-select": "^5.7.4",
-    "tailwindcss": "3.3.3"
+    "tailwindcss": "3.3.3",
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2"
