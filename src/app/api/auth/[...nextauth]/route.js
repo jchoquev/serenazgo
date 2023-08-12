@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connectDB } from "@/libs/mongodb";
-import User from "@/models/user";
+import { Staff } from "@/models/staff";
 import bcrypt from "bcryptjs"
 
 const handler = NextAuth({
@@ -14,12 +14,13 @@ const handler = NextAuth({
       },
       async authorize(credentials) {
         await connectDB();
-        console.log(credentials);
-        const userFound=await User.findOne({User:credentials.username}).select("+Password");
-        console.log(userFound);
-        if(!userFound) throw new Error("Ocurrio un error...");
+        let userFound=await Staff.findOne({NDocumento:credentials.username,Activo:true,FHeliminar:null})
+                        .select("NDocumento fullNombres +Password NCelular Cargo._id Cargo.Cargo Grupo._id Grupo.Grupo uPassword");
+        if(!userFound) throw new Error("El usuario no existe");
         const passwordMatch=await bcrypt.compare(credentials.password,userFound.Password);
         if(!passwordMatch) throw new Error("Ocurrio un error...");
+        if(userFound.uPassword) userFound.new=true;
+        userFound.Password=userFound.uPassword;
         return userFound;
       },
     }),

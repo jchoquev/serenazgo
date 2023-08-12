@@ -1,3 +1,4 @@
+"use client"
 import { useState,useEffect } from "react";
 import axios from "axios";
 import {Button, Label, TextInput,Table,Modal,Alert,Pagination,Checkbox,ToggleSwitch,Textarea } from "flowbite-react";

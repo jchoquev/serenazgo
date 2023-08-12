@@ -5,9 +5,10 @@ import { useState,useEffect } from 'react';
 import axios from 'axios';
 import { Toast } from 'flowbite-react';
 import {BiSolidErrorCircle} from "react-icons/bi"
+import { signOut } from "next-auth/react";
 export default function UpdatePass({ params:{token} }){
     const [valid,setValid]=useState(false);
-    const [err,setErr]=useState({state:false,msg:"Holas"})
+    const [err,setErr]=useState({state:false,msg:""})
     const router = useRouter();
     const fetchValid=()=>{
         axios.get(`${process.env.API_URL}auth/validate/findone/${token}`,{}).then(({data:{ok}})=>{
@@ -26,6 +27,7 @@ export default function UpdatePass({ params:{token} }){
         const form=e.target.elements;
         if(form.nclave.value===form.rnclave.value){
             axios.put(`${process.env.API_URL}auth/validate`, {Password:form.nclave.value,oldPassword:form.aclave.value,token}).then(_=> {
+                signOut();
                 router.push('/login');
             }).catch(_ => {
                 setErr({state:true,msg:"Los datos ingresados son incorrectos."});

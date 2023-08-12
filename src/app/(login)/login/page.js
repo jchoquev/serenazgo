@@ -17,8 +17,7 @@ export default function Login(){
       })
       if(res.error) return setError(res.error);
       if(res.ok) return router.push("/admin")
-    } catch (error) {
-      console.log(error);
+    } catch (_) {
       return setError("Intentelo mas tarde...");
     }
 

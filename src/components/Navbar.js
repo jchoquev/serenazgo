@@ -4,7 +4,7 @@ import { Dropdown, Navbar } from 'flowbite-react';
 import { BsFillCarFrontFill } from "react-icons/bs";
 import { signOut } from "next-auth/react";
 
-export default function NavbarAdmin() {
+export default function NavbarAdmin({User}) {
   return (
     <Navbar
       fluid
@@ -20,13 +20,14 @@ export default function NavbarAdmin() {
           <Dropdown
             inline
             label={<BsFillCarFrontFill/>}
+            className='z-50'
           >
           <Dropdown.Header>
             <span className="block text-sm">
-              Bonnie Green
+              {User.fullNombres}
             </span>
             <span className="block truncate text-sm font-medium">
-              name@flowbite.com
+              {User.Cargo.Cargo}
             </span>
           </Dropdown.Header>
           <Dropdown.Item>
@@ -45,7 +46,7 @@ export default function NavbarAdmin() {
           href="#"
         >
           <p>
-            Home
+            Inicio
           </p>
         </Navbar.Link>
         <Navbar.Link href="/admin/user">
@@ -67,6 +68,3 @@ export default function NavbarAdmin() {
     </Navbar>
   )
 }
-
-
-//

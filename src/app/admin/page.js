@@ -1,22 +1,27 @@
 "use client"
-import { useSession,signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
-export default function admin(){
-    //const {session,status}=useSession();
-    //console.log(session,status);
+import Loading from "@/components/Loading";
+
+export default function Admin(){
+    const { data: session,status }=useSession();
+    const route=useRouter();
+    if (status === "loading") return <Loading/>;
+    if (session.user.uPassword!=null) route.push(`/updatepass/${session.user.uPassword}`);
     return (
         <>
-          <div class="flex flex-col relative w-screen">
-              <Navbar/>   
+          <div className="flex flex-col relative w-screen">
+            <Navbar User={session.user}/>
           </div>   
-          <div className="ml-60 w-full bg-red-50">
-             
+          <div className="w-full bg-red-50">
+             Admin
           </div>    
-        </>
-        
+        </>    
     );
 }
 /*
+ 
 <div>Entraste
             <pre>
                 {
