@@ -24,10 +24,10 @@ export default function NavbarAdmin({User}) {
           >
           <Dropdown.Header>
             <span className="block text-sm">
-              {User.fullNombres}
+              {User&&User.fullNombres}
             </span>
             <span className="block truncate text-sm font-medium">
-              {User.Cargo.Cargo}
+              {User&&User.Cargo.Cargo}
             </span>
           </Dropdown.Header>
           <Dropdown.Item>
