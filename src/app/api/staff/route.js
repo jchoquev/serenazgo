@@ -37,3 +37,16 @@ export async function POST(request){
         return NextResponse.json({ok:false,msg:"Ocurrio un error, intentelo mas tarde..."},{status:400});
     }
 }
+
+export async function DELETE(request){
+    try {
+        const {_id}= await request.json();
+        await connectDB();
+        const UserFound = await Staff.findOne({_id});
+        if(!UserFound) return NextResponse.json({ok:false,msg:"La zona no existe..."},{status:400});
+        await Staff.findOneAndUpdate({_id},{FHeliminar:Date.now()},{ new: true });
+        return NextResponse.json({ok:true});
+    } catch (error) {
+        return NextResponse.json({ok:false,msg:"Ocurrio un error, intentelo mas tarde..."},{status:400});
+    }
+}

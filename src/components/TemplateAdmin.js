@@ -6,9 +6,9 @@ export default function Template({Dynamic}){
     const { data: session,status }=useSession();
     const route=useRouter();
     if (status === "loading") return <Loading/>;
-    if (session.user.uPassword!=null) route.push(`/updatepass/${session.user.uPassword}`);
+    if (session&&session.user&&session.user.uPassword!=null) route.push(`/updatepass/${session.user.uPassword}`);
     return <>
-        <NavbarAdmin User={session.user}/>
+        <NavbarAdmin User={session&&session.user}/>
         <div className='container mx-auto'>
             <Dynamic/>
         </div>

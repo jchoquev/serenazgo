@@ -5,5 +5,5 @@ para proteger toda las rutas dentro de una carpeta debmos usar
 */
 
 export const config={
-    matcher:['/admin','/updatepass/:path*']
+    matcher:['/admin/:path*','/updatepass/:path*']
 }

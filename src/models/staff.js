@@ -35,6 +35,8 @@ const staffSchema =new Schema({
     Grupo:{type:GrupoSchema,required:[true]},
     Activo:{type:Boolean,default:true},
     uPassword:{type:String,default:null},
+    LibreDesde:{type:Date,default:null},
+    LibreHasta:{type:Date,default:null},
     FHregistro:{type:Date,select:false,default:Date.now},
     FHactualizacion:{type:Date,default:Date.now,select:false},
     FHeliminar:{type:Date,default:null,select:false},
