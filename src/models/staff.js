@@ -42,9 +42,15 @@ const staffSchema =new Schema({
     FHeliminar:{type:Date,default:null,select:false},
 },{collection: 'Users'});
 
-staffSchema.pre('save', function (next) {
+staffSchema.pre('save',function (next) {
     this.fullNombres = `${this.ApePaterno} ${this.ApeMaterno} ${this.Nombres}`;
-    next(); 
+    next()
+});
+
+staffSchema.pre('updateOne',function (next) {
+    const { ApePaterno, ApeMaterno, Nombres } = this._update;
+    this._update.fullNombres = `${ApePaterno} ${ApeMaterno} ${Nombres}`;
+    next();
 });
 
 const Staff= models.Staff||model("Staff",staffSchema);

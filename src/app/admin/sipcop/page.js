@@ -1,5 +1,6 @@
 "use client"
 import Navbar from "@/components/Navbar";
+import Template from "@/components/TemplateAdmin";
 import React, { useState, useEffect } from 'react';
 import { Tabs, Table, Button, TextInput,Checkbox } from 'flowbite-react';
 import { TbGps } from 'react-icons/tb';
@@ -8,39 +9,33 @@ import { RiGpsFill } from 'react-icons/ri';
 import {BiSolidEditLocation,BiSolidTimeFive} from "react-icons/bi"
 import {BsPersonLinesFill,BsPatchPlusFill} from "react-icons/bs"
 import axios from "axios";
-export default function sipcop(){
-    return <>
-        <Navbar/>
-        <div className='container mx-auto p-5 overflow-x-auto'>
-            <Tabs.Group
-            aria-label="Default tabs"
-            style="default"
-            >
-                <Tabs.Item
-                    active
-                    icon={TbGps}
-                    title="SIPCOP-M"
-                >
-                    <TableGPSControl/>
-                </Tabs.Item>
-                <Tabs.Item
-                    icon={MdDashboard}
-                    title="Dashboard"
-                >
-                    <p>
-                    This is
-                    <span className="font-medium text-gray-800 dark:text-white">
-                        Dashboard tabs associated content
-                    </span>
-                    .
-                    Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to
-                    control the content visibility and styling.
-                    </p>
-                </Tabs.Item>
-            </Tabs.Group>
-        </div>
-        
-    </>
+export default function Sipcop(){
+  return <>
+      <Template Dynamic={TabsSipcop}/>
+  </>;
+}
+
+function TabsSipcop(){
+  const [DataTurno, setDataTurno] = useState(null);
+  return <>
+      <Tabs.Group
+          aria-label="Default tabs"
+          style="default">
+          <Tabs.Item
+              active
+              icon={TbGps}
+              title="SIPCOP-M"
+          >
+            02
+          </Tabs.Item>
+          <Tabs.Item
+              icon={MdDashboard}
+              title="mas.."
+          >
+            02
+          </Tabs.Item>
+      </Tabs.Group>
+  </>
 }
 
 function TableGPSControl(){

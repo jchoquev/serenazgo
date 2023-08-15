@@ -7,11 +7,13 @@ import Select from 'react-select'
 export default function UserModal({openModal,fetchData,setOpenModal,DataGroup,DataPosition}){
     const [err, setErr] = useState({err:false,msg:""});
     let form=openModal.form;
+    
     const handleChange=(e)=>{
         setOpenModal({...openModal,form:{...form,[e.target.name]:e.target.value}})
     }
     const handleCheck=(Activo)=>{
-        setOpenModal({...openModal,form:{...form,Activo:Activo}})
+        //setOpenModal({...openModal,form:{...form,Activo:Activo}})
+        console.log(form);
     }
     const handleSelect=(name,value)=>{
         setOpenModal({...openModal,form:{...form,[name]:value}})
@@ -19,16 +21,15 @@ export default function UserModal({openModal,fetchData,setOpenModal,DataGroup,Da
     const fetchUpdate=(data)=>{
         if(!openModal.update){
             axios.post(`${process.env.API_URL}staff`, data).then(_=> {
-                //setOpenModal({...openModal,open:false});
-                //fetchData(Page.page);
-                alert("Insertado")
+                setOpenModal({...openModal,open:false});
+                fetchData();
             }).catch((e) => { 
                 setErr({err:true,msg:"Error al GUARDAR, intentelo mas tarde."})
             });
         }else{
-            axios.put(`${process.env.API_URL}handy`, data).then(_=> {
+            axios.put(`${process.env.API_URL}staff`, data).then(_=> {
                 setOpenModal({...openModal,open:false});
-                fetchData(Page.page);
+                fetchData();
             }).catch(_ => {
                 setErr({err:true,msg:"Error al Actualizar, intentelo mas tarde."})
             });

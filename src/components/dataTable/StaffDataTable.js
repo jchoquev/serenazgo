@@ -54,11 +54,13 @@ export default function StaffDataTable({DataPosition,DataGroup}){
                         <TextInput name="find" sizing="sm" onChange={handleInput} type="text"/>
                     </div>
                     <div className="ml-1">
-                        <button className="border border-zinc-400 w-full p-1 rounded-full " onClick={handleFind}> <FaSearch className="h-5"/> </button>
+                        <button className="border border-zinc-400 w-full p-1 rounded-full " onClick={handleFind}> 
+                            <FaSearch className="h-5"/> 
+                        </button>
                     </div>
                     <div>
-                        <button className="" onClick={()=>{setOpenModal({open:true,update:false,form:{}})}}>
-                            <MdPlaylistAddCircle className="w-5 h-full text-green-600 hover:text-emerald-900 bg-white rounded-full p-1 border border-x-emerald-700"/>
+                        <button className="ml-1 p-1 rounded-full border border-x-emerald-700" onClick={()=>{setOpenModal({open:true,update:false,form:{}})}}>
+                            <MdPlaylistAddCircle className="w-5 h-full text-green-600 hover:text-emerald-900 bg-white  "/>
                         </button>
                     </div>
                 </div>
@@ -115,7 +117,7 @@ export default function StaffDataTable({DataPosition,DataGroup}){
     </div>
 }
 
-function TableRow({_id,NDocumento,fullNombres,Cargo,Grupo,Activo,NCelular,LibreDesde,LibreHasta,setOpenModalBed,fetchData,setOpenModal}){
+function TableRow({_id,NDocumento,Nombres,ApePaterno,ApeMaterno,fullNombres,Cargo,Grupo,Activo,NCelular,LibreDesde,LibreHasta,setOpenModalBed,fetchData,setOpenModal}){
     const handleDelete=(_id)=>{
         if(window.confirm("¿Estás seguro de que deseas eliminar?")){
             axios.delete(`${process.env.API_URL}staff`,{data:{_id}}).then(_=>{
@@ -154,8 +156,11 @@ function TableRow({_id,NDocumento,fullNombres,Cargo,Grupo,Activo,NCelular,LibreD
         <Table.Cell className="w-10">
             <Button.Group>
                 <Button color="gray" onClick={()=>{
-                    setOpenModal({open:true,form:{
-                        _id,NDocumento,fullNombres,Cargo,Grupo,Activo,NCelular
+                    setOpenModal({open:true,update:true,form:{
+                        _id,NDocumento,Nombres,ApePaterno,ApeMaterno,
+                        Cargo:{...Cargo,value:Cargo._id,label:Cargo.Cargo},
+                        Grupo:{...Grupo,value:Grupo._id,label:Grupo.Grupo},
+                        Activo,NCelular
                     }})
                 }} >
                     <MdEditSquare/>

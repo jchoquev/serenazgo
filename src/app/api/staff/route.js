@@ -37,16 +37,38 @@ export async function POST(request){
         return NextResponse.json({ok:false,msg:"Ocurrio un error, intentelo mas tarde..."},{status:400});
     }
 }
-
+export async function PUT(request){
+    try {
+        const user=await request.json();
+        const send={
+            NDocumento:user.NDocumento,
+            Nombres:user.Nombres.toUpperCase(),
+            ApePaterno:user.ApePaterno.toUpperCase(),
+            ApeMaterno:user.ApeMaterno.toUpperCase(),
+            NCelular:user.NCelular,
+            Cargo:user.Cargo,
+            Grupo:user.Grupo,
+            Activo:user.Activo
+        }
+        await connectDB();
+        const UserFound = await Staff.findOne({_id:user._id});
+        if(!UserFound) return NextResponse.json({ok:false,msg:"El usuario no existe..."},{status:400});
+        await Staff.updateOne({_id:user._id},send,{ new: true });
+        return NextResponse.json({ok:true,msg:"Correctamente insertado..."});
+    } catch (error) {
+        return NextResponse.json({ok:false,msg:"Ocurrio un error, intentelo mas tarde..."},{status:400});
+    }
+}
 export async function DELETE(request){
     try {
         const {_id}= await request.json();
         await connectDB();
         const UserFound = await Staff.findOne({_id});
-        if(!UserFound) return NextResponse.json({ok:false,msg:"La zona no existe..."},{status:400});
+        if(!UserFound) return NextResponse.json({ok:false,msg:"El usuario no existe..."},{status:400});
         await Staff.findOneAndUpdate({_id},{FHeliminar:Date.now()},{ new: true });
         return NextResponse.json({ok:true});
     } catch (error) {
         return NextResponse.json({ok:false,msg:"Ocurrio un error, intentelo mas tarde..."},{status:400});
     }
 }
+

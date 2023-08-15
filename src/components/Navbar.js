@@ -49,19 +49,28 @@ export default function NavbarAdmin({User}) {
             Inicio
           </p>
         </Navbar.Link>
-        <Navbar.Link href="/admin/user">
-          Usuarios
-        </Navbar.Link>
         <Navbar.Link href="/admin/vehicles">
           Vehiculos
+        </Navbar.Link>
+        <Navbar.Link href="/admin/grupo">
+          Grupo
+        </Navbar.Link>
+        <Navbar.Link href="/admin/handys">
+          Handy's
+        </Navbar.Link>
+        <Navbar.Link href="/admin/zonas">
+          Zonas
         </Navbar.Link>
         <Navbar.Link href="/admin/personal">
           Personal
         </Navbar.Link>
+        <Navbar.Link href="/admin/asistencia">
+          Asistencia
+        </Navbar.Link>
         <Navbar.Link href="/admin/configs">
           Configuraciones
         </Navbar.Link>
-        <Navbar.Link href="#">
+        <Navbar.Link href="/admin/sipcop">
           SIPCOP-M
         </Navbar.Link>
       </Navbar.Collapse>
