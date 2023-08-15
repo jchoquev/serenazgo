@@ -42,7 +42,7 @@ export default function StaffDataTable({DataPosition,DataGroup}){
                     <div className="mr-1">Mostrar</div>
                     <div>
                         <Select id="countries" sizing="sm" name="perpage" onChange={handleSelect} required>
-                            {Page && Page.perpageOption.map(item => <option value={item} selected={item===Page.perpage}>{item}</option>)}
+                            {Page && Page.perpageOption.map(item => <option value={item} key={item._id} selected={item===Page.perpage}>{item}</option>)}
                         </Select>
                     </div>
                     <div className="ml-1">registros</div>
@@ -66,7 +66,7 @@ export default function StaffDataTable({DataPosition,DataGroup}){
         </div>
         <Table className="table-auto">
             <Table.Head>
-                <Table.HeadCell>
+                <Table.HeadCell key={'wp'}>
                     <span className="sr-only">
                         Activo
                     </span>
