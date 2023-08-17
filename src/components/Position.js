@@ -89,7 +89,7 @@ function PositionModal({openModal,fetchData,setOpenModal}){
             });
         }else{
             axios.put(`${process.env.API_URL}staff/position`, data).then(_=> {
-                setOpenModal({...openModal,open:false});
+                setOpenModal({...openModal,open:false});aaa
                 fetchData();
             }).catch(_ => {
                 setErr({err:true,msg:"Error al Actualizar, intentelo mas tarde."})

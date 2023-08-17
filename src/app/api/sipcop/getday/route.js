@@ -1,19 +1,15 @@
 import { NextResponse } from "next/server";
 import { SipCop } from "@/models/sipcop";
 import { connectDB } from "@/libs/mongodb";
-import moment from "moment/moment";
 
 export async function GET(request){
     try {
         const { searchParams } = new URL(request.url);
-        const fechai = moment.utc(searchParams.get("fecha"),"DD/MM/YYYY")
-        const fechaf= moment.utc(searchParams.get("fecha"),"DD/MM/YYYY").add(1,"day");
-        const turno = searchParams.get("turno");
         const filtro = {
-            Turno: turno,
+            IdTurno: searchParams.get("idTurno"),
             FHregistro: {
-              $gte: fechai.toDate(),
-              $lte: fechaf.toDate(),
+              $gte: searchParams.get("Fechai"),
+              $lte: searchParams.get("Fechaf"),
             },
             FHeliminar: null,
         };

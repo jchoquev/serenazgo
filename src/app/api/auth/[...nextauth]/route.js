@@ -15,7 +15,7 @@ const handler = NextAuth({
       async authorize(credentials) {
         await connectDB();
         let userFound=await Staff.findOne({NDocumento:credentials.username,Activo:true,FHeliminar:null})
-                        .select("NDocumento fullNombres +Password NCelular Cargo._id Cargo.Cargo Grupo._id Grupo.Grupo uPassword");
+                        .select("NDocumento fullNombres +Password NCelular Cargo._id Cargo.Cargo Grupo._id Grupo.Grupo Grupo.Turno uPassword");
         if(!userFound) throw new Error("El usuario no existe");
         const passwordMatch=await bcrypt.compare(credentials.password,userFound.Password);
         if(!passwordMatch) throw new Error("Ocurrio un error...");

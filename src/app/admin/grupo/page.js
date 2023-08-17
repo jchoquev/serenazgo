@@ -5,7 +5,7 @@ import { FaUsers } from 'react-icons/fa';
 import { BsListCheck } from 'react-icons/bs';
 import { Tabs } from "flowbite-react";
 import Shift from "@/components/Shift";
-import Group from "@/components/Zones";
+import Group from "@/components/Group";
 export default function Grupo(){
     return <>
         <Template Dynamic={TabsGrupo}/>

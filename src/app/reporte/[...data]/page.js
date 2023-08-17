@@ -20,6 +20,7 @@ export default function Reporte({params}){
       axios.get(`${process.env.API_URL}/reporte`,{params:param}).then(({data,status})=>{
         if(status===400) setData(null);
         setData(data);
+        console.log(data)
       }).catch(()=>{setData(null)});
     }
 
@@ -73,11 +74,15 @@ export default function Reporte({params}){
     </>;
 }
 
-function TableTr({Activo,Numero,IdPlaca,Kilometraje,Tiempo,Incidencias,setOpenModal,setResponsable,Responsables,Zona,DNIConductor}){
+function TableTr({Activo,Numero,IdPlaca,Kilometraje,Tiempo,Incidencias,setOpenModal,setResponsable,Responsables,Zona,DNIConductor,Tactico}){
     console.log(Responsables);
     let Iamanecida=Incidencias.filter((item) => item.Turno === "NOCHE").length;
     let Imanana=Incidencias.filter((item) => item.Turno === "MAÑANA").length;
     let Itarde=Incidencias.filter((item) => item.Turno === "TARDE").length;
+
+    const Tacticor=Tactico.filter((ele)=>(ele.Activo)).length*30
+    let minutos=210-Tacticor;
+    if(minutos<=0) minutos='CUMPLIO';
     return <>
         <tr>
             <td className={`text-center border border-[#011526] ${Activo&&"bg-[#F2C230] font-bold"}`}>{(Responsables.length>0)&&<Button pill size="xs" className="text-center w-full" onClick={() => {setOpenModal(true);setResponsable(Responsables)}} Resposable={Responsables}>{Numero}</Button>}</td>
@@ -85,7 +90,7 @@ function TableTr({Activo,Numero,IdPlaca,Kilometraje,Tiempo,Incidencias,setOpenMo
             <td className={`p-1 font-bold bg-[#011526] border-t border-white ${Activo?"text-[#F2C230]":"text-white"} text-center`}>{Numero}</td>
             <td className={`p-1 font-bold bg-[#011526] border-t border-white ${Activo?"text-[#F2C230]":"text-white"} text-center`}>{IdPlaca}</td>
             <td className={`p-1 text-center border border-[#011526] ${Activo&&"bg-[#F2C230] font-bold"}`}>{Kilometraje}</td>
-            <td className={`p-1 text-center border border-[#011526] ${Activo&&"bg-[#F2C230] font-bold"}`}>{Tiempo}</td>
+            <td className={`p-1 text-center border border-[#011526] ${Activo&&"bg-[#F2C230] font-bold"}`}>{minutos}</td>
             <td className={`p-1 text-center border border-[#011526] ${Activo&&"bg-[#F2C230] font-bold"}`}>{Iamanecida}</td>
             <td className={`p-1 text-center border border-[#011526] ${Activo&&"bg-[#F2C230] font-bold"}`}>{Imanana}</td>
             <td className={`p-1 text-center border border-[#011526] ${Activo&&"bg-[#F2C230] font-bold"}`}>{Itarde}</td>

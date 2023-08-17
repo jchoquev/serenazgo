@@ -18,7 +18,7 @@ TurnoSchema.pre('findOneAndUpdate',function(next){
 const GrupoSchema =new Schema({
     Activo:{type:Boolean,default:true},
     Grupo:{type:String},
-    Turno:{type:TurnoSchema.set("_id", false),default:null},
+    Turno:{type:TurnoSchema,default:null},
     Desde:{type:Date},
     Hasta:{type:Date},
     FHregistro:{type:Date,default:Date.now},

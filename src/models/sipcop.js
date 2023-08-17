@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { Schema, model ,models} from "mongoose";
 
 const ResponsableSchema=new Schema({
@@ -5,7 +6,8 @@ const ResponsableSchema=new Schema({
     Cargo:{type:String},
     DNI:{type:String},
     NCelular:{type:String},
-    Conductor:{type:Boolean}
+    Conductor:{type:Boolean},
+    FHregistro:{type:Date,default:Date.now},
 },{ _id: false });
 
 const IncidenciaSchema=new Schema({
@@ -13,7 +15,8 @@ const IncidenciaSchema=new Schema({
     HLlegada:{type:String},
     HSeira:{type:String},
     Activo:{type:Boolean},
-    Observaciones:{type:String}
+    Observaciones:{type:String},
+    FHregistro:{type:Date,default:Date.now},
 },{ _id: false });
 
 const TacticOcurrencia=new Schema({
@@ -33,29 +36,30 @@ const TacticoSchema=new Schema({
     TipoZona:{type:String},
     SIPCOP:{type:Boolean,default:false},
     Turno:{type:String},
+    FHregistro:{type:Date,default:Date.now},
 },{ _id: false });
 
 const SipCopSchema =new Schema({
-    Numero:{type:Number},
-    IdPlaca:{type:String},
-    DNIConductor:{type:String},
+    IdVehiculo:{type:ObjectId,require:[true]},
+    Numero:{type:Number,require:[true]},
+    IdPlaca:{type:String,require:[true]},
+    TipoVehiculo:{type:String,require:[true]},
+    DNIConductor:{type:String,default:''},
     Responsables:{type:[ResponsableSchema],default:[]},
-    KMinicial:{type:Number},
-    KMfinal:{type:Number},
-    OdometroInicial:{type:Number},
-    OdometroFinal:{type:Number},
-    Zona:{type:String},
-    Turno:{type:String},
-    Kilometraje:{type:Number},
-    Tiempo:{type:Number},
-    SCFHActualizacion:{type:String},
+    KMinicial:{type:Number,default:0},
+    KMfinal:{type:Number,default:0},
+    OdometroInicial:{type:Number,default:0},
+    OdometroFinal:{type:Number,default:0},
+    Zona:{type:String,default:''},
+    IdTurno:{type:ObjectId,require:[true]},
+    Turno:{type:String,require:[true]},
+    Kilometraje:{type:Number,default:0},
+    Tiempo:{type:Number,default:0},
+    SCFHActualizacion:{type:String,default:''},
     Incidencias:{type:[IncidenciaSchema],default:[]},
     Tactico:{type:[TacticoSchema],default:[]},
     TacHoraFin:{type:String},
-    Activo:{
-        type:Boolean,
-        default:false,
-    },
+    Activo:{type:Boolean,default:false},
     Observacion:{type:String},
     FHregistro:{type:Date,default:Date.now},
     FHactualizacion:{type:Date,default:Date.now},

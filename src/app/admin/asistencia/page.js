@@ -19,7 +19,7 @@ function TabsAsistencia(){
             icon={ImUserCheck}
             title="Asistencia"
         >
-            01
+            
         </Tabs.Item>
         <Tabs.Item
             icon={BsListCheck}
