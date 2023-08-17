@@ -56,7 +56,7 @@ export default function NavbarAdmin({User}) {
           Grupo
         </Navbar.Link>
         <Navbar.Link href="/admin/handys">
-          Handy's
+          Handy
         </Navbar.Link>
         <Navbar.Link href="/admin/zonas">
           Zonas
