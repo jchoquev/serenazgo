@@ -6,7 +6,7 @@ export async function POST(request){
     try {
         const Group=await request.json();
         const send={
-            Direccion:Group.Direccion,
+            Direccion:Group.Direccion.toUpperCase(),
             Latitud:Group.Latitud,
             Longitud:Group.Longitud,
             Activo:Group.Activo
@@ -23,7 +23,7 @@ export async function PUT(request){
     try {
         const Group= await request.json();
         const update={
-            Direccion:Group.Direccion,
+            Direccion:Group.Direccion.toUpperCase(),
             Latitud:Group.Latitud,
             Longitud:Group.Longitud,
             Activo:Group.Activo

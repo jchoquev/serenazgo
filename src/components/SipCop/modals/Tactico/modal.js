@@ -35,7 +35,7 @@ export default function SipcopModal({openModal,fetchData,setOpenModal,DataGroup,
             axios.post(`${process.env.API_URL}sipcop/inserts/complete`, {add:formData,turno:User&&User.Grupo.Turno}).then(data=> {
                 console.log(data)
                 setOpenModal({...openModal,open:false});
-                //fetchData();
+                fetchData();
                 //alert("actualizado")
             }).catch((e) => { 
                 setErr({err:true,msg:"Error al GUARDAR, intentelo mas tarde."})

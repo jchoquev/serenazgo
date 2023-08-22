@@ -6,7 +6,7 @@ import TacticalModal from "../modals/ModalTactical";
 
 export default function TacticalPoints() {
     const [openModal, setOpenModal] = useState({open:false,update:false});
-    const [page,setPage]=useState({pages:2,page:1,data:[]});
+    const [page,setPage]=useState({pages:0,page:1,data:[]});
 
     const fetchData=()=>{
         axios.get(`${process.env.API_URL}tactical/page/${page.page||1}`).then(({data})=>{

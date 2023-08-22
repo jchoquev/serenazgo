@@ -2,13 +2,13 @@ import { useState,useEffect } from "react";
 import { Table,Button,Checkbox,TextInput} from "flowbite-react";
 import axios from "axios";
 import {BsFillPatchCheckFill} from "react-icons/bs"
-import SipcopModal from "../modals/modal";
+import SipcopModal from "../modals/Tactico/modal";
 import moment from "moment-timezone";
 import {RiGpsFill} from 'react-icons/ri'
 import {BiSolidEditLocation,BiSolidTimeFive} from 'react-icons/bi'
 import {BsPersonLinesFill ,BsPatchPlusFill,BsListOl } from 'react-icons/bs'
-import TacticoModal from "../modals/tactico";
-import ListTacticoModal from "../modals/listTactico";
+import TacticoModal from "../modals/Tactico/tactico";
+import ListTacticoModal from "../modals/Tactico/listTactico";
 export default function SipcopTable({User}){ 
     const [openModal, setOpenModal] = useState({open:false,update:false,form:null});
     return <>
@@ -17,7 +17,6 @@ export default function SipcopTable({User}){
                 <BsFillPatchCheckFill className="w-8 h-8 text-green-600 hover:text-emerald-900 bg-white rounded-full p-1 border border-x-emerald-700"/>
             </button>
             <Tablef User={User}/>
-            <p></p>
         </div>
         {openModal.open&&<SipcopModal User={User} openModal={openModal} setOpenModal={setOpenModal}/>}
     </>
@@ -78,7 +77,7 @@ function Tablef({User}){
             </Table.Body>
           </Table>
           {tactico.open&&<TacticoModal tactico={tactico} setTactico={setTactico} dataTable={data} setData={setData}/>}
-          {lisTactico.open&&<ListTacticoModal lisTactico={lisTactico} setTactico={setTactico} setlisTactico={setlisTactico}/>}
+          {lisTactico.open&&<ListTacticoModal lisTactico={lisTactico} setlisTactico={setlisTactico} dataTable={{datas:data,setData}} setTactico={setTactico}/>}
       </>
 }
 
@@ -106,16 +105,21 @@ function TableRow(data){
         {IdPlaca}
       </Table.Cell>
       <Table.Cell>
-        <Button color="gray" className="w-full" size="sm">
-            <BsPersonLinesFill className="w-5 h-5"/>
-        </Button>
+        <Button.Group>
+          <Button color="gray" className="w-full" size="sm">
+              <BsPersonLinesFill className="w-5 h-5"/>
+          </Button>
+          <Button color="gray" className="w-full" size="sm">
+              <BsListOl className="w-5 h-5"/>
+          </Button>
+        </Button.Group>
       </Table.Cell>
       <Table.Cell>
         <Button.Group>
           <Button color="gray" className="w-full" size="sm" onClick={()=>{setTactico({open:true,update:false,form:{_id,Numero,IdPlaca}})}}>
               <BiSolidTimeFive className="w-5 h-5"/>
           </Button>
-          <Button color="gray" className="w-full" size="sm" onClick={()=>{setlisTactico({open:true,values:{_id,Numero,IdPlaca},List:Tactico})}}>
+          <Button color="gray" className={`w-full ${(Tactico.length<=0)?"hidden":""}`} size="sm" onClick={()=>{setlisTactico({open:true,values:{_id,Numero,IdPlaca},List:Tactico})}}>
               <BsListOl className="w-5 h-5"/>
           </Button>
         </Button.Group>
