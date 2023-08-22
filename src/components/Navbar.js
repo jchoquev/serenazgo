@@ -58,6 +58,9 @@ export default function NavbarAdmin({User}) {
         <Navbar.Link href="/admin/handys">
           Handy
         </Navbar.Link>
+        <Navbar.Link href="/admin/tacticalpoints">
+          Puntos tacticos
+        </Navbar.Link>
         <Navbar.Link href="/admin/zonas">
           Zonas
         </Navbar.Link>

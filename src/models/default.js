@@ -106,7 +106,19 @@ HandySchema.pre('findOneAndUpdate',function(next){
     next();
 });
 
-
+const ConfigSchema =new Schema({
+    SIPkm:{type:Number, default:0},
+    SIPminutos:{type:Number, default:0},
+    TACminutos:{type:Number, default:0},
+    TACminutosadd:{type:Number, default:0},
+    Incidencias:{type:Number, default:0},
+    Tactico:{type:Number, default:0},
+    WDRuta:{type:String,default:""},
+    WDSession:{type:String,default:""},
+    FHregistro:{type:Date,default:Date.now,select:false},
+    FHactualizacion:{type:Date,default:Date.now,select:false},
+    FHeliminar:{type:Date,default:null,select:false},
+},{collection:"Configuracion"});
 
 const Turno= models.Turno||model("Turno",TurnoSchema);
 const Grupo= models.Grupo||model("Grupo",GrupoSchema);
@@ -115,5 +127,5 @@ const Config= models.Config||model("Config",ConfigShema);
 const Zones= models.Zones||model("Zones",ZoneSchema);
 const Handy= models.Handy||model("Handy",HandySchema);
 const typesVehicle= models.typesVehicle||model("typesVehicle",typesVehicleSchema);
-
-export {Turno,Grupo,Vehiculo,Config,Zones,Handy,typesVehicle,GrupoSchema};
+const ConfigSipcop= models.ConfigSipcop||model("ConfigSipcop",ConfigSchema);
+export {Turno,Grupo,Vehiculo,Config,Zones,Handy,typesVehicle,ConfigSipcop,GrupoSchema};

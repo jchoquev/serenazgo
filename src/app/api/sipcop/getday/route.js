@@ -5,6 +5,7 @@ import { connectDB } from "@/libs/mongodb";
 export async function GET(request){
     try {
         const { searchParams } = new URL(request.url);
+        
         const filtro = {
             IdTurno: searchParams.get("idTurno"),
             FHregistro: {

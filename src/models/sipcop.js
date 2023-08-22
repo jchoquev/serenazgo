@@ -10,14 +10,26 @@ const ResponsableSchema=new Schema({
     FHregistro:{type:Date,default:Date.now},
 },{ _id: false });
 
-const IncidenciaSchema=new Schema({
-    Direccion:{type:String},
-    HLlegada:{type:String},
-    HSeira:{type:String},
-    Activo:{type:Boolean},
+const PuntosTacticoSchema=new Schema({
+    Direccion:{type:String,require:[true]},
+    Latitud:{type:Number,require:[true]},
+    Longitud:{type:Number,require:[true]},
+    Activo:{type:Boolean,default:true},
+    FHregistro:{type:Date,default:Date.now,select:false},
+    FHactualizacion:{type:Date,default:Date.now,select:false},
+    FHeliminar:{type:Date,default:null,select:false}
+},{ collection: 'TacticoCoordenada' });
+
+const TacticoSchema=new Schema({
+    Direccion:{type:String,require:[true]},
+    Posicion:{type:String,require:[true]},
+    HLlegada:{type:String,require:[true]},
+    HSeira:{type:String,require:[true]},
+    Completo:{type:Boolean,default:false},
+    Revisar:{type:Boolean,default:false},
     Observaciones:{type:String},
     FHregistro:{type:Date,default:Date.now},
-},{ _id: false });
+});
 
 const TacticOcurrencia=new Schema({
     Tipo:{type:String},
@@ -25,14 +37,14 @@ const TacticOcurrencia=new Schema({
     Value:{type:String}
 },{ _id: false });
 
-const TacticoSchema=new Schema({
-    HoraLlegada:{type:String},
-    HoraSeFue:{type:String},
+const IncidenciaSchema=new Schema({
+    HoraLlegada:{type:String,require:[true]},
+    HoraSeFue:{type:String,require:[true]},
     Ubicacion:{type:String},
     Descripcion:{type:String},
-    Ocurrencia:{type:TacticOcurrencia},
     TipoVia:{type:String},
     Direccion:{type:String},
+    Ocurrencia:{type:TacticOcurrencia},
     TipoZona:{type:String},
     SIPCOP:{type:Boolean,default:false},
     Turno:{type:String},
@@ -67,4 +79,5 @@ const SipCopSchema =new Schema({
 },{ collection: 'Sipcop' });
 
 const SipCop= models.SipCop||model("SipCop",SipCopSchema);
-export {SipCop};
+const PuntosTactico= models.PuntosTactico||model("PuntosTactico",PuntosTacticoSchema);
+export {SipCop,PuntosTactico};

@@ -6,8 +6,9 @@ import SipcopModal from "../modals/modal";
 import moment from "moment-timezone";
 import {RiGpsFill} from 'react-icons/ri'
 import {BiSolidEditLocation,BiSolidTimeFive} from 'react-icons/bi'
-import {BsPersonLinesFill ,BsPatchPlusFill } from 'react-icons/bs'
+import {BsPersonLinesFill ,BsPatchPlusFill,BsListOl } from 'react-icons/bs'
 import TacticoModal from "../modals/tactico";
+import ListTacticoModal from "../modals/listTactico";
 export default function SipcopTable({User}){ 
     const [openModal, setOpenModal] = useState({open:false,update:false,form:null});
     return <>
@@ -26,13 +27,14 @@ function Tablef({User}){
     const [data, setData] = useState(null);
     //Modals
     const [tactico,setTactico]=useState({open:false})
+    const [lisTactico,setlisTactico]=useState({open:false})
     const [incidencia,setIncidencia]=useState({open:false})
 
     //End-Modals
     const fetchData= (params)=>{
         axios.get(`${process.env.API_URL}/sipcop/getday`,{params}).then(({data,status})=>{
           if(status===400) setData(null);
-          setData(data);
+          data.ok&&setData(data.msg);
         }).catch(()=>{setData(null)});
     }
   
@@ -72,15 +74,16 @@ function Tablef({User}){
               </Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y">
-              {data&&data.ok&&data.msg.map((row)=>(<TableRow key={row._id} {...row} setTactico={setTactico} />))}
+              {data&&data.map((row)=>(<TableRow key={row._id} {...row} setTactico={setTactico} setlisTactico={setlisTactico} />))}
             </Table.Body>
           </Table>
-          {tactico.open&&<TacticoModal tactico={tactico} setTactico={setTactico}/>}
+          {tactico.open&&<TacticoModal tactico={tactico} setTactico={setTactico} dataTable={data} setData={setData}/>}
+          {lisTactico.open&&<ListTacticoModal lisTactico={lisTactico} setTactico={setTactico} setlisTactico={setlisTactico}/>}
       </>
 }
 
 function TableRow(data){
-  const {_id,Activo,Numero,IdPlaca,Zona,Observacion,setTactico}=data;
+  const {_id,Activo,Numero,IdPlaca,Zona,Observacion,setTactico,setlisTactico,Tactico}=data;
   return (<>
     <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
       <Table.Cell className="p-4">
@@ -108,14 +111,24 @@ function TableRow(data){
         </Button>
       </Table.Cell>
       <Table.Cell>
-        <Button color="gray" className="w-full" size="sm" onClick={()=>{setTactico({open:true})}}>
-            <BiSolidTimeFive className="w-5 h-5"/>
-        </Button>
+        <Button.Group>
+          <Button color="gray" className="w-full" size="sm" onClick={()=>{setTactico({open:true,update:false,form:{_id,Numero,IdPlaca}})}}>
+              <BiSolidTimeFive className="w-5 h-5"/>
+          </Button>
+          <Button color="gray" className="w-full" size="sm" onClick={()=>{setlisTactico({open:true,values:{_id,Numero,IdPlaca},List:Tactico})}}>
+              <BsListOl className="w-5 h-5"/>
+          </Button>
+        </Button.Group>
       </Table.Cell>
       <Table.Cell>
-        <Button color="gray" className="w-full" size="sm">
-            <BsPatchPlusFill className="w-5 h-5"/>
-        </Button>
+        <Button.Group>
+          <Button color="gray" className="w-full" size="sm">
+              <BsPatchPlusFill className="w-5 h-5"/>
+          </Button>
+          <Button color="gray" className="w-full" size="sm">
+              <BsListOl className="w-5 h-5"/>
+          </Button>
+        </Button.Group>
       </Table.Cell>
       <Table.Cell>
         {Zona}
