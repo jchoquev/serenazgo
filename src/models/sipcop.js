@@ -7,16 +7,17 @@ const ResponsableSchema=new Schema({
     DNI:{type:String},
     NCelular:{type:String},
     Conductor:{type:Boolean},
-    FHregistro:{type:Date,default:Date.now},
-},{ _id: false });
+    FHregistro:{type:Date,default:Date.now(),select:false},
+    FHeliminar:{type:Date,default:null}
+});
 
 const PuntosTacticoSchema=new Schema({
     Direccion:{type:String,require:[true]},
     Latitud:{type:Number,require:[true]},
     Longitud:{type:Number,require:[true]},
     Activo:{type:Boolean,default:true},
-    FHregistro:{type:Date,default:Date.now,select:false},
-    FHactualizacion:{type:Date,default:Date.now,select:false},
+    FHregistro:{type:Date,default:Date.now(),select:false},
+    FHactualizacion:{type:Date,default:Date.now(),select:false},
     FHeliminar:{type:Date,default:null,select:false}
 },{ collection: 'TacticoCoordenada' });
 
@@ -51,6 +52,12 @@ const IncidenciaSchema=new Schema({
     FHregistro:{type:Date,default:Date.now},
 },{ _id: false });
 
+const kmSchema=new Schema({
+    KM:{type:Number,default:0},
+    Verificado:{type:Boolean,default:false},
+    Nombres:{type:String,defualt:""},
+},{ _id: false })
+
 const SipCopSchema =new Schema({
     IdVehiculo:{type:ObjectId,require:[true]},
     Numero:{type:Number,require:[true]},
@@ -58,8 +65,8 @@ const SipCopSchema =new Schema({
     TipoVehiculo:{type:String,require:[true]},
     DNIConductor:{type:String,default:''},
     Responsables:{type:[ResponsableSchema],default:[]},
-    KMinicial:{type:Number,default:0},
-    KMfinal:{type:Number,default:0},
+    KMinicial:{type:kmSchema,default:{KM:0, Verificado:false,Nombres:""}},
+    KMfinal:{type:kmSchema,default:{KM:0, Verificado:false,Nombres:""}},
     OdometroInicial:{type:Number,default:0},
     OdometroFinal:{type:Number,default:0},
     Zona:{type:String,default:''},
