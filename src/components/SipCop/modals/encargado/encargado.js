@@ -17,9 +17,8 @@ function EncargadosModal({position,encargadoModal,setEncargadoModal,dataTable,se
                 if(item._id===msg._id) return msg;
                 return item;
             }));
-            ok&&encargadoModal({...odometroModal,open:false})
+            ok&&setEncargadoModal({...encargadoModal,open:false})
         }).catch((e) => {
-            console.log(e)
             setErr({err:true,msg:"Error al Actualizar, intentelo mas tarde."})
         });
     }
@@ -37,6 +36,7 @@ function EncargadosModal({position,encargadoModal,setEncargadoModal,dataTable,se
             const {msg,ok}=data;
             if(msg){
                 ok&&setEncargadoModal({...encargadoModal,form:{...form,
+                    idUser:msg._id,
                     DNI:msg.NDocumento,
                     Nombres:msg.fullNombres,
                     NCelular:msg.NCelular,

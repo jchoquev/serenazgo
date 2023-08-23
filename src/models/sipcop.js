@@ -85,6 +85,21 @@ const SipCopSchema =new Schema({
     FHeliminar:{type:Date,default:null},
 },{ collection: 'Sipcop' });
 
+const UserAndVehicleSchema=new Schema({
+    idUser:{type:ObjectId,require:[true]},
+    IdVehicle:{type:ObjectId,require:[true]},
+    FHregistro:{type:Date,default:Date.now},
+    FHactualizacion:{type:Date,default:Date.now},
+    FHeliminar:{type:Date,default:null},
+},{ collection: 'UserAndVehicle' })
+
+UserAndVehicleSchema.pre('findOneAndUpdate',function(next){
+    const update = this.getUpdate();
+    update.FHactualizacion=Date.now();
+    next();
+});
+
 const SipCop= models.SipCop||model("SipCop",SipCopSchema);
 const PuntosTactico= models.PuntosTactico||model("PuntosTactico",PuntosTacticoSchema);
-export {SipCop,PuntosTactico};
+const UserAndVehicle= models.UserAndVehicle||model("UserAndVehicle",UserAndVehicleSchema);
+export {SipCop,PuntosTactico,UserAndVehicle};
