@@ -20,8 +20,7 @@ export default function Reporte({params}){
       axios.get(`${process.env.API_URL}/reporte`,{params:param}).then(({data,status})=>{
         if(status===400) setData(null);
         setData(data);
-        console.log(data)
-      }).catch(()=>{setData(null)});
+      }).catch((e)=>{setData(null)});
     }
 
     if(params&&params.data.length!=4) return <>Ocurrio un error</>;
@@ -75,12 +74,11 @@ export default function Reporte({params}){
 }
 
 function TableTr({Activo,Numero,IdPlaca,Kilometraje,Tiempo,Incidencias,setOpenModal,setResponsable,Responsables,Zona,DNIConductor,Tactico}){
-    console.log(Responsables);
     let Iamanecida=Incidencias.filter((item) => item.Turno === "NOCHE").length;
     let Imanana=Incidencias.filter((item) => item.Turno === "MAÑANA").length;
     let Itarde=Incidencias.filter((item) => item.Turno === "TARDE").length;
 
-    const Tacticor=Tactico.filter((ele)=>(ele.Activo)).length*30
+    const Tacticor=Tactico.filter((ele)=>(ele.Completo===true)).length*30
     let minutos=210-Tacticor;
     if(minutos<=0) minutos='CUMPLIO';
     return <>
