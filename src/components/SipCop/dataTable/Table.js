@@ -12,6 +12,7 @@ import ListTacticoModal from "../modals/Tactico/listTactico";
 import KilometrajeModal from "../modals/kilometraje/kilometraje";
 import OdometroModal from "../modals/odometro/odometro";
 import EncargadosModal from "../modals/encargado/encargado";
+import ListEncargadoModal from "../modals/encargado/List/list";
 export default function SipcopTable({User}){ 
     const [openModal, setOpenModal] = useState({open:false,update:false,form:null});
     return <>
@@ -35,7 +36,8 @@ function Tablef({User}){
     const [odometroModal,setOdometroModal]=useState({open:false,inicial:false})
     const [encargadoModal,setEncargadoModal]=useState({open:false,inicial:false})
     const [incidencia,setIncidencia]=useState({open:false})
-
+    //Modals list
+    const [listStaff,setListStaff]=useState({open:false,List:[]})
     //End-Modals
     const fetchData= (params)=>{
         axios.get(`${process.env.API_URL}/sipcop/getday`,{params}).then(({data,status})=>{
@@ -96,6 +98,7 @@ function Tablef({User}){
                   setlisTactico={setlisTactico} 
                   setOdometroModal={setOdometroModal}
                   setEncargadoModal={setEncargadoModal}
+                  setListStaff={setListStaff}
                   />))}
             </Table.Body>
           </Table>
@@ -104,12 +107,14 @@ function Tablef({User}){
           {kmModal.open&&<KilometrajeModal kmModal={kmModal} setKmModal={setKmModal} dataTable={data} setData={setData}/>}
           {odometroModal.open&&<OdometroModal odometroModal={odometroModal} setOdometroModal={setOdometroModal} dataTable={data} setData={setData}/>}
           {encargadoModal.open&&<EncargadosModal position={position} encargadoModal={encargadoModal} setEncargadoModal={setEncargadoModal}  dataTable={data} setData={setData}/>}
+          {listStaff.open&&<ListEncargadoModal listStaff={listStaff} setListStaff={setListStaff} setEncargadoModal={setEncargadoModal}/>}
  
       </>
 }
 
 function TableRow(data){
-  const {_id,Activo,Numero,IdPlaca,Zona,Observacion,KMinicial,KMfinal,Responsables,OdometroInicial,OdometroFinal,setTactico,setlisTactico,Tactico,setKmModal,Nombres,setOdometroModal,setEncargadoModal}=data;
+  const {_id,Activo,Numero,IdPlaca,Zona,Observacion,KMinicial,KMfinal,Responsables,OdometroInicial,OdometroFinal,setTactico,setlisTactico,Tactico,setKmModal,Nombres,setOdometroModal,setEncargadoModal
+  ,setListStaff}=data;
   return (<>
     <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
       <Table.Cell className="p-4">
@@ -143,7 +148,9 @@ function TableRow(data){
           <Button color="gray" className="w-full" size="sm" onClick={()=>setEncargadoModal({open:true,update:false,form:{_id,Numero,Conductor:false}})}>
               <BsPersonLinesFill className="w-5 h-5"/>
           </Button>
-          <Button color="gray" className={`w-full ${(Responsables.length<=0)?"hidden":""}`}  size="sm">
+          <Button color="gray" className={`w-full ${(Responsables.length<=0)?"hidden":""}`} onClick={()=>{
+            setListStaff({open:true,value:{_id},List:Responsables})
+          }}  size="sm">
               <BsListOl className="w-5 h-5"/>
           </Button>
         </Button.Group>

@@ -34,7 +34,7 @@ export default function TacticoModal({tactico,setTactico,dataTable,setData}){
             });
         }
     }
-    const fetchFindDireccion=(ubicacion)=>{
+    const fetchFindDireccion=()=>{
         const coordenadasRegex = /^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/;
         if(coordenadasRegex.test(form.Posicion)){
             const ubicacion={Latitud:Number(form.Posicion.split(',')[0]),Longitud:Number(form.Posicion.split(',')[1])};
@@ -78,7 +78,7 @@ export default function TacticoModal({tactico,setTactico,dataTable,setData}){
                             <Label value="Posición" />
                         </div>
                         <div className="flex justify-between">
-                            <TextInput sizing="sm" className="w-full" onChange={handlePosicion} name="Posicion" value={form.Posicion||""} placeholder="Ejemplo: -15.862978,-70.015716" required/>
+                            <TextInput sizing="sm" className="w-full" onChange={handlePosicion}  name="Posicion" value={form.Posicion||""} placeholder="Ejemplo: -15.862978,-70.015716" required/>
                             <Button color="gray" size="sm" className='self-end ml-1' pill onClick={fetchFindDireccion}>
                                 <FaSearch/>
                             </Button>

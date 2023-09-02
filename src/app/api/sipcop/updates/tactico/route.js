@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { SipCop } from "@/models/sipcop";
 import { connectDB } from "@/libs/mongodb";
 import { ConfigSipcop } from "@/models/default";
-import { ObjectId } from "mongodb";
 import moment from "moment";
 
 export async function POST(request){

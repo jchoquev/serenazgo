@@ -17,15 +17,3 @@ export async function GET(request,{ params }){
         return NextResponse.json({ok:false,msg:"Ocurrio un error, intentelo mas tarde..."},{status:400});
     }
 }
-/*
-
-const PuntosTacticoSchema=new Schema({
-    Direccion:{type:String,require:[true]},
-    Latitud:{type:Number,require:[true]},
-    Longitud:{type:Number,require:[true]},
-    Activo:{type:Boolean,default:true},
-    FHregistro:{type:Date,default:Date.now,select:false},
-    FHactualizacion:{type:Date,default:Date.now,select:false},
-    FHeliminar:{type:Date,default:null,select:false}
-},{ collection: 'TacticoCoordenada' });
-*/

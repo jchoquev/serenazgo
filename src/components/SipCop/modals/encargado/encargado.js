@@ -8,10 +8,11 @@ import Select from 'react-select'
 
 function EncargadosModal({position,encargadoModal,setEncargadoModal,dataTable,setData}){
     const [err, setErr] = useState({err:false,msg:""});
-    const form=encargadoModal.form;
+    const {update,value,form}=encargadoModal;
     const handleSubmit=(e)=>{
         e.preventDefault();
-        axios.post(`${process.env.API_URL}sipcop/updates/encargados`,form).then(({data,status})=> {
+        //console.log(update,value,form)
+        axios.post(`${process.env.API_URL}sipcop/updates/encargados`,{...form,update:encargadoModal.update}).then(({data,status})=> {
             const {msg,ok}=data;
             ok&&setData(dataTable.map((item)=>{
                 if(item._id===msg._id) return msg;

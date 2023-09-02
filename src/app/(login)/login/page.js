@@ -54,6 +54,7 @@ export default function Login(){
                   >
                     Entrar
                   </button>
+                  <a href="sms:920561696">Aquí el texto que quieras</a>
                 </form>
         </div>
      
