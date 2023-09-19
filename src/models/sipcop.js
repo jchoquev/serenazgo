@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
 import { Schema, model ,models} from "mongoose";
+import  uuid  from "uuid";
 
 const ResponsableSchema=new Schema({
     Nombres:{type:String},
@@ -9,6 +10,16 @@ const ResponsableSchema=new Schema({
     Conductor:{type:Boolean},
     FHregistro:{type:Date,default:Date.now(),select:false},
     FHeliminar:{type:Date,default:null}
+});
+
+const RoleSchema=new Schema({
+    Value:{type:String},
+    protected:{type:Boolean, default:false}
+});
+
+const AccesoSchema=new Schema({
+    Value:{type:String},
+    
 });
 
 const PuntosTacticoSchema=new Schema({
@@ -39,6 +50,11 @@ const TacticOcurrencia=new Schema({
 },{ _id: false });
 
 const IncidenciaSchema=new Schema({
+    _idSipcop:{
+        type:ObjectId,
+        ref: 'SipCop',
+        require:[true],
+    },
     HoraLlegada:{type:String,require:[true]},
     HoraSeFue:{type:String,require:[true]},
     Ubicacion:{type:String},
@@ -50,12 +66,15 @@ const IncidenciaSchema=new Schema({
     SIPCOP:{type:Boolean,default:false},
     Turno:{type:String},
     FHregistro:{type:Date,default:Date.now},
-},{ _id: false });
+    FHactualizacion:{type:Date,default:Date.now},
+    FHeliminar:{type:Date,default:null},
+});
 
 const kmSchema=new Schema({
-    KM:{type:Number,default:0},
+    Inicial:{type:Number,default:0},
+    Final:{type:Number,default:0},
     Verificado:{type:Boolean,default:false},
-    Nombres:{type:String,defualt:""},
+    Nombres:{type:String,default:null},
 },{ _id: false })
 
 const SipCopSchema =new Schema({
@@ -65,17 +84,15 @@ const SipCopSchema =new Schema({
     TipoVehiculo:{type:String,require:[true]},
     DNIConductor:{type:String,default:''},
     Responsables:{type:[ResponsableSchema],default:[]},
-    KMinicial:{type:kmSchema,default:{KM:0, Verificado:false,Nombres:""}},
-    KMfinal:{type:kmSchema,default:{KM:0, Verificado:false,Nombres:""}},
+    Kilometraje:{type:kmSchema,default:{Inicial:0,Final:0,Verificado:false,Nombres:null}},
     OdometroInicial:{type:Number,default:0},
     OdometroFinal:{type:Number,default:0},
     Zona:{type:String,default:''},
     IdTurno:{type:ObjectId,require:[true]},
     Turno:{type:String,require:[true]},
-    Kilometraje:{type:Number,default:0},
-    Tiempo:{type:Number,default:0},
+    KilometrajeSC:{type:Number,default:0},
+    TiempoSC:{type:Number,default:0},
     SCFHActualizacion:{type:String,default:''},
-    Incidencias:{type:[IncidenciaSchema],default:[]},
     Tactico:{type:[TacticoSchema],default:[]},
     TacHoraFin:{type:String},
     Activo:{type:Boolean,default:false},
@@ -86,8 +103,14 @@ const SipCopSchema =new Schema({
 },{ collection: 'Sipcop' });
 
 const UserAndVehicleSchema=new Schema({
-    idUser:{type:ObjectId,require:[true]},
-    IdVehicle:{type:ObjectId,require:[true]},
+    idUser:{
+        type:ObjectId,
+        require:[true]
+    },
+    IdVehicle:{
+        type:ObjectId,
+        require:[true]
+    },
     FHregistro:{type:Date,default:Date.now},
     FHactualizacion:{type:Date,default:Date.now},
     FHeliminar:{type:Date,default:null},
@@ -102,4 +125,6 @@ UserAndVehicleSchema.pre('findOneAndUpdate',function(next){
 const SipCop= models.SipCop||model("SipCop",SipCopSchema);
 const PuntosTactico= models.PuntosTactico||model("PuntosTactico",PuntosTacticoSchema);
 const UserAndVehicle= models.UserAndVehicle||model("UserAndVehicle",UserAndVehicleSchema);
-export {SipCop,PuntosTactico,UserAndVehicle};
+const Incidencia= models.Incidencia||model("Incidencia",IncidenciaSchema);
+
+export {SipCop,PuntosTactico,UserAndVehicle,Incidencia};

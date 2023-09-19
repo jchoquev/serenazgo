@@ -4,7 +4,7 @@ export default function Home() {
 
   return (
     <>
-     WEB EN COSTRUCCION
+     WEB EN COSTRUCCION PE
     </>
   )
 }
