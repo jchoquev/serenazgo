@@ -57,11 +57,11 @@ export default function KilometrajeModal(){
                         </div>
                         <TextInput sizing="sm" disabled={form.Verificado2} type="number" name="Final" value={form.Final} onChange={handleChange} required/>
                     </div>
-                    <ToggleSwitch
+                    {!form.Verificado2&&<ToggleSwitch
                             checked={form.Verificado}
                             label="Verificado"
                             onChange={()=>{handleCheck('Verificado',!form.Verificado)}}
-                    />
+                    />}
                     <Button size="sm" className={`w-full ${(form.Verificado2)&&'hidden'}`} type="submit">ACTUALIZAR</Button>
                 </form>
             </Modal.Body>

@@ -3,7 +3,7 @@ import { Staff } from "@/models/staff";
 import { connectDB } from "@/libs/mongodb";
 
 export async function GET(request,{ params }){
-    //try {
+    try {
         await connectDB();
         const {pages,find,perPage}=params;
         const skip = (pages - 1) * perPage;
@@ -21,7 +21,7 @@ export async function GET(request,{ params }){
         const totalItems = await Staff.countDocuments(searchTerm);
         const totalPages = Math.ceil(totalItems / perPage);
         return NextResponse.json({ok:true,Data:resp,totalPages:totalPages});
-    /*} catch (error) {
+    } catch (error) {
         return NextResponse.json({ok:false,msg:"Ocurrio un error, intentelo mas tarde..."},{status:400});
-    }*/
+    }
 }

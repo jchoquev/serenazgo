@@ -17,18 +17,18 @@ import ListEncargadoModal from "../modals/encargado/List/list";
 /*Prueba */
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchFindSipCop} from "@/Redux/Slice/sipcopSlice";
-import { updModalKm } from "@/Redux/Slice/modalSlice";
+import { updModalKm,updModalSipCop,udpModalOdometro,udpModalEncargado} from "@/Redux/Slice/modalSlice";
 /*Prueba */
 export default function SipcopTable({User}){ 
-    const [openModal, setOpenModal] = useState({open:false,update:false,form:null});
+    const dispatch = useDispatch()
     return <>
         <div className="relative w-full">
-            <button className="absolute top-0 right-0 z-10 pr-1 pt-1" onClick={()=>{setOpenModal({open:true,update:false})}}>
+            <button className="absolute top-0 right-0 z-10 pr-1 pt-1" onClick={()=>dispatch(updModalSipCop({key:'open',value:true}))}>
                 <BsFillPatchCheckFill className="w-8 h-8 text-green-600 hover:text-emerald-900 bg-white rounded-full p-1 border border-x-emerald-700"/>
             </button>
             <Tablef User={User}/>
         </div>
-        {openModal.open&&<SipcopModal User={User} openModal={openModal} setOpenModal={setOpenModal}/>}
+        <SipcopModal User={User}/>
     </>
 }
 
@@ -42,7 +42,6 @@ function Tablef({User}){
     //Modals
     const [tactico,setTactico]=useState({open:false})
     const [lisTactico,setlisTactico]=useState({open:false})
-    const [kmModal,setKmModal]=useState({open:false,inicial:false})
     const [odometroModal,setOdometroModal]=useState({open:false,inicial:false})
     const [encargadoModal,setEncargadoModal]=useState({open:false,inicial:false})
     const [incidencia,setIncidencia]=useState({open:false})
@@ -73,8 +72,7 @@ function Tablef({User}){
     },[]);
   
       return <>
-          {}
-          <Table>
+          <div className="overflow-x-auto"><Table>
             <Table.Head>
               <Table.HeadCell className="p-4"> </Table.HeadCell>
               <Table.HeadCell className="text-center">
@@ -107,27 +105,25 @@ function Tablef({User}){
             </Table.Head>
             <Table.Body className="divide-y">
               {List&&List.map((row)=>(<TableRow key={row._id} {...row} Nombres={User&&User.fullNombres} setTactico={setTactico} 
-                  setKmModal={setKmModal} 
                   setlisTactico={setlisTactico} 
-                  setOdometroModal={setOdometroModal}
                   setEncargadoModal={setEncargadoModal}
                   setListStaff={setListStaff}
                  />))}
             </Table.Body>
-          </Table>
+          </Table></div>
           {tactico.open&&<TacticoModal tactico={tactico} setTactico={setTactico} dataTable={data} setData={setData}/>}
           {lisTactico.open&&<ListTacticoModal lisTactico={lisTactico} setlisTactico={setlisTactico} dataTable={{datas:data,setData}} setTactico={setTactico}/>}
-          {odometroModal.open&&<OdometroModal odometroModal={odometroModal} setOdometroModal={setOdometroModal} dataTable={data} setData={setData}/>}
-          {encargadoModal.open&&<EncargadosModal position={position} encargadoModal={encargadoModal} setEncargadoModal={setEncargadoModal}  dataTable={data} setData={setData}/>}
           {listStaff.open&&<ListEncargadoModal listStaff={listStaff} setListStaff={setListStaff} setEncargadoModal={setEncargadoModal}/>}
           
+          <EncargadosModal/>
+          <OdometroModal/>
           <KilometrajeModal/>
  
       </>
 }
 function TableRow(data){
   const dispatch=useDispatch();
-  const {_id,Activo,Numero,Kilometraje,IdPlaca,Zona,Observacion,KMinicial,KMfinal,Responsables,OdometroInicial,OdometroFinal,setTactico,setlisTactico,Tactico,setKmModal,Nombres,setOdometroModal,setEncargadoModal
+  const {_id,IdVehiculo,Activo,Numero,Kilometraje,IdPlaca,Zona,Observacion,KMinicial,KMfinal,Responsables,OdometroInicial,OdometroFinal,setTactico,setlisTactico,Tactico,Nombres,setEncargadoModal
   ,setListStaff}=data;
   return (<>
     <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
@@ -139,12 +135,15 @@ function TableRow(data){
       </Table.Cell>
       <Table.Cell>
         <Button color="gray" size="sm"
-          onClick={()=>dispatch(updModalKm({open:true,error:false,form:{...Kilometraje,Verificado2:Kilometraje.Verificado,_id,Numero,Nombres}}))}>
+          onClick={()=>dispatch(updModalKm({open:true,form:{...Kilometraje,Verificado2:Kilometraje.Verificado,_id,Numero,Nombres}}))}>
           <RiGpsFill className="w-5 h-5"/>
         </Button>
       </Table.Cell>
       <Table.Cell>
-        <Button color="gray" size="sm" className="relative" onClick={()=>setOdometroModal({open:true,inicial:false,form:{_id,Numero,OdometroInicial,OdometroFinal}})}>
+        <Button color="gray" size="sm" className="relative" onClick={()=>{
+            dispatch(udpModalOdometro({key:"open",value:true}))
+            dispatch(udpModalOdometro({key:"form",value:{OdometroInicial,OdometroFinal,_id,Numero}}))
+        }}>
           <BiSolidEditLocation className="w-5 h-5"/>
         </Button>
       </Table.Cell>
@@ -153,7 +152,13 @@ function TableRow(data){
       </Table.Cell>
       <Table.Cell>
         <Button.Group>
-          <Button color="gray" className="w-full" size="sm" onClick={()=>setEncargadoModal({open:true,update:false,form:{_id,Numero,Conductor:false}})}>
+          <Button color="gray" className="w-full" size="sm" onClick={
+              ()=>{
+                dispatch(udpModalEncargado({key:"open",value:true}))
+                dispatch(udpModalEncargado({key:"form",value:{_idSipCop:_id,_idVehicle:IdVehiculo}}))
+                dispatch(udpModalEncargado({key:"update",value:false}))
+              }
+            }>
               <BsPersonLinesFill className="w-5 h-5"/>
           </Button>
           <Button color="gray" className={`w-full ${(Responsables.length<=0)?"hidden":""}`} onClick={()=>{

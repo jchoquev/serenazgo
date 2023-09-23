@@ -64,6 +64,9 @@ export default function NavbarAdmin({User}) {
         <Navbar.Link href="/admin/zonas">
           Zonas
         </Navbar.Link>
+        <Navbar.Link href="/admin/role">
+          Roles
+        </Navbar.Link>
         <Navbar.Link href="/admin/personal">
           Personal
         </Navbar.Link>

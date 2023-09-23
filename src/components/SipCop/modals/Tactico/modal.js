@@ -1,55 +1,34 @@
 import { useState,useEffect } from "react";
-import axios from "axios";
-import {Button,Modal,Alert,Table,Checkbox} from "flowbite-react";
-import { HiInformationCircle } from 'react-icons/hi';
-import Select from 'react-select'
+import {Button,Modal,Table,Checkbox} from "flowbite-react";
+import { useSelector,useDispatch } from "react-redux";
+import { updModalSipCop,fetchVhActivo,insListSipCop} from "@/Redux/Slice/modalSlice";
 
-export default function SipcopModal({openModal,fetchData,setOpenModal,DataGroup,User}){
-    const [err, setErr] = useState({err:false,msg:""});
-    const [data,setData]=useState(null); 
-    const fetchvhactivo= ()=>{
-        axios.get(`${process.env.API_URL}vehiculos/activo`,{}).then(({data,status})=>{
-            if(status===400) setData(null);
-            setData(data.msg);
-        }).catch((e)=>{
-            setErr({err:false,msg:"Ocurrio un error en listar..."})
-        });
-    }
+
+export default function SipcopModal({User}){
+    const {listSipCop:{data,open}}= useSelector((state) => state.Modal)
+    const List= useSelector((state) => state.SipCop.ListSipCops)
+    const dispatch = useDispatch()
 
     useEffect(()=>{
-        fetchvhactivo();
+        dispatch(fetchVhActivo());
     },[])
 
-    const handleCheck=(index,Activo)=>{
-        data[index].Activo=Activo
-        setData(data.map((item,i)=>{
-            if (index===i) return {...item,Activo:Activo}
-            return item;
+    const handleCheck=(index,Activo)=>dispatch(updModalSipCop({key:'data',value:data.map((item,i)=>{
+                if (index===i) return {...item,Activo:Activo}
+                return item;
+            })
         }))
-    }
     
     const handleSubmit=(e)=>{
         e.preventDefault()
-        const formData=data.filter((item)=>(item.Activo===true));
-        if(formData.length>0){
-            axios.post(`${process.env.API_URL}sipcop/inserts/complete`, {add:formData,turno:User&&User.Grupo.Turno}).then(data=> {
-                console.log(data)
-                setOpenModal({...openModal,open:false});
-                fetchData();
-                //alert("actualizado")
-            }).catch((e) => { 
-                setErr({err:true,msg:"Error al GUARDAR, intentelo mas tarde."})
-            });
-        }else{
-            alert("No tiene nada que actualizar...")
-        }
+        const add=data.filter((item)=>(item.Activo===true));
+        dispatch(insListSipCop(add,User&&User.Grupo.Turno,List))
     }
     return <>
-        <Modal show={openModal.open} size="md" popup onClose={() => setOpenModal({...openModal,open:false})}>
+        <Modal show={open} size="md" popup onClose={() => dispatch(updModalSipCop({key:'open',value:false}))}>
             <Modal.Header />
             <Modal.Body>
                 <form className="space-y-1" onSubmit={handleSubmit}>
-                    {err.err&&<Alert color="failure" icon={HiInformationCircle}> {err.msg} </Alert>}
                     <div>
                         <Table hoverable>
                             <Table.Head>

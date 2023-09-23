@@ -1,26 +1,40 @@
 import { ObjectId } from "mongodb";
 import { Schema, model ,models} from "mongoose";
-import  uuid  from "uuid";
+import { selectSchema } from "./select";
+import { Vehiculo } from "./default";
+import { Staff } from "./staff";
 
 const ResponsableSchema=new Schema({
-    Nombres:{type:String},
-    Cargo:{type:String},
+    _idSipCop:{
+        type:ObjectId,
+        ref: 'SipCop',
+        default:null,
+    },
+    _idUser:{
+        type:ObjectId,
+        ref: 'Staff',
+        default:null,
+    },
+    _idVehicle:{
+        type:ObjectId,
+        ref: 'Vehiculo',
+        default:null
+    },
     DNI:{type:String},
+    Nombres:{type:String},
+    Rol:{type:selectSchema,default:{}},
     NCelular:{type:String},
-    Conductor:{type:Boolean},
     FHregistro:{type:Date,default:Date.now(),select:false},
+    FHactualizacion:{type:Date,default:Date.now(),select:false},
     FHeliminar:{type:Date,default:null}
+},{ collection:'Responsable'});
+
+ResponsableSchema.pre('findOneAndUpdate',function(next){
+    const update = this.getUpdate();
+    update.FHactualizacion=Date.now();
+    next();
 });
 
-const RoleSchema=new Schema({
-    Value:{type:String},
-    protected:{type:Boolean, default:false}
-});
-
-const AccesoSchema=new Schema({
-    Value:{type:String},
-    
-});
 
 const PuntosTacticoSchema=new Schema({
     Direccion:{type:String,require:[true]},
@@ -83,7 +97,7 @@ const SipCopSchema =new Schema({
     IdPlaca:{type:String,require:[true]},
     TipoVehiculo:{type:String,require:[true]},
     DNIConductor:{type:String,default:''},
-    Responsables:{type:[ResponsableSchema],default:[]},
+    Responsables:{type:[ObjectId],default:[]},
     Kilometraje:{type:kmSchema,default:{Inicial:0,Final:0,Verificado:false,Nombres:null}},
     OdometroInicial:{type:Number,default:0},
     OdometroFinal:{type:Number,default:0},
@@ -102,29 +116,34 @@ const SipCopSchema =new Schema({
     FHeliminar:{type:Date,default:null},
 },{ collection: 'Sipcop' });
 
-const UserAndVehicleSchema=new Schema({
-    idUser:{
-        type:ObjectId,
-        require:[true]
-    },
-    IdVehicle:{
-        type:ObjectId,
-        require:[true]
-    },
+
+const AccesSchema=new Schema({
+    _id: { type: Number, autoIncrement: true },
+    Descripcion:{type:String,default:""},  
+    Acceso:{type:Boolean,default:false},
+})
+
+const RoleSchema=new Schema({
+    Value:{type:String,default:"",require:[true]},
+    Access:{type:[AccesSchema],default:[]},
+    Protected:{type:Boolean,default:false},
     FHregistro:{type:Date,default:Date.now},
     FHactualizacion:{type:Date,default:Date.now},
     FHeliminar:{type:Date,default:null},
-},{ collection: 'UserAndVehicle' })
+},{ collection: 'Roles' })
 
-UserAndVehicleSchema.pre('findOneAndUpdate',function(next){
+RoleSchema.pre('findOneAndUpdate',function(next){
     const update = this.getUpdate();
     update.FHactualizacion=Date.now();
     next();
 });
 
+
 const SipCop= models.SipCop||model("SipCop",SipCopSchema);
 const PuntosTactico= models.PuntosTactico||model("PuntosTactico",PuntosTacticoSchema);
-const UserAndVehicle= models.UserAndVehicle||model("UserAndVehicle",UserAndVehicleSchema);
 const Incidencia= models.Incidencia||model("Incidencia",IncidenciaSchema);
+const Role=models.Role||model("Role",RoleSchema);
+const Responsable=models.Responsable||model("Responsable",ResponsableSchema);
 
-export {SipCop,PuntosTactico,UserAndVehicle,Incidencia};
+
+export {SipCop,PuntosTactico,Incidencia,Role,Responsable};
