@@ -23,8 +23,10 @@ import {
   udpModalOdometro,
   udpModalEncargado,
   udpModalListEncargado,
+  udpModalTactico,
+  udpModalListTactico,
   fetchFindResposables,
-  udpModalTactico
+  fetchFindTactico
 } from "@/Redux/Slice/modalSlice";
 /*Prueba */
 export default function SipcopTable({User}){ 
@@ -56,19 +58,6 @@ function Tablef({User}){
     //Modals list
     const [listStaff,setListStaff]=useState({open:false,List:[]})
     //End-Modals
-    const fetchData= (params)=>{
-        axios.get(`${process.env.API_URL}/sipcop/getday`,{params}).then(({data,status})=>{
-          if(status===400) setData(null);
-          data.ok&&setData(data.msg);
-        }).catch(()=>{setData(null)});
-    }
-
-    const fetchPosition=()=>{
-      axios.get(`${process.env.API_URL}staff/position`,{}).then(({data})=>{
-          const {ok,msg}=data;
-          ok&&setPosition(msg)
-      }).catch(err=>{alert("Ocurrio un error, intentelo de nuevo ...")});
-    }
   
     useEffect(() => {
       dispatch(fetchFindSipCop(moment(),User&&User.Grupo.Turno._id))
@@ -114,9 +103,9 @@ function Tablef({User}){
                  />))}
             </Table.Body>
           </Table></div>
-          {lisTactico.open&&<ListTacticoModal lisTactico={lisTactico} setlisTactico={setlisTactico} dataTable={{datas:data,setData}} setTactico={setTactico}/>}
           
           <TacticoModal/>
+          <ListTacticoModal/>
           <EncargadosModal/>
           <ListEncargadoModal/>
           <OdometroModal/>
@@ -184,7 +173,13 @@ function TableRow(data){
             }}>
               <BiSolidTimeFive className="w-5 h-5"/>
           </Button>
-          <Button color="gray" className={`w-full ${(Tactico.length<=0)?"hidden":""}`} size="sm" onClick={()=>{setlisTactico({open:true,values:{_id,Numero,IdPlaca},List:Tactico})}}>
+          <Button color="gray" className={`w-full ${(Tactico.length<=0)?"hidden":""}`} size="sm" onClick={
+              ()=>{
+                dispatch(udpModalListTactico({key:"List",value:[]}))
+                dispatch(udpModalListTactico({key:"sipcop",value:{Numero}}))
+                dispatch(fetchFindTactico(Tactico))
+                dispatch(udpModalListTactico({key:"open",value:true}))
+              }}>
               <BsListOl className="w-5 h-5"/>
           </Button>
         </Button.Group>

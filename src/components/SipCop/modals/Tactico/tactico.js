@@ -10,11 +10,12 @@ import { udpModalTactico,fetchFindDireccion,fetchAddUpdTactico } from "@/Redux/S
 
 export default function TacticoModal(){
     const {Tactico:{form,open,update}}= useSelector((state) => state.Modal)
+    const {ListTactico:{List:ListTactico}}= useSelector((state) => state.Modal)
     const List= useSelector((state) => state.SipCop.ListSipCops)
     const dispatch=useDispatch()
     const handleSubmit=(e)=>{
         e.preventDefault();
-        dispatch(fetchAddUpdTactico(form,update,List))
+        dispatch(fetchAddUpdTactico(form,update,update?ListTactico:List))
     }
     const handlePosicion=(e)=>{
         dispatch(udpModalTactico({key:"form",value:{...form,[e.target.name]:e.target.value.replace(/\s|°/g, "")}}))
