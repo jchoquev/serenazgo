@@ -1,20 +1,26 @@
 import { NextResponse } from "next/server";
-import { SipCop } from "@/models/sipcop";
+import { SipCop,Tactico } from "@/models/sipcop";
 import { connectDB } from "@/libs/mongodb";
 import { ConfigSipcop } from "@/models/default";
 import moment from "moment";
+import { ObjectId } from "mongodb";
 
 export async function POST(request){
     try {
         const {_id,Direccion,HLlegada,Observaciones,Posicion,Revisar}= await request.json();
-        await connectDB();
+        let SipcopFound;
+        await connectDB(); 
+        if(ObjectId.isValid(_id)){
+            SipcopFound=await SipCop.findById(_id)
+            if(!SipcopFound) return NextResponse.json({ok:false,msg:"No existe el elemento"},{status:400});
+        }else{
+            return NextResponse.json({ok:false,msg:"Elemento incorrecto"},{status:400});
+        }
         const config=await ConfigSipcop.findOne({});
         const HSeira = moment(HLlegada, "HH:mm:ss").add(config.TACminutos, 'minutes').format("HH:mm:ss");
-        const update={Direccion,Posicion,HLlegada,HSeira,Observaciones:Observaciones||"",Posicion,Revisar}
-        const SipcopFound=await SipCop.findById(_id)
-        if(!SipcopFound) return NextResponse.json({ok:false,msg:"No existe el elemento"},{status:400});
-        SipcopFound.Tactico.push(update);
-        const sipcop= await SipCop.findOneAndUpdate({_id},{Tactico:SipcopFound.Tactico},{ new: true });
+        const update={_idSipCop:_id,Direccion,Posicion,HLlegada,HSeira,Observaciones:Observaciones||"",Posicion,Revisar:Boolean(Revisar)}
+        const svTactico= await (new Tactico(update)).save();
+        const sipcop= await SipCop.findOneAndUpdate({_id},{Tactico:[svTactico._id].concat(SipcopFound.Tactico)},{ new: true });
         return NextResponse.json({ok:true,msg:sipcop});
     } catch (error) {
         return NextResponse.json({ok:false,msg:"Ocurrio un error, intentelo mas tarde..."},{status:400});

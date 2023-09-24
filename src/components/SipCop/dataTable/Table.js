@@ -17,7 +17,15 @@ import ListEncargadoModal from "../modals/encargado/List/list";
 /*Prueba */
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchFindSipCop} from "@/Redux/Slice/sipcopSlice";
-import { updModalKm,updModalSipCop,udpModalOdometro,udpModalEncargado,udpModalListEncargado,fetchFindResposables} from "@/Redux/Slice/modalSlice";
+import { 
+  updModalKm,
+  updModalSipCop,
+  udpModalOdometro,
+  udpModalEncargado,
+  udpModalListEncargado,
+  fetchFindResposables,
+  udpModalTactico
+} from "@/Redux/Slice/modalSlice";
 /*Prueba */
 export default function SipcopTable({User}){ 
     const dispatch = useDispatch()
@@ -106,9 +114,9 @@ function Tablef({User}){
                  />))}
             </Table.Body>
           </Table></div>
-          {tactico.open&&<TacticoModal tactico={tactico} setTactico={setTactico} dataTable={data} setData={setData}/>}
           {lisTactico.open&&<ListTacticoModal lisTactico={lisTactico} setlisTactico={setlisTactico} dataTable={{datas:data,setData}} setTactico={setTactico}/>}
           
+          <TacticoModal/>
           <EncargadosModal/>
           <ListEncargadoModal/>
           <OdometroModal/>
@@ -168,7 +176,12 @@ function TableRow(data){
       </Table.Cell>
       <Table.Cell>
         <Button.Group>
-          <Button color="gray" className="w-full" size="sm" onClick={()=>{setTactico({open:true,update:false,form:{_id,Numero,IdPlaca}})}}>
+          <Button color="gray" className="w-full" size="sm" onClick={
+            ()=>{
+              dispatch(udpModalTactico({key:"form",value:{_id,Numero}}))
+              dispatch(udpModalTactico({key:"open",value:true}))
+              dispatch(udpModalTactico({key:"update",value:false}))
+            }}>
               <BiSolidTimeFive className="w-5 h-5"/>
           </Button>
           <Button color="gray" className={`w-full ${(Tactico.length<=0)?"hidden":""}`} size="sm" onClick={()=>{setlisTactico({open:true,values:{_id,Numero,IdPlaca},List:Tactico})}}>

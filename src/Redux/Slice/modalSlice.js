@@ -24,7 +24,13 @@ const initialState = {
     ListEncargados:{
       List:[],
       open:false,
-    }
+    },
+    Tactico:{
+      form:null,
+      open:false,
+      update:false
+    },  
+
 }
 
 export const modalSlice = createSlice({
@@ -54,6 +60,11 @@ export const modalSlice = createSlice({
         const {key,value}=payload
         Object.assign(state.ListEncargados, {[key]: value,})
       },
+      udpModalTactico:(state,{payload})=>{
+        const {key,value}=payload
+        Object.assign(state.Tactico, {[key]: value,})
+      },
+      
     },
   })
   
@@ -63,7 +74,8 @@ export const modalSlice = createSlice({
     updModalSipCop,
     udpModalOdometro,
     udpModalEncargado,
-    udpModalListEncargado
+    udpModalListEncargado,
+    udpModalTactico
   } = modalSlice.actions
   
   export default modalSlice.reducer
@@ -160,4 +172,46 @@ export const modalSlice = createSlice({
     }).catch(_ => {
       dispatch(addToast({message:"Ocurrio un error al BUSCAR.",state:false}))
     });
+  }
+
+  export const fetchFindDireccion=(form)=>(dispatch)=>{
+    const coordenadasRegex = /^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/;
+    if(form&&form.Posicion&&coordenadasRegex.test(form.Posicion)){
+      const ubicacion={Latitud:Number(form.Posicion.split(',')[0]),Longitud:Number(form.Posicion.split(',')[1])};
+      axios.get(`${process.env.API_URL}sipcop/tacticalpoints/direccion`,{params:ubicacion}).then(({data})=>{
+          const {ok,msg:{Direccion}}=data
+          ok&&dispatch(udpModalTactico({key:"form",value:{...form,Direccion}}))
+      }).catch((e)=>{
+          dispatch(addToast({message:"Ocurrio un error al BUSCAR la direccion.",state:false}))
+      });
+    }else{
+      dispatch(addToast({message:"La Posicion ingresada no es correcta.",state:false}))
+    }
+  }
+  export const fetchAddUpdTactico=(form,update,List)=>(dispatch)=>{
+    if(!update){
+        axios.post(`${process.env.API_URL}sipcop/updates/tactico`, form).then(({data,status})=> {
+          const {msg,ok}=data;
+          console.log(msg,ok)
+          ok&&dispatch(updSipcopList(List.map((item)=>{
+            if(item._id===msg._id) return msg;
+            return item;
+          })));
+          ok&&dispatch(addToast({message:`Se INSERTO correctamente el punto  tactico de ${form.Direccion}.`,state:true}))
+          ok&&dispatch(udpModalTactico({key:"open",value:false}))
+        }).catch(_ => {
+          dispatch(addToast({message:"Ocurrio un error al INSERTAR el punto tactico.",state:false}))
+        });
+    }else{
+      axios.put(`${process.env.API_URL}sipcop/updates/tactico`, form).then(({data,status})=> {
+          const {msg,ok}=data;
+          ok&&setData(dataTable.map((item)=>{
+              if(item._id===msg._id) return msg;
+              return item;
+          }));
+          ok&&setTactico({...tactico,open:false})
+      }).catch(_ => {
+          setErr({err:true,msg:"Error al Actualizar, intentelo mas tarde."})
+      });
+    }
   }

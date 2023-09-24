@@ -47,6 +47,11 @@ const PuntosTacticoSchema=new Schema({
 },{ collection: 'TacticoCoordenada' });
 
 const TacticoSchema=new Schema({
+    _idSipCop:{
+        type:ObjectId,
+        ref: 'SipCop',
+        require:[true]
+    },
     Direccion:{type:String,require:[true]},
     Posicion:{type:String,require:[true]},
     HLlegada:{type:String,require:[true]},
@@ -55,7 +60,7 @@ const TacticoSchema=new Schema({
     Revisar:{type:Boolean,default:false},
     Observaciones:{type:String},
     FHregistro:{type:Date,default:Date.now},
-});
+},{ collection: 'Tacticos' });
 
 const TacticOcurrencia=new Schema({
     Tipo:{type:String},
@@ -64,10 +69,10 @@ const TacticOcurrencia=new Schema({
 },{ _id: false });
 
 const IncidenciaSchema=new Schema({
-    _idSipcop:{
+    _idSipCop:{
         type:ObjectId,
         ref: 'SipCop',
-        require:[true],
+        default:null,
     },
     HoraLlegada:{type:String,require:[true]},
     HoraSeFue:{type:String,require:[true]},
@@ -107,7 +112,7 @@ const SipCopSchema =new Schema({
     KilometrajeSC:{type:Number,default:0},
     TiempoSC:{type:Number,default:0},
     SCFHActualizacion:{type:String,default:''},
-    Tactico:{type:[TacticoSchema],default:[]},
+    Tactico:{type:[ObjectId],default:[]},
     TacHoraFin:{type:String},
     Activo:{type:Boolean,default:false},
     Observacion:{type:String},
@@ -144,6 +149,6 @@ const PuntosTactico= models.PuntosTactico||model("PuntosTactico",PuntosTacticoSc
 const Incidencia= models.Incidencia||model("Incidencia",IncidenciaSchema);
 const Role=models.Role||model("Role",RoleSchema);
 const Responsable=models.Responsable||model("Responsable",ResponsableSchema);
+const Tactico=models.Tactico||model("Tactico",TacticoSchema);
 
-
-export {SipCop,PuntosTactico,Incidencia,Role,Responsable};
+export {SipCop,PuntosTactico,Incidencia,Role,Responsable,Tactico};
