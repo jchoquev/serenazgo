@@ -17,7 +17,7 @@ import ListEncargadoModal from "../modals/encargado/List/list";
 /*Prueba */
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchFindSipCop} from "@/Redux/Slice/sipcopSlice";
-import { updModalKm,updModalSipCop,udpModalOdometro,udpModalEncargado} from "@/Redux/Slice/modalSlice";
+import { updModalKm,updModalSipCop,udpModalOdometro,udpModalEncargado,udpModalListEncargado,fetchFindResposables} from "@/Redux/Slice/modalSlice";
 /*Prueba */
 export default function SipcopTable({User}){ 
     const dispatch = useDispatch()
@@ -63,11 +63,6 @@ function Tablef({User}){
     }
   
     useEffect(() => {
-      /*const Fechai=moment().tz('America/Lima').startOf('day').toDate()
-      const Fechaf=moment().tz('America/Lima').endOf('day').toDate()
-      fetchData({Fechai,Fechaf,idTurno:User&&User.Grupo.Turno._id});
-      fetchPosition();*/
-      console.log(List)
       dispatch(fetchFindSipCop(moment(),User&&User.Grupo.Turno._id))
     },[]);
   
@@ -113,9 +108,9 @@ function Tablef({User}){
           </Table></div>
           {tactico.open&&<TacticoModal tactico={tactico} setTactico={setTactico} dataTable={data} setData={setData}/>}
           {lisTactico.open&&<ListTacticoModal lisTactico={lisTactico} setlisTactico={setlisTactico} dataTable={{datas:data,setData}} setTactico={setTactico}/>}
-          {listStaff.open&&<ListEncargadoModal listStaff={listStaff} setListStaff={setListStaff} setEncargadoModal={setEncargadoModal}/>}
           
           <EncargadosModal/>
+          <ListEncargadoModal/>
           <OdometroModal/>
           <KilometrajeModal/>
  
@@ -161,9 +156,12 @@ function TableRow(data){
             }>
               <BsPersonLinesFill className="w-5 h-5"/>
           </Button>
-          <Button color="gray" className={`w-full ${(Responsables.length<=0)?"hidden":""}`} onClick={()=>{
-            setListStaff({open:true,value:{_id},List:Responsables})
-          }}  size="sm">
+          <Button color="gray" className={`w-full ${(Responsables.length<=0)?"hidden":""}`} onClick={
+            ()=>{
+              dispatch(udpModalListEncargado({key:'List',value:[]}))
+              dispatch(fetchFindResposables(Responsables))
+              dispatch(udpModalListEncargado({key:'open',value:true}))
+            }}  size="sm">
               <BsListOl className="w-5 h-5"/>
           </Button>
         </Button.Group>

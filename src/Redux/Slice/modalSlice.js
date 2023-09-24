@@ -21,6 +21,10 @@ const initialState = {
       open:false,
       update:false
     },    
+    ListEncargados:{
+      List:[],
+      open:false,
+    }
 }
 
 export const modalSlice = createSlice({
@@ -46,6 +50,10 @@ export const modalSlice = createSlice({
         const {key,value}=payload
         Object.assign(state.Encargado, {[key]: value,})
       },
+      udpModalListEncargado:(state,{payload})=>{
+        const {key,value}=payload
+        Object.assign(state.ListEncargados, {[key]: value,})
+      },
     },
   })
   
@@ -54,7 +62,8 @@ export const modalSlice = createSlice({
     updOneModalKm,
     updModalSipCop,
     udpModalOdometro,
-    udpModalEncargado
+    udpModalEncargado,
+    udpModalListEncargado
   } = modalSlice.actions
   
   export default modalSlice.reducer
@@ -121,16 +130,34 @@ export const modalSlice = createSlice({
     });
   }
 
-  export const fetchUpdEncargado=(form)=>(dispatch)=>{
+  export const fetchUpdEncargado=(form,List)=>(dispatch)=>{
+    const {update}=form
     axios.put(`${process.env.API_URL}sipcop/updates/encargados`,form).then(({data})=> {
         const {msg,ok}=data;
-        console.log(msg,ok)
-        /*ok&&setData(dataTable.map((item)=>{
+        if(update){
+          ok&&dispatch(addToast({message:`Se ACTUALIZO correctamente el rol.`,state:true}))
+        }else{
+          ok&&dispatch(updSipcopList(List.map((item)=>{
             if(item._id===msg._id) return msg;
             return item;
-        }));
-        ok&&setEncargadoModal({...encargadoModal,open:false})*/
+          })));
+          ok&&dispatch(addToast({message:`Se agrego a ${form.Nombres} como responsable.`,state:true}))
+        }
+        ok&&dispatch(udpModalEncargado({key:'open',value:false}))
     }).catch((e) => {
-        dispatch(addToast({message:"Ocurrio un error al listar los roles.",state:false}))
+      if(update){
+        dispatch(addToast({message:"Ocurrio un error al Actualizar a responsable.",state:false}))
+      }else{
+        dispatch(addToast({message:"Ocurrio un error al agregar a responsable.",state:false}))
+      }
+    });
+  }
+
+  export const fetchFindResposables=(Responsables)=>(dispatch)=>{
+    axios.get(`${process.env.API_URL}sipcop/encargados`,{params:{Responsables}}).then(({data})=> {
+      const {msg,ok}=data;
+      ok&&dispatch(udpModalListEncargado({key:'List',value:msg}))
+    }).catch(_ => {
+      dispatch(addToast({message:"Ocurrio un error al BUSCAR.",state:false}))
     });
   }

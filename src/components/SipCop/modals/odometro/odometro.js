@@ -17,10 +17,11 @@ export default function OdometroModal(){
     }
     return <>
         {form&&<Modal show={open} size="sm" popup onClose={() => dispatch(udpModalOdometro({key:"open",value:false}))}>
-            <Modal.Header />
+            <Modal.Header>
+                <h3 className="font-bold uppercase text-green-900 ml-4">Odometros ({form.Numero})</h3>
+            </Modal.Header>
             <Modal.Body>
                 <form className="space-y-1" onSubmit={handleSubmit}>
-                    <h3 className="font-bold uppercase text-green-900">Odometros ({form.Numero})</h3>
                     <div>
                         <div className="mb-1 block">
                             <Label value="Odometro Inicial" />
@@ -41,25 +42,3 @@ export default function OdometroModal(){
       </Modal>}
     </>
 }
-
-/*
-<form className="space-y-1" onSubmit={handleSubmit}>
-                    {err.err&&<Alert color="failure" icon={HiInformationCircle}> {err.msg} </Alert>}
-                    <h3 className="font-bold uppercase text-green-900">Odometros ({form.Numero})</h3>
-                    <div>
-                        <div className="mb-1 block">
-                            <Label value="Odometro Inicial" />
-                        </div>
-                        <TextInput sizing="sm" type="number" name="OdometroInicial" value={form.OdometroInicial||""} onChange={handleChange} required/>
-                    </div>  
-                    <div>
-                        <div className="mb-1 block">
-                            <Label value="Odometro Final" />
-                        </div>
-                        <TextInput sizing="sm" type="number" name="OdometroFinal" value={form.OdometroFinal||"0"} onChange={handleChange} required/>
-                    </div>                  
-                    <div className="w-full pt-1">
-                        <Button size="sm" className="w-full" type="submit">ACTUALIZAR</Button>
-                    </div>
-                </form>
-*/

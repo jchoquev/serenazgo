@@ -13,6 +13,7 @@ import { fetchUpdEncargado } from "@/Redux/Slice/modalSlice";
 function EncargadosModal(){
     const {select:{values}}= useSelector((state) => state.Role)
     const {Encargado:{form,open,update}}= useSelector((state) => state.Modal)
+    const List= useSelector((state) => state.SipCop.ListSipCops)
     const dispatch=useDispatch()
     
     useEffect(()=>{
@@ -20,7 +21,7 @@ function EncargadosModal(){
     },[])
     const handleSubmit=(e)=>{
         e.preventDefault();
-        dispatch(fetchUpdEncargado({...form,update}))
+        dispatch(fetchUpdEncargado({...form,update},List))
     }
     const handleChange=(e)=>{
         dispatch(udpModalEncargado({key:"form",value:{...form,[e.target.name]:e.target.value}}))

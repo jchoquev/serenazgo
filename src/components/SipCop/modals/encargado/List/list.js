@@ -3,7 +3,12 @@ import axios from "axios";
 import {Button,Modal,Alert,Table,Checkbox,Label,TextInput,Badge} from "flowbite-react";
 import { MdEditSquare } from 'react-icons/md';
 
+import { useSelector,useDispatch } from "react-redux";
+import { udpModalListEncargado,udpModalEncargado } from "@/Redux/Slice/modalSlice";
+
 function ListEncargadoModal({listStaff,setListStaff,setEncargadoModal}){
+    const {ListEncargados:{List,open}}= useSelector((state) => state.Modal)
+    const dispatch=useDispatch()
     /*const {_id,Numero,IdPlaca}=lisTactico.values
     const {datas,setData}=dataTable
     const handleCheck=(Activo,_id,_idSipcop)=>{
@@ -20,7 +25,7 @@ function ListEncargadoModal({listStaff,setListStaff,setEncargadoModal}){
         
     }
     return <>
-        <Modal show={listStaff.open} size="3xl" popup onClose={() => setListStaff({...listStaff,open:false})}>
+        <Modal show={open} size="3xl" popup onClose={() =>{dispatch(udpModalListEncargado({key:'open',value:false}))}}>
             <Modal.Header />
             <Modal.Body>
                 <Table>
@@ -37,18 +42,20 @@ function ListEncargadoModal({listStaff,setListStaff,setEncargadoModal}){
                             Nombres
                         </Table.HeadCell>
                         <Table.HeadCell>
-                            Cargo
+                            Rol
                         </Table.HeadCell>
                         <Table.HeadCell>
                             # Celular
                         </Table.HeadCell>
                     </Table.Head>
                     <Table.Body className="divide-y">
-                        {listStaff.List&&listStaff.List.map((item)=>(<Table.Row key={item._id} className={`bg-white ${item.Conductor&&"font-bold"} dark:border-gray-700 dark:bg-gray-800`}>
+                        {List&&List.map((item)=>(<Table.Row key={item._id} className={`bg-white ${item.Conductor&&"font-bold"} dark:border-gray-700 dark:bg-gray-800`}>
                             <Table.Cell>
                                 <Button color="gray"  onClick={()=>{
-                                    setListStaff({open:false});
-                                    setEncargadoModal({open:true,update:true,form:{...item,_idList:item._id,_id:listStaff.value._id,Select2:{value:item.Cargo,label:item.Cargo}}});
+                                    dispatch(udpModalListEncargado({key:'open',value:false}))
+                                    dispatch(udpModalEncargado({key:"open",value:true}))
+                                    dispatch(udpModalEncargado({key:"form",value:item}))
+                                    dispatch(udpModalEncargado({key:"update",value:true}))
                                 }}>
                                 <MdEditSquare/>
                                 </Button>
@@ -60,7 +67,7 @@ function ListEncargadoModal({listStaff,setListStaff,setEncargadoModal}){
                                 <p>{item.Nombres}</p>
                             </Table.Cell>
                             <Table.Cell>
-                                {item.Cargo}
+                                {item.Rol.label}
                             </Table.Cell>
                             <Table.Cell>
                                 {item.NCelular}
@@ -74,3 +81,5 @@ function ListEncargadoModal({listStaff,setListStaff,setEncargadoModal}){
 }
 
 export default ListEncargadoModal;
+
+/**/
