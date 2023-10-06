@@ -11,7 +11,7 @@ export async function GET(request){
     try {
         await connectDB();
         if(iSelect==="porLista") filtro =  {FHeliminar:null,_id:{$in:searchParams.getAll("Incidencia[]")}};
-        const resp= await Incidencia.find(filtro).sort({ FHregistro: -1 });
+        const resp= await Incidencia.find(filtro).sort({ FHregistro: 1 });
         return NextResponse.json({ok:true,msg:resp});
     } catch (error) {
         return NextResponse.json({ok:false,msg:"Ocurrio un error, intentelo mas tarde..."},{status:400});

@@ -306,7 +306,7 @@ export const modalSlice = createSlice({
   }
 
   export const fetchFindIncidencias=(filter)=>(dispatch)=>{
-    axios.get(`${process.env.API_URL}sipcop/incidencia`,{params:{filter}}).then(({data})=> {
+    axios.get(`${process.env.API_URL}sipcop/incidencia`,{params:filter}).then(({data})=> {
       const {msg,ok}=data;
       ok&&dispatch(udpModalListIncidencia({key:'List',value:msg}))
     }).catch(_ => {

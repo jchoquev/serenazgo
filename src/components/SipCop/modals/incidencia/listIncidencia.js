@@ -1,6 +1,8 @@
 import {Button,Modal,Alert,Table,Checkbox,Label,TextInput,Badge} from "flowbite-react";
 import { MdEditSquare } from 'react-icons/md';
 import {GrMap} from  'react-icons/gr';
+import {CgListTree} from "react-icons/cg"
+import {BsFillCheckCircleFill,BsFillDashCircleFill} from "react-icons/bs"
 
 import { useSelector,useDispatch } from "react-redux";
 import { udpModalListIncidencia,udpModalIncidencia,fetchUpdTacticoCompleto } from "@/Redux/Slice/modalSlice";
@@ -14,7 +16,20 @@ export default function ListIncidenciaModal(){
     return <>
         <Modal show={open} size="6xl" popup onClose={() => dispatch(udpModalListIncidencia({key:"open",value:false}))}>
             <Modal.Header>
-                <h3 className="font-bold uppercase text-green-900 ml-4">Lista incidencias ({sipcop&&sipcop.Numero})</h3>
+                <div class="flex justify-start">
+                    <div className="ml-4">
+                        {List&&<Button color="gray" 
+                            onClick={()=>{
+                                dispatch(updModalPoints({key:"open",value:true}))
+                                dispatch(updModalPoints({key:"title",value:"Lista de incidencias"}))
+                                dispatch(updModalPoints({key:"List",value:evalPointsMap(List.filter((item)=>Boolean(item.Coordenadas)))}))
+                            }}
+                        ><CgListTree/></Button>}
+                    </div>
+                    <div>
+                        <h3 className="font-bold uppercase text-green-900 ml-2">Lista incidencias ({sipcop&&sipcop.Numero})</h3>
+                    </div>
+                </div>
             </Modal.Header>
             <Modal.Body>
                 <Table>
@@ -56,7 +71,9 @@ export default function ListIncidenciaModal(){
                                 </Button>
                             </Table.Cell>
                             <Table.HeadCell className="p-4">
-                                <Checkbox checked={item.SIPCOP} onChange={()=>handleCheck(!item.SIPCOP,item._id)} />
+                                {item.SIPCOP&&item.SIPCOP&&<BsFillCheckCircleFill className="h-5 w-5 text-emerald-600"/>}
+                                {!item.SIPCOP&&<BsFillDashCircleFill className="h-5 w-5 text-red-600"/>}
+                                
                             </Table.HeadCell>
                             <Table.Cell>
                                 <p> <b>({index+1}) </b> {item.Descripcion}</p>
@@ -70,6 +87,8 @@ export default function ListIncidenciaModal(){
                             <Table.Cell>
                                 {item.Coordenadas&&<Button color="gray"  onClick={()=>{
                                     dispatch(updModalPoints({key:"open",value:true}))
+                                    dispatch(updModalPoints({key:"title",value:"ubicacion de la incidencia N° "+(index+1)}))
+                                    dispatch(updModalPoints({key:"List",value:evalPointsMap([item],index+1)}))
                                 }}>
                                     <GrMap/>
                                 </Button>}
@@ -83,6 +102,20 @@ export default function ListIncidenciaModal(){
             </Modal.Body>
       </Modal>
     </>
+}
+
+function evalPointsMap(List,index=-1){
+    return List.map((item,i)=>{
+        return {
+            IPopup:`${item.Direccion} <br/> 
+                <b>Hora Alerta/ Notificacion:</b> ${item.HoraNotificacion||""} <br/> 
+                <b>Hora Llegada:</b> ${item.HoraLlegada||""} <br/> 
+                <b>Hora Repliegue:</b> ${item.HoraSeFue||""} <br/>
+            `,
+            Coordenadas:item.Coordenadas,
+            ITooltip:`Incidencia N° ${(index>=0)?index:(i+1)}`,
+        }
+    })
 }
 
 function HoraComponent({HoraNotificacion,HoraLlegada,HoraSeFue}){

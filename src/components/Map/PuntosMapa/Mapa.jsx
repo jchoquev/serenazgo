@@ -14,15 +14,19 @@ export default function Map() {
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {geoData.lat && geoData.lng && (
-        <Marker icon={myIcon} position={[geoData.lat, geoData.lng]}>
-          <Popup open={true}>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-          <Tooltip>Tooltip for Marker</Tooltip>
-        </Marker>
-
-      )}
+      {
+        List&&List.map((item)=>{
+          const {Coordenadas,IPopup,ITooltip}=item;
+          return <Marker icon={myIcon} position={[Coordenadas.Latitud, Coordenadas.Longitud]}>
+            <Popup>
+              <div dangerouslySetInnerHTML={{ __html: IPopup }} />
+            </Popup>
+            <Tooltip>
+              {ITooltip}
+            </Tooltip>
+          </Marker>
+        })
+      }
     </MapContainer>
   );
 }

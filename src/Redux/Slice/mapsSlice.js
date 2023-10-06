@@ -6,7 +6,8 @@ const initialState = {
     ModalPoints:{
         List:[],
         open:false,
-        sipcop:null
+        sipcop:null,
+        title:""
     },
 }
 
