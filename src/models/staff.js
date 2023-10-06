@@ -15,6 +15,8 @@ CargoSchema.pre('findOneAndUpdate',function(next){
     next();
 });
 
+
+
 const staffSchema =new Schema({
     NDocumento:{
         type:String,

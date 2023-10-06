@@ -35,7 +35,21 @@ const initialState = {
       open:false,
       sipcop:null
     },
-
+    Incidencia:{
+      form:null,
+      open:false,
+      update:false,
+      selects:{
+        Ocurrencia:[],
+        TipoZona:[],
+        TipoVia:[]
+      }
+    },
+    ListIncidencia:{
+      List:[],
+      open:false,
+      sipcop:null
+    },
 }
 
 export const modalSlice = createSlice({
@@ -73,6 +87,18 @@ export const modalSlice = createSlice({
         const {key,value}=payload
         Object.assign(state.ListTactico, {[key]: value,})
       },
+      udpModalIncidencia:(state,{payload})=>{
+        const {key,value}=payload
+        Object.assign(state.Incidencia, {[key]: value,})
+      },
+      IncidenciaSelects:(state,{payload})=>{
+        const {key,value}=payload
+        Object.assign(state.Incidencia.selects, {[key]: value,})
+      },
+      udpModalListIncidencia:(state,{payload})=>{
+        const {key,value}=payload
+        Object.assign(state.ListIncidencia, {[key]: value,})
+      },
     },
   })
   
@@ -84,7 +110,10 @@ export const modalSlice = createSlice({
     udpModalEncargado,
     udpModalListEncargado,
     udpModalTactico,
-    udpModalListTactico
+    udpModalListTactico,
+    udpModalIncidencia,
+    IncidenciaSelects,
+    udpModalListIncidencia
   } = modalSlice.actions
   
   export default modalSlice.reducer
@@ -197,6 +226,7 @@ export const modalSlice = createSlice({
       dispatch(addToast({message:"La Posicion ingresada no es correcta.",state:false}))
     }
   }
+
   export const fetchAddUpdTactico=(form,update,List)=>(dispatch)=>{
     if(!update){
         axios.post(`${process.env.API_URL}sipcop/updates/tactico`, form).then(({data})=> {
@@ -242,3 +272,59 @@ export const modalSlice = createSlice({
       dispatch(addToast({message:"Ocurrio un error al ACTUALIZAR.",state:false}))
     });
   }
+  // Incidencia
+
+  export const fetchIncidencia=(form,List)=>(dispatch)=>{
+    const coordenadasRegex = /^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/;
+    const {Ubicacion,update}=form
+    console.log(Ubicacion)
+    if(Ubicacion&&coordenadasRegex.test(Ubicacion)){
+      form={
+        ...form,
+        Coordenadas:{
+          Latitud:Ubicacion.split(',')[0],
+          Longitud:Ubicacion.split(',')[1],
+        }
+      }
+    }else{
+      form={
+        ...form,
+        Coordenadas:{}
+      }
+    }
+    axios.post(`${process.env.API_URL}sipcop/incidencia`, form).then(({data})=> {
+      const {msg,ok}=data;
+      ok&&(update===false)&&dispatch(updSipcopList(List.map((item)=>{
+        if(item._id===msg._id) return msg;
+        return item;
+      })));
+      ok&&(update===false)&&dispatch(addToast({message:`Se INSERTO correctamente la incidencia.`,state:true}))
+      ok&&dispatch(udpModalIncidencia({key:"open",value:false}))
+    }).catch(_ => {
+      dispatch(addToast({message:"Ocurrio un error al INSERTAR la incidencia.",state:false}))
+    });
+  }
+
+  export const fetchFindIncidencias=(filter)=>(dispatch)=>{
+    axios.get(`${process.env.API_URL}sipcop/incidencia`,{params:{filter}}).then(({data})=> {
+      const {msg,ok}=data;
+      ok&&dispatch(udpModalListIncidencia({key:'List',value:msg}))
+    }).catch(_ => {
+      dispatch(addToast({message:"Ocurrio un error al Listar las incidencias.",state:false}))
+    });
+  }
+
+  export const fetchFindIncSelects=(findOpt)=>(dispatch)=>{
+    const {option}=findOpt
+    axios.get(`${process.env.API_URL}sipcop/incidencia/selects`,{params:findOpt}).then(({data})=> {
+      const {msg,ok}=data;
+      ok&&(option==='Ocurrencia')&&dispatch(IncidenciaSelects({key:'Ocurrencia',value:msg}))
+      ok&&(option==='TipoZona')&&dispatch(IncidenciaSelects({key:'TipoZona',value:msg}))
+      ok&&(option==='TipoVia')&&dispatch(IncidenciaSelects({key:'TipoVia',value:msg}))
+    }).catch((e) => {
+      if(option==='Ocurrencia') dispatch(addToast({message:"Ocurrio un error al LISTAR las ocurrencias.",state:false}));
+      if(option==='TipoZona') dispatch(addToast({message:"Ocurrio un error al LISTAR rl tipo de zona.",state:false}));
+      if(option==='TipoVia') dispatch(addToast({message:"Ocurrio un error al LISTAR el tipo de via.",state:false}));
+    });
+  }
+  

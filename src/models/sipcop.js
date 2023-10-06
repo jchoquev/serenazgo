@@ -1,6 +1,7 @@
 import { ObjectId } from "mongodb";
 import { Schema, model ,models} from "mongoose";
 import { selectSchema } from "./select";
+import { Mixed } from "mongoose";
 import { Vehiculo } from "./default";
 import { Staff } from "./staff";
 
@@ -68,25 +69,38 @@ const TacticOcurrencia=new Schema({
     Value:{type:String}
 },{ _id: false });
 
+const coordSchema=new Schema({
+    Latitud:{type:Number},
+    Longitud:{type:Number}
+},{ _id: false });
+
 const IncidenciaSchema=new Schema({
     _idSipCop:{
         type:ObjectId,
         ref: 'SipCop',
-        default:null,
+        require:[true]
     },
-    HoraLlegada:{type:String,require:[true]},
-    HoraSeFue:{type:String,require:[true]},
-    Ubicacion:{type:String},
-    Descripcion:{type:String},
-    TipoVia:{type:String},
+    HoraNotificacion:{type:String,default:null},
+    HoraLlegada:{type:String,default:null},
+    HoraSeFue:{type:String,default:null},
+    Ubicacion:{type:String,default:""},
+    Coordenadas:{type:coordSchema,default:{}},
+    Descripcion:{type:String,default:""},
+    TipoVia:{type:Mixed,default:{}},
     Direccion:{type:String},
-    Ocurrencia:{type:TacticOcurrencia},
-    TipoZona:{type:String},
+    Ocurrencia:{type:Mixed,default:{}},
+    TipoZona:{type:Mixed,default:{}},
     SIPCOP:{type:Boolean,default:false},
-    Turno:{type:String},
+    Turno:{type:String,default:""},
     FHregistro:{type:Date,default:Date.now},
     FHactualizacion:{type:Date,default:Date.now},
     FHeliminar:{type:Date,default:null},
+},{ collection: 'Incidencias' });
+
+IncidenciaSchema.pre('findOneAndUpdate',function(next){
+    const update = this.getUpdate();
+    update.FHactualizacion=Date.now();
+    next();
 });
 
 const kmSchema=new Schema({
@@ -95,6 +109,7 @@ const kmSchema=new Schema({
     Verificado:{type:Boolean,default:false},
     Nombres:{type:String,default:null},
 },{ _id: false })
+
 
 const SipCopSchema =new Schema({
     IdVehiculo:{type:ObjectId,require:[true]},
@@ -113,6 +128,7 @@ const SipCopSchema =new Schema({
     TiempoSC:{type:Number,default:0},
     SCFHActualizacion:{type:String,default:''},
     Tactico:{type:[ObjectId],default:[]},
+    Incidencia:{type:[ObjectId],default:[]},
     TacHoraFin:{type:String},
     Activo:{type:Boolean,default:false},
     Observacion:{type:String},

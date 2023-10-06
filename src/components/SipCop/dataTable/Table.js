@@ -13,6 +13,8 @@ import KilometrajeModal from "../modals/kilometraje/kilometraje";
 import OdometroModal from "../modals/odometro/odometro";
 import EncargadosModal from "../modals/encargado/encargado";
 import ListEncargadoModal from "../modals/encargado/List/list";
+import IncidenciaModal from "../modals/incidencia/incidencia";
+import ListIncidenciaModal from "../modals/incidencia/listIncidencia";
 
 /*Prueba */
 import { useSelector, useDispatch } from 'react-redux'
@@ -25,8 +27,11 @@ import {
   udpModalListEncargado,
   udpModalTactico,
   udpModalListTactico,
+  udpModalIncidencia,
   fetchFindResposables,
-  fetchFindTactico
+  fetchFindTactico,
+  fetchFindIncidencias,
+  udpModalListIncidencia,
 } from "@/Redux/Slice/modalSlice";
 /*Prueba */
 export default function SipcopTable({User}){ 
@@ -110,12 +115,13 @@ function Tablef({User}){
           <ListEncargadoModal/>
           <OdometroModal/>
           <KilometrajeModal/>
- 
+          <IncidenciaModal/>
+          <ListIncidenciaModal/>
       </>
 }
 function TableRow(data){
   const dispatch=useDispatch();
-  const {_id,IdVehiculo,Activo,Numero,Kilometraje,IdPlaca,Zona,Observacion,KMinicial,KMfinal,Responsables,OdometroInicial,OdometroFinal,setTactico,setlisTactico,Tactico,Nombres,setEncargadoModal
+  const {_id,IdVehiculo,Activo,Numero,Kilometraje,IdPlaca,Zona,Observacion,Incidencia,Responsables,OdometroInicial,OdometroFinal,setTactico,setlisTactico,Tactico,Nombres,setEncargadoModal
   ,setListStaff}=data;
   return (<>
     <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
@@ -186,10 +192,21 @@ function TableRow(data){
       </Table.Cell>
       <Table.Cell>
         <Button.Group>
-          <Button color="gray" className="w-full" size="sm">
+          <Button color="gray" className="w-full" size="sm" onClick={
+            ()=>{
+              dispatch(udpModalIncidencia({key:"open",value:true}))
+              dispatch(udpModalIncidencia({key:"form",value:{_idSipCop:_id,Numero}}))
+            }
+          }>
               <BsPatchPlusFill className="w-5 h-5"/>
           </Button>
-          <Button color="gray" className="w-full" size="sm">
+          <Button color="gray" className={`w-full ${(Incidencia.length<=0)?"hidden":""}`} size="sm" onClick={
+              ()=>{
+                dispatch(udpModalListIncidencia({key:"List",value:[]}))
+                dispatch(udpModalListIncidencia({key:"sipcop",value:{Numero}}))
+                dispatch(fetchFindIncidencias({filtro:"porLista",Incidencia}))
+                dispatch(udpModalListIncidencia({key:"open",value:true}))
+              }}>
               <BsListOl className="w-5 h-5"/>
           </Button>
         </Button.Group>

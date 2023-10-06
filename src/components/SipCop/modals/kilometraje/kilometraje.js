@@ -17,16 +17,6 @@ export default function KilometrajeModal(){
     const handleSubmit=(e)=>{
         e.preventDefault();
         dispatch(updKilometraje(form,List))
-        /*axios.put(`${process.env.API_URL}sipcop/updates/km`,{...form,inicial:kmModal.inicial}).then(({data,status})=> {
-            const {msg,ok}=data;
-            ok&&setData(dataTable.map((item)=>{
-                if(item._id===msg._id) return msg;
-                return item;
-            }));
-            ok&&setKmModal({...kmModal,open:false})
-        }).catch(_ => {
-            setErr({err:true,msg:"Error al Actualizar, intentelo mas tarde."})
-        });*/
     }
     const handleChange=(e)=>{
         dispatch(updOneModalKm({key:'form',value:{...form,[e.target.name]:e.target.value}}))
@@ -68,21 +58,3 @@ export default function KilometrajeModal(){
         </Modal>}
     </>
 }
-
-/*
-                    {form.vini&&(form.Nombres!="")&&<div className="text-justify">
-                        <Badge color="success">
-                            {form.Nombres}
-                        </Badge>
-                    </div>}                  
-                    {!form.vini&&<div>
-                        <ToggleSwitch
-                            checked={form.Verificado}
-                            label="Verificado"
-                            onChange={()=>{handleCheck('Verificado',!form.Verificado)}}
-                        />
-                    </div>}
-                    {!form.vini&&<div className="w-full pt-1">
-                        <Button size="sm" className="w-full" type="submit">ACTUALIZAR</Button>
-                    </div>}
-*/

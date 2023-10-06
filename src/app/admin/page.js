@@ -11,17 +11,17 @@ export default function Admin(){
     if (session.user.uPassword!=null) route.push(`/updatepass/${session.user.uPassword}`);
     return (
         <>
-          <div className="flex flex-col relative w-screen">
+            <div className="flex flex-col relative w-screen">
             <Navbar User={session.user}/>
-          </div>   
-          <div className="w-full bg-red-50">
-             Admin
-          </div>    
+            </div>   
+            <div className="w-full bg-red-50">
+                {JSON.stringify(session.user)}
+            </div>    
         </>    
     );
 }
 /*
- 
+
 <div>Entraste
             <pre>
                 {

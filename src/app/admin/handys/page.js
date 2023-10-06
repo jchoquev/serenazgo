@@ -1,6 +1,6 @@
 "use client"
 
-import DynamicMap from "@/components/Map/LoadMap"
+import DynamicMap from "@/components/Map/PuntosMapa/LoadMap"
 //import MapaVista from "@/components/Map/Mapa"
 export default function Handys(){
     return <>

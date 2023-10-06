@@ -33,3 +33,4 @@ export async function DELETE(request){
         return NextResponse.json({ok:false,msg:"Ocurrio un error, intentelo mas tarde..."},{status:400});
     }
 }
+

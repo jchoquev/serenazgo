@@ -6,6 +6,7 @@ import {Toast} from "flowbite-react";
 import {HiCheck,HiX} from "react-icons/hi"
 import { useSelector, useDispatch} from "react-redux";
 import { delToast } from "@/Redux/Slice/toastSlice";
+import MapPointModal from "./Map/Modal/MapModal";
 export default function Template({Dynamic}){
     const { data: session,status }=useSession();
     const {List}= useSelector((state) => state.Toast)
@@ -34,5 +35,6 @@ export default function Template({Dynamic}){
                 </Toast>
             ))}
         </div>}
+        <MapPointModal/>
     </>;
 }
