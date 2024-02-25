@@ -5,13 +5,14 @@ import { udpModalIncidencia,fetchFindIncSelects,fetchIncidencia} from "@/Redux/S
 import Select from 'react-select'
 
 export default function IncidenciaModal(){
-    const {Incidencia:{form,open,update,selects:{Ocurrencia,TipoZona,TipoVia}}}= useSelector((state) => state.Modal)
+    const {Incidencia:{form,open,update,selects:{Ocurrencia,TipoZona,TipoVia,Origen}}}= useSelector((state) => state.Modal)
     const List= useSelector((state) => state.SipCop.ListSipCops)
     const dispatch=useDispatch()
     useEffect(()=>{
         dispatch(fetchFindIncSelects({option:"Ocurrencia"}))
         dispatch(fetchFindIncSelects({option:"TipoZona"}))
         dispatch(fetchFindIncSelects({option:"TipoVia"}))  
+        dispatch(fetchFindIncSelects({option:"Origen"}))  
     },[]);
     const handleSubmit=(e)=>{
         e.preventDefault();
@@ -27,6 +28,9 @@ export default function IncidenciaModal(){
     const handleSelect=(key,value)=>{
         dispatch(udpModalIncidencia({key:"form",value:{...form,[key]:value}}))
     }
+    const handlePosicion=(e)=>{
+        dispatch(udpModalIncidencia({key:"form",value:{...form,[e.target.name]:e.target.value.replace(/\s|°/g, "")}}))
+    }
     
     return <>
         <Modal show={open} size="sm" popup onClose={() => dispatch(udpModalIncidencia({key:"open",value:false}))}>
@@ -35,6 +39,15 @@ export default function IncidenciaModal(){
             </Modal.Header>
             <Modal.Body>
                 <form className="space-y-1" onSubmit={handleSubmit}>
+                    <div>
+                        <div className="mb-1 block">
+                            <Label value="Origen" />
+                        </div>
+                        <Select menuPosition="fixed" 
+                            value={form&&form.Origen||{}}
+                            onChange={(e) => handleSelect('Origen',e)} 
+                            menuShouldScrollIntoView={true} placeholder="Elige una opción" options={Origen}/>
+                    </div>
                     <div>
                         <div className="mb-1 block">
                             <Label value="Ocurrencia" />
@@ -58,19 +71,19 @@ export default function IncidenciaModal(){
                         <div className="mb-1 block">
                             <Label value="Hora llegada" />
                         </div>
-                        <TextInput sizing="sm" type="time" step={1} name="HoraLlegada" value={form&&form.HoraLlegada||""} onChange={handleChange}/>
+                        <TextInput sizing="sm" type="time" step={1} min={form&&form.HoraNotificacion||""} name="HoraLlegada" value={form&&form.HoraLlegada||""} onChange={handleChange}/>
                     </div>  
                     <div>
                         <div className="mb-1 block">
                             <Label value="Hora se fue/repliegue" />
                         </div>
-                        <TextInput sizing="sm" type="time" step={1} name="HoraSeFue" value={form&&form.HoraSeFue||""} onChange={handleChange}/>
+                        <TextInput sizing="sm" type="time" step={1} min={form&&form.HoraLlegada||""} name="HoraSeFue" value={form&&form.HoraSeFue||""} onChange={handleChange}/>
                     </div>  
                     <div>
                         <div className="mb-1 block">
                             <Label value="Ubicación" />
                         </div>
-                        <TextInput name="Ubicacion" value={form&&form.Ubicacion||""} onChange={handleChange} placeholder="Ejemplo: -15.862978,-70.015716"/>
+                        <TextInput name="Ubicacion" value={form&&form.Ubicacion||""} onChange={handlePosicion} placeholder="Ejemplo: -15.862978,-70.015716"/>
                     </div>  
                     <div>
                         <div className="mb-1 block">

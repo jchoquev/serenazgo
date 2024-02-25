@@ -9,6 +9,9 @@ const initialState = {
   ListTacticos:[],
   ListResponsables:[],
   value: 0,
+  selects:{
+    
+  }
 }
 
 export const sipcopSlice = createSlice({
@@ -36,13 +39,15 @@ export const {
 
 export default sipcopSlice.reducer
 
-export const fetchFindSipCop=(Fecha,idTurno)=>async (dispatch)=>{
+export const fetchFindSipCop=(Fechai,Fechaf,idTurno)=>async (dispatch)=>{
   const params={
-    Fechai:Fecha.tz('America/Lima').startOf('day').toDate(),
-    Fechaf:Fecha.tz('America/Lima').endOf('day').toDate(),
+    Fechai,
+    Fechaf,
     idTurno
   }
+  console.log(params)
   axios.get(`${process.env.API_URL}/sipcop/getday`,{params}).then(({data})=>{
+    console.log(data)
     if(data.ok) dispatch(updSipcopList(data.msg));
   }).catch(()=>{
     dispatch(addToast({message:"Ocurrio un error al listar.",state:false}))

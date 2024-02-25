@@ -1,6 +1,6 @@
 import { useState,useEffect } from "react";
 import { Table,Button,Checkbox,TextInput} from "flowbite-react";
-import axios from "axios";
+
 import {BsFillPatchCheckFill} from "react-icons/bs"
 import SipcopModal from "../modals/Tactico/modal";
 import moment from "moment-timezone";
@@ -31,6 +31,7 @@ import {
   fetchFindResposables,
   fetchFindTactico,
   fetchFindIncidencias,
+  fetchVhActivo,
   udpModalListIncidencia,
 } from "@/Redux/Slice/modalSlice";
 /*Prueba */
@@ -38,7 +39,13 @@ export default function SipcopTable({User}){
     const dispatch = useDispatch()
     return <>
         <div className="relative w-full">
-            <button className="absolute top-0 right-0 z-10 pr-1 pt-1" onClick={()=>dispatch(updModalSipCop({key:'open',value:true}))}>
+            <button className="absolute top-0 right-0 z-10 pr-1 pt-1" 
+              onClick={()=>{
+                dispatch(updModalSipCop({key:'data',value:[]}))
+                dispatch(updModalSipCop({key:'open',value:true}))
+                dispatch(fetchVhActivo({_idTurno:User&&User.Grupo.Turno._id||'-1',from:User&&User.iSession||"0000-00-00",until:User&&User.fSession||"0000-00-00"}));
+              }}
+            >
                 <BsFillPatchCheckFill className="w-8 h-8 text-green-600 hover:text-emerald-900 bg-white rounded-full p-1 border border-x-emerald-700"/>
             </button>
             <Tablef User={User}/>
@@ -48,24 +55,11 @@ export default function SipcopTable({User}){
 }
 
 function Tablef({User}){
-    //
     const List= useSelector((state) => state.SipCop.ListSipCops)
     const dispatch = useDispatch()
-    //
-    const [data, setData] = useState(null);
-    const [position,setPosition] = useState(null);
-    //Modals
-    const [tactico,setTactico]=useState({open:false})
-    const [lisTactico,setlisTactico]=useState({open:false})
-    const [odometroModal,setOdometroModal]=useState({open:false,inicial:false})
-    const [encargadoModal,setEncargadoModal]=useState({open:false,inicial:false})
-    const [incidencia,setIncidencia]=useState({open:false})
-    //Modals list
-    const [listStaff,setListStaff]=useState({open:false,List:[]})
-    //End-Modals
-  
+
     useEffect(() => {
-      dispatch(fetchFindSipCop(moment(),User&&User.Grupo.Turno._id))
+      dispatch(fetchFindSipCop(User&&User.iSession,User&&User.fSession,User&&User.Grupo.Turno._id))
     },[]);
   
       return <>
@@ -101,11 +95,7 @@ function Tablef({User}){
               </Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y">
-              {List&&List.map((row)=>(<TableRow key={row._id} {...row} Nombres={User&&User.fullNombres} setTactico={setTactico} 
-                  setlisTactico={setlisTactico} 
-                  setEncargadoModal={setEncargadoModal}
-                  setListStaff={setListStaff}
-                 />))}
+              {List&&List.map((row)=>(<TableRow key={row._id} {...row} Nombres={User&&User.fullNombres}/>))}
             </Table.Body>
           </Table></div>
           
@@ -121,8 +111,7 @@ function Tablef({User}){
 }
 function TableRow(data){
   const dispatch=useDispatch();
-  const {_id,IdVehiculo,Activo,Numero,Kilometraje,IdPlaca,Zona,Observacion,Incidencia,Responsables,OdometroInicial,OdometroFinal,setTactico,setlisTactico,Tactico,Nombres,setEncargadoModal
-  ,setListStaff}=data;
+  const {_id,IdVehiculo,Activo,Numero,Kilometraje,IdPlaca,Zona,Observacion,Incidencia,Responsables,OdometroInicial,OdometroFinal,Tactico,Nombres}=data;
   return (<>
     <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
       <Table.Cell className="p-4">

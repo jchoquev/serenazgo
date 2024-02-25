@@ -7,7 +7,9 @@ import L from 'leaflet';
 
 export default function Map() {
   const {ModalPoints:{List}}= useSelector((state) => state.Maps)
-  const [geoData, setGeoData] = useState({ lat: -15.837499, lng: -70.020852 });
+  const [geoData, setGeoData] = useState({ lat: -16.566395, lng: -69.038504 });
+
+
   const center = [geoData.lat, geoData.lng];
   return (
     <MapContainer center={center} zoom={14} minZoom={12} style={{ height: '60vh' }}>

@@ -1,18 +1,15 @@
-import {Button,Modal,Alert,Table,Checkbox,Label,TextInput,Badge} from "flowbite-react";
+import {Button,Modal,Table} from "flowbite-react";
 import { MdEditSquare } from 'react-icons/md';
 import {GrMap} from  'react-icons/gr';
 import {CgListTree} from "react-icons/cg"
 import {BsFillCheckCircleFill,BsFillDashCircleFill} from "react-icons/bs"
 
 import { useSelector,useDispatch } from "react-redux";
-import { udpModalListIncidencia,udpModalIncidencia,fetchUpdTacticoCompleto } from "@/Redux/Slice/modalSlice";
+import { udpModalListIncidencia,udpModalIncidencia } from "@/Redux/Slice/modalSlice";
 import { updModalPoints } from "@/Redux/Slice/mapsSlice";
 export default function ListIncidenciaModal(){
     const {ListIncidencia:{List,open,sipcop}}= useSelector((state) => state.Modal)
     const dispatch=useDispatch()
-    const handleCheck=(Completo,_id)=>{
-        dispatch(fetchUpdTacticoCompleto({_id,Completo},List))
-    }
     return <>
         <Modal show={open} size="6xl" popup onClose={() => dispatch(udpModalListIncidencia({key:"open",value:false}))}>
             <Modal.Header>
@@ -107,7 +104,7 @@ export default function ListIncidenciaModal(){
 function evalPointsMap(List,index=-1){
     return List.map((item,i)=>{
         return {
-            IPopup:`${item.Direccion} <br/> 
+            IPopup:`${item.Direccion||""} <br/> 
                 <b>Hora Alerta/ Notificacion:</b> ${item.HoraNotificacion||""} <br/> 
                 <b>Hora Llegada:</b> ${item.HoraLlegada||""} <br/> 
                 <b>Hora Repliegue:</b> ${item.HoraSeFue||""} <br/>

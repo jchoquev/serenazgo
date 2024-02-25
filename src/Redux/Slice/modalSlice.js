@@ -42,7 +42,8 @@ const initialState = {
       selects:{
         Ocurrencia:[],
         TipoZona:[],
-        TipoVia:[]
+        TipoVia:[],
+        Origen:[]
       }
     },
     ListIncidencia:{
@@ -147,8 +148,8 @@ export const modalSlice = createSlice({
     }
   }
 
-  export const fetchVhActivo=()=>(dispatch)=>{
-    axios.get(`${process.env.API_URL}vehiculos/activo`,{}).then(({data})=>{
+  export const fetchVhActivo=(params)=>(dispatch)=>{
+    axios.get(`${process.env.API_URL}vehiculos/disponible`,{params}).then(({data})=>{
       const {ok,msg}=data
       ok&&dispatch(updModalSipCop({key:'data',value:msg}))
     }).catch((e)=>{
@@ -321,10 +322,12 @@ export const modalSlice = createSlice({
       ok&&(option==='Ocurrencia')&&dispatch(IncidenciaSelects({key:'Ocurrencia',value:msg}))
       ok&&(option==='TipoZona')&&dispatch(IncidenciaSelects({key:'TipoZona',value:msg}))
       ok&&(option==='TipoVia')&&dispatch(IncidenciaSelects({key:'TipoVia',value:msg}))
+      ok&&(option==='Origen')&&dispatch(IncidenciaSelects({key:'Origen',value:msg}))
     }).catch((e) => {
       if(option==='Ocurrencia') dispatch(addToast({message:"Ocurrio un error al LISTAR las ocurrencias.",state:false}));
       if(option==='TipoZona') dispatch(addToast({message:"Ocurrio un error al LISTAR rl tipo de zona.",state:false}));
       if(option==='TipoVia') dispatch(addToast({message:"Ocurrio un error al LISTAR el tipo de via.",state:false}));
+      if(option==='Origen') dispatch(addToast({message:"Ocurrio un error al LISTAR el origen.",state:false}));
     });
   }
   

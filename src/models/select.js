@@ -16,8 +16,13 @@ const TipoZonaSchema =new Schema({
     Value:{type:String, default:""},
 },{collection:"TipoZona"});
 
+const OrigenSchema =new Schema({
+    Value:{type:String, default:""},
+},{collection:"Origen"});
+
 
 const Select= models.Select||model("Select",selectSchema);
 const TipoVia= models.TipoVia||model("TipoVia",TipoViaSchema);
 const TipoZona= models.TipoZona||model("TipoZona",TipoZonaSchema);
-export {Select,TipoVia,TipoZona,selectSchema};
+const Origen= models.Origen||model("Origen",OrigenSchema);
+export {Select,TipoVia,TipoZona,Origen,selectSchema};

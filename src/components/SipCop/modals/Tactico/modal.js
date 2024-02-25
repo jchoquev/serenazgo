@@ -9,10 +9,6 @@ export default function SipcopModal({User}){
     const List= useSelector((state) => state.SipCop.ListSipCops)
     const dispatch = useDispatch()
 
-    useEffect(()=>{
-        dispatch(fetchVhActivo());
-    },[])
-
     const handleCheck=(index,Activo)=>dispatch(updModalSipCop({key:'data',value:data.map((item,i)=>{
                 if (index===i) return {...item,Activo:Activo}
                 return item;

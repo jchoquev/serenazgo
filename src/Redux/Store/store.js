@@ -4,7 +4,7 @@ import modalReducer from '../Slice/modalSlice'
 import toastReducer from "../Slice/toastSlice"
 import roleReducer from "../Slice/roleSlice"
 import mapsSlice from '../Slice/mapsSlice'
-
+import listSlice from '../Slice/listSlice'
 export const store = configureStore({
   reducer: {
     SipCop:SipCopReducer,
@@ -12,5 +12,6 @@ export const store = configureStore({
     Toast:toastReducer,
     Role:roleReducer,
     Maps:mapsSlice,
+    Lists:listSlice,
   },
 })

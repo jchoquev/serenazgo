@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/libs/mongodb";
 import { OpIncidencia } from "@/models/default";
-import { TipoVia,TipoZona } from "@/models/select";
+import { TipoVia,TipoZona,Origen } from "@/models/select";
 //
 
 export async function GET(request){
@@ -18,6 +18,9 @@ export async function GET(request){
             resp=resp.map((item)=>({value:item._id,label:item.Value}))
         }else if(option==='TipoZona'){ 
             resp=await TipoZona.find().select();
+            resp=resp.map((item)=>({value:item._id,label:item.Value}))
+        }else if (option==='Origen'){ 
+            resp=await Origen.find().select();
             resp=resp.map((item)=>({value:item._id,label:item.Value}))
         }
         return NextResponse.json({ok:Boolean(resp),msg:resp});

@@ -90,6 +90,7 @@ const IncidenciaSchema=new Schema({
     Direccion:{type:String},
     Ocurrencia:{type:Mixed,default:{}},
     TipoZona:{type:Mixed,default:{}},
+    Origen:{type:Mixed,default:{}},
     SIPCOP:{type:Boolean,default:false},
     Turno:{type:String,default:""},
     FHregistro:{type:Date,default:Date.now},

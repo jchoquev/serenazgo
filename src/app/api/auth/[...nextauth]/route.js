@@ -17,6 +17,7 @@ const handler = NextAuth({
         await connectDB();
         let userFound=await Staff.findOne({NDocumento:credentials.username,Activo:true,FHeliminar:null})
                         .select("NDocumento fullNombres +Password NCelular Cargo._id Cargo.Cargo Grupo._id Grupo.Grupo Grupo.Turno uPassword");
+        console.log(userFound)
         const iSession= moment(userFound.Grupo.Turno.HEntrada,"HH:mm").tz('America/Lima')
         let fSession=moment(userFound.Grupo.Turno.HSalida,"HH:mm").tz('America/Lima')
         if(iSession>fSession) fSession=iSession.endOf("day");
