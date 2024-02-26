@@ -4,13 +4,16 @@ import { useState } from "react";
 import { ImUserCheck } from 'react-icons/im';
 import { BsListCheck } from 'react-icons/bs';
 import { Tabs } from "flowbite-react";
-export default function Grupo(){
+import Asistencia from "@/components/asistencia/table";
+import { useSession } from "next-auth/react";
+export default function AsistenciaGen(){
     return <>
         <Template Dynamic={TabsAsistencia}/>
     </>;
 }
 
 function TabsAsistencia(){
+    const { data: session,status }=useSession();
     return <Tabs.Group
         aria-label="Default tabs"
         style="default">
@@ -19,7 +22,7 @@ function TabsAsistencia(){
             icon={ImUserCheck}
             title="Asistencia"
         >
-            
+            <Asistencia session={session} status={status}/>
         </Tabs.Item>
         <Tabs.Item
             icon={BsListCheck}

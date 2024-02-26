@@ -26,6 +26,9 @@ export default function Login(){
         <div className="max-w-sm mx-auto flex flex-col justify-center items-center h-screen">
                <form className="max-w-sm mx-auto p-4 bg-white shadow-md rounded-md" onSubmit={handlSubmit}>
                   {error&&<div className="bg-red-500 text-white p-2 mb-2">{error}</div>}
+                  <div className="m-2 flex justify-center items-center">
+                    <img className="w-[70%]" src="https://firebasestorage.googleapis.com/v0/b/imagenes-c3bce.appspot.com/o/LOGO-SERENAZGO-twiter_400x400-02.png?alt=media&token=5cbf59be-c008-4aaa-aa71-6a3c17478b80" alt="" />
+                  </div>
                   <div className="mb-4">
                     <label className="block text-gray-700 font-medium mb-2">
                       Usuario:
@@ -54,7 +57,6 @@ export default function Login(){
                   >
                     Entrar
                   </button>
-                  <a href="sms:920561696?body=Aquí el cuerpo del mensaje">Aquí el texto que quieras</a> 
                 </form>
         </div>
      

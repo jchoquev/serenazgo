@@ -11,9 +11,10 @@ export default function NavbarAdmin({User}) {
       rounded
     >
       <Navbar.Brand href="/admin">
-        <BsFillCarFrontFill className="mr-3 h-6 sm:h-9"/>
+        
+        <img className="w-7 mr-2" src="https://firebasestorage.googleapis.com/v0/b/imagenes-c3bce.appspot.com/o/LOGO-SERENAZGO-twiter_400x400-02.png?alt=media&token=5cbf59be-c008-4aaa-aa71-6a3c17478b80" alt="" />
         <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-          SSCP Puno
+          SSCP Desaguadero
         </span>
       </Navbar.Brand>
       <div className="flex md:order-2">
@@ -83,3 +84,5 @@ export default function NavbarAdmin({User}) {
     </Navbar>
   )
 }
+
+//<BsFillCarFrontFill className="mr-3 h-6 sm:h-9"/>
