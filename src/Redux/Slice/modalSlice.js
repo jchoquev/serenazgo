@@ -51,6 +51,10 @@ const initialState = {
       open:false,
       sipcop:null
     },
+    Reporte:{
+      form:null,
+      open:false,
+    }
 }
 
 export const modalSlice = createSlice({
@@ -100,6 +104,10 @@ export const modalSlice = createSlice({
         const {key,value}=payload
         Object.assign(state.ListIncidencia, {[key]: value,})
       },
+      udpReporte:(state,{payload})=>{
+        const {key,value}=payload
+        Object.assign(state.Reporte, {[key]: value,})
+      },
     },
   })
   
@@ -114,7 +122,8 @@ export const modalSlice = createSlice({
     udpModalListTactico,
     udpModalIncidencia,
     IncidenciaSelects,
-    udpModalListIncidencia
+    udpModalListIncidencia,
+    udpReporte
   } = modalSlice.actions
   
   export default modalSlice.reducer

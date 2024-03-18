@@ -16,7 +16,6 @@ export default function Sipcop(){
 
 function TabsSipcop(){
   const { data: session,status }=useSession();
-  const [DataTurno, setDataTurno] = useState(null);
   return <>
       <Tabs.Group
       aria-label="Default tabs"

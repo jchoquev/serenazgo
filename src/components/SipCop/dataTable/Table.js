@@ -2,8 +2,8 @@ import { useState,useEffect } from "react";
 import { Table,Button,Checkbox,TextInput} from "flowbite-react";
 
 import {BsFillPatchCheckFill} from "react-icons/bs"
+import { HiDocumentText } from "react-icons/hi2";
 import SipcopModal from "../modals/Tactico/modal";
-import moment from "moment-timezone";
 import {RiGpsFill} from 'react-icons/ri'
 import {BiSolidEditLocation,BiSolidTimeFive} from 'react-icons/bi'
 import {BsPersonLinesFill ,BsPatchPlusFill,BsListOl } from 'react-icons/bs'
@@ -18,7 +18,8 @@ import ListIncidenciaModal from "../modals/incidencia/listIncidencia";
 
 /*Prueba */
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchFindSipCop} from "@/Redux/Slice/sipcopSlice";
+import { fetchFindSipCop } from "@/Redux/Slice/sipcopSlice";
+import { udpReporte } from "@/Redux/Slice/modalSlice";
 import { 
   updModalKm,
   updModalSipCop,
@@ -35,22 +36,35 @@ import {
   udpModalListIncidencia,
 } from "@/Redux/Slice/modalSlice";
 /*Prueba */
+import ReporteModal from "../modals/reporte/modal";
 export default function SipcopTable({User}){ 
     const dispatch = useDispatch()
     return <>
         <div className="relative w-full">
-            <button className="absolute top-0 right-0 z-10 pr-1 pt-1" 
-              onClick={()=>{
-                dispatch(updModalSipCop({key:'data',value:[]}))
-                dispatch(updModalSipCop({key:'open',value:true}))
-                dispatch(fetchVhActivo({_idTurno:User&&User.Grupo.Turno._id||'-1',from:User&&User.iSession||"0000-00-00",until:User&&User.fSession||"0000-00-00"}));
-              }}
-            >
-                <BsFillPatchCheckFill className="w-8 h-8 text-green-600 hover:text-emerald-900 bg-white rounded-full p-1 border border-x-emerald-700"/>
-            </button>
-            <Tablef User={User}/>
+          <div className="grid grid-cols-2 gap-1 absolute top-0 right-0 z-10 pr-1 pt-1">
+            <div>
+              <button className="" 
+                onClick={()=>{
+                  dispatch(updModalSipCop({key:'data',value:[]}))
+                  dispatch(updModalSipCop({key:'open',value:true}))
+                  dispatch(fetchVhActivo({_idTurno:User&&User.Grupo.Turno._id||'-1',from:User&&User.iSession||"0000-00-00",until:User&&User.fSession||"0000-00-00"}));
+                }}
+              >
+                  <BsFillPatchCheckFill className="w-8 h-8 text-green-600 hover:text-emerald-900 bg-white rounded-full p-1 border border-x-emerald-700"/>
+              </button>
+            </div>
+            <div>
+              <button onClick={()=>{
+                dispatch(udpReporte({key:"open",value:true}))
+              }}>
+                  <HiDocumentText className="w-8 h-8 text-green-600 hover:text-emerald-900 bg-white rounded-full p-1 border border-x-emerald-700"/>
+              </button>
+            </div>
+          </div>
+            <Tablef User={User} />
         </div>
-        <SipcopModal User={User}/>
+        <SipcopModal User={User} />
+        <ReporteModal User={User} />
     </>
 }
 
