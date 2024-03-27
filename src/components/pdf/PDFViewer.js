@@ -96,7 +96,7 @@ const MyDocument = ({data,Fecha,Responsables,Tactico,Ocurrencia}) => {
                 </TH>
                 {Responsables.map((item,key)=>{
                     const {DNI,Rol:{label},Nombres}=item
-                    return <TR>
+                    return <TR key={key} >
                         <TD>{key+1}. {label||""}</TD>
                         <TD>{DNI||""} </TD>
                         <TD>{Nombres||""}</TD>
@@ -136,7 +136,7 @@ const MyDocument = ({data,Fecha,Responsables,Tactico,Ocurrencia}) => {
                         </Text>
                         {Tactico.map((item,key)=>{
                           const {Direccion,Posicion,HLlegada,HSeira} = item
-                          return <Text style={{marginLeft:"20px",textAlign: 'justify',marginRight:"10px",}}>
+                          return <Text key={key} style={{marginLeft:"20px",textAlign: 'justify',marginRight:"10px",}}>
                               {key+1}. En {Direccion} , con posiciones geográficas registradas en ( {Posicion} ).
                               La unidad movil llego a las {HLlegada} y se retiro a las {HSeira}, completando los minutos requeridos.
                           </Text>

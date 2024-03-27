@@ -47,7 +47,7 @@ export default function Reporte({params}){
                     </Table.Head>
                     <Table.Body className="divide-y">
                         {data&&data.Registro&&data.Registro.map((item)=>{
-                            return <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                            return <Table.Row key={item._id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                                 {item.Numero||""}
                                 </Table.Cell>

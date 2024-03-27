@@ -2,6 +2,7 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Image from "next/image";
 export default function Login(){
   const [error,setError]=useState(null);
   const router=useRouter();
@@ -27,7 +28,7 @@ export default function Login(){
                <form className="max-w-sm mx-auto p-4 bg-white shadow-md rounded-md" onSubmit={handlSubmit}>
                   {error&&<div className="bg-red-500 text-white p-2 mb-2">{error}</div>}
                   <div className="m-2 flex justify-center items-center">
-                    <img className="w-[70%]" src="https://firebasestorage.googleapis.com/v0/b/imagenes-c3bce.appspot.com/o/LOGO-SERENAZGO-twiter_400x400-02.png?alt=media&token=5cbf59be-c008-4aaa-aa71-6a3c17478b80" alt="" />
+                    <Image className="w-[70%]" src="https://firebasestorage.googleapis.com/v0/b/imagenes-c3bce.appspot.com/o/LOGO-SERENAZGO-twiter_400x400-02.png?alt=media&token=5cbf59be-c008-4aaa-aa71-6a3c17478b80" alt="" />
                   </div>
                   <div className="mb-4">
                     <label className="block text-gray-700 font-medium mb-2">

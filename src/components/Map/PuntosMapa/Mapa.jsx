@@ -17,9 +17,9 @@ export default function Map() {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {
-        List&&List.map((item)=>{
+        List&&List.map((item,key)=>{
           const {Coordenadas,IPopup,ITooltip}=item;
-          return <Marker icon={myIcon} position={[Coordenadas.Latitud, Coordenadas.Longitud]}>
+          return <Marker key={key} icon={myIcon} position={[Coordenadas.Latitud, Coordenadas.Longitud]}>
             <Popup>
               <div dangerouslySetInnerHTML={{ __html: IPopup }} />
             </Popup>
