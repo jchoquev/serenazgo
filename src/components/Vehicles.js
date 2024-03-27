@@ -55,6 +55,9 @@ function ShiftTable({Data,setOpenModal,fetchData}){
                     Tipo
                 </Table.HeadCell>
                 <Table.HeadCell>
+                    Marca
+                </Table.HeadCell>
+                <Table.HeadCell>
                     <span className="sr-only">
                         Edit
                     </span>
@@ -67,7 +70,7 @@ function ShiftTable({Data,setOpenModal,fetchData}){
     </div>
 }
 
-function TableRow({_id,Numero,Placa,Tipo,Activo,setOpenModal,fetchData}){
+function TableRow({_id,Numero,Placa,Tipo,Activo,Marca,setOpenModal,fetchData}){
     const handleDelete=(_id)=>{
         if(window.confirm("¿Estás seguro de que deseas eliminar?")){
             axios.delete(`${process.env.API_URL}vehiculos`,{data:{_id}}).then(_=>{
@@ -94,6 +97,9 @@ function TableRow({_id,Numero,Placa,Tipo,Activo,setOpenModal,fetchData}){
         <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
             {Tipo.Tipo}
         </Table.Cell>
+        <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+            {Marca}
+        </Table.Cell>
         <Table.Cell className="w-10">
             <Button.Group>
                 <Button color="gray" onClick={()=>{setOpenModal({open:true,update:true,
@@ -103,7 +109,8 @@ function TableRow({_id,Numero,Placa,Tipo,Activo,setOpenModal,fetchData}){
                         Placa,
                         Activo,
                         Tipo:Tipo,
-                        Select2:{value:Tipo._id,label:Tipo.Tipo,Prioridad:Tipo.Prioridad}
+                        Select2:{value:Tipo._id,label:Tipo.Tipo,Prioridad:Tipo.Prioridad},
+                        Marca,
                     }
                     })}} >
                     <MdEditSquare/>
@@ -176,6 +183,12 @@ function VehiclesModal({openModal,fetchData,setOpenModal,options}){
                             <Label value="Tipo" />
                         </div>
                         {options&&<Select onChange={handleSelect} value={form.Select2} options={options.map((option)=>({ value: option._id, label:option.Tipo,Prioridad:option.Prioridad}))} required/>}
+                    </div>
+                    <div>
+                        <div className="mb-1 block">
+                            <Label value="Marca" />
+                        </div>
+                        <TextInput sizing="sm" name="Marca" value={form.Marca} onChange={handleChange} required/>
                     </div>
                     <div>
                         <ToggleSwitch

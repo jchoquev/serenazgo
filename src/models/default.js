@@ -1,4 +1,5 @@
 import { Schema, model ,models} from "mongoose";
+import { Mixed } from "mongoose";
 
 const TurnoSchema =new Schema({
     Turno:{type:String},
@@ -55,6 +56,7 @@ const VehiculoSchema =new Schema({
     Numero:{type:Number},
     Placa:{type:String},
     Activo:{type:Boolean},
+    Marca:{type:String, default:""},
     Tipo:{type:new Schema({_id:{type:Object},Tipo:{type:String},Prioridad:{type:Number}})},
     FHregistro:{type:Date,default:Date.now,select:false},
     FHactualizacion:{type:Date,default:Date.now,select:false},

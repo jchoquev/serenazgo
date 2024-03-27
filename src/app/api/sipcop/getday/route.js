@@ -18,7 +18,6 @@ export async function GET(request){
         const resp= await SipCop.find(filtro).sort({ Numero: 1 });
         return NextResponse.json({ok:true,msg:resp});
     } catch (error) {
-        console.log(error)
-        //return NextResponse.json({ok:false,msg:"Ocurrio un error, intentelo de nuevo..."},{status:400})
+        return NextResponse.json({ok:false,msg:"Ocurrio un error, intentelo de nuevo..."},{status:400})
     }
 }

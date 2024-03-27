@@ -2,6 +2,7 @@ import { useState,useEffect } from "react";
 import { Table,Button,Checkbox,TextInput} from "flowbite-react";
 
 import {BsFillPatchCheckFill} from "react-icons/bs"
+import { FaOilCan } from "react-icons/fa";
 import { HiDocumentText } from "react-icons/hi2";
 import SipcopModal from "../modals/Tactico/modal";
 import {RiGpsFill} from 'react-icons/ri'
@@ -34,8 +35,10 @@ import {
   fetchFindIncidencias,
   fetchVhActivo,
   udpModalListIncidencia,
+  udpModalVale
 } from "@/Redux/Slice/modalSlice";
 /*Prueba */
+import ValeSipcopModal from "../modals/vale/modal";
 import ReporteModal from "../modals/reporte/modal";
 export default function SipcopTable({User}){ 
     const dispatch = useDispatch()
@@ -65,6 +68,7 @@ export default function SipcopTable({User}){
         </div>
         <SipcopModal User={User} />
         <ReporteModal User={User} />
+        
     </>
 }
 
@@ -102,6 +106,9 @@ function Tablef({User}){
                 Incidencia
               </Table.HeadCell>
               <Table.HeadCell className="text-center">
+                Combust.
+              </Table.HeadCell>
+              <Table.HeadCell className="text-center">
                 Zona
               </Table.HeadCell>
               <Table.HeadCell className="text-center">
@@ -121,11 +128,12 @@ function Tablef({User}){
           <KilometrajeModal/>
           <IncidenciaModal/>
           <ListIncidenciaModal/>
+          <ValeSipcopModal/>
       </>
 }
 function TableRow(data){
   const dispatch=useDispatch();
-  const {_id,IdVehiculo,Activo,Numero,Kilometraje,IdPlaca,Zona,Observacion,Incidencia,Responsables,OdometroInicial,OdometroFinal,Tactico,Nombres}=data;
+  const {_id,IdVehiculo,Activo,Numero,Kilometraje,IdPlaca,Zona,Observacion,Incidencia,Responsables,OdometroInicial,OdometroFinal,Tactico,Nombres,Vale}=data;
   return (<>
     <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
       <Table.Cell className="p-4">
@@ -213,6 +221,19 @@ function TableRow(data){
               <BsListOl className="w-5 h-5"/>
           </Button>
         </Button.Group>
+      </Table.Cell>
+      <Table.Cell>
+        <Button color="gray" className="w-full" size="sm" onClick={
+            ()=>{
+              const estado=Vale?true:false
+              const fdata=estado===true?Vale:{}
+              dispatch(udpModalVale({key:'open',value:true}))
+              dispatch(udpModalVale({key:"form",value:{...fdata,_idSipCop:_id,IdPlaca}}))
+              dispatch(udpModalVale({key:"update",value:estado}))
+            }
+          }>
+              <FaOilCan className="w-5 h-5"/>
+        </Button>
       </Table.Cell>
       <Table.Cell>
         {Zona}

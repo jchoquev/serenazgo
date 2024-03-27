@@ -54,7 +54,12 @@ const initialState = {
     Reporte:{
       form:null,
       open:false,
-    }
+    },
+    Vale:{
+      form:{},
+      open:false,
+      update:false,
+    },
 }
 
 export const modalSlice = createSlice({
@@ -108,6 +113,11 @@ export const modalSlice = createSlice({
         const {key,value}=payload
         Object.assign(state.Reporte, {[key]: value,})
       },
+      udpModalVale:(state,{payload})=>{
+        const {key,value}=payload
+        Object.assign(state.Vale, {[key]: value,})
+      },
+      
     },
   })
   
@@ -123,7 +133,8 @@ export const modalSlice = createSlice({
     udpModalIncidencia,
     IncidenciaSelects,
     udpModalListIncidencia,
-    udpReporte
+    udpReporte,
+    udpModalVale
   } = modalSlice.actions
   
   export default modalSlice.reducer
@@ -340,3 +351,31 @@ export const modalSlice = createSlice({
     });
   }
   
+  export const fetchInsVale=(data,List)=>(dispatch)=>{
+    const {update}=data
+    axios.post(`${process.env.API_URL}sipcop/vale`,data).then(({data})=> {
+      const {msg,ok}=data;
+      console.log(msg)
+      ok&&dispatch(udpModalListTactico({key:"List",value:List.map((item)=>{
+        if(item._id===msg._id) return msg;
+        return item;
+      })}))
+      ok&&update===true&&dispatch(addToast({message:"Se actualizo correctamente el vale.",state:true}))
+      ok&&update===false&&dispatch(addToast({message:"Se guardo correctamente el vale.",state:true}))
+    }).catch(_ => {
+      dispatch(addToast({message:"Ocurrio un error al Listar las incidencias.",state:false}))
+    });
+    /*
+    axios.post(`${process.env.API_URL}sipcop/updates/tactico`, form).then(({data})=> {
+          const {msg,ok}=data;
+          ok&&dispatch(updSipcopList(List.map((item)=>{
+            if(item._id===msg._id) return msg;
+            return item;
+          })));
+          ok&&dispatch(addToast({message:`Se INSERTO correctamente el punto  tactico de ${form.Direccion}.`,state:true}))
+          ok&&dispatch(udpModalTactico({key:"open",value:false}))
+        }).catch(_ => {
+          dispatch(addToast({message:"Ocurrio un error al INSERTAR el punto tactico.",state:false}))
+        });
+    */
+  }

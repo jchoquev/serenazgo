@@ -2,8 +2,6 @@ import { ObjectId } from "mongodb";
 import { Schema, model ,models} from "mongoose";
 import { selectSchema } from "./select";
 import { Mixed } from "mongoose";
-import { Vehiculo } from "./default";
-import { Staff } from "./staff";
 
 const ResponsableSchema=new Schema({
     _idSipCop:{
@@ -111,6 +109,11 @@ const kmSchema=new Schema({
     Nombres:{type:String,default:null},
 },{ _id: false })
 
+const ValeSchema=new Schema({
+    NumVale:{type:Number,default:0},
+    KM:{type:Number,default:0},
+    FHregistro:{type:Date,default:Date.now},
+},{ _id: false })
 
 const SipCopSchema =new Schema({
     IdVehiculo:{type:ObjectId,require:[true]},
@@ -120,11 +123,13 @@ const SipCopSchema =new Schema({
     DNIConductor:{type:String,default:''},
     Responsables:{type:[ObjectId],default:[]},
     Kilometraje:{type:kmSchema,default:{Inicial:0,Final:0,Verificado:false,Nombres:null}},
+    Vale:{type:ValeSchema,default:{NumVale:0,KM:0}},
+    Marca:{type:String,default:''},
     OdometroInicial:{type:Number,default:0},
     OdometroFinal:{type:Number,default:0},
     Zona:{type:String,default:''},
     IdTurno:{type:ObjectId,require:[true]},
-    Turno:{type:String,require:[true]},
+    Turno:{type:Mixed,require:[true]},
     KilometrajeSC:{type:Number,default:0},
     TiempoSC:{type:Number,default:0},
     SCFHActualizacion:{type:String,default:''},

@@ -19,7 +19,8 @@ export async function POST(request){
             Numero:Group.Numero,
             Placa:Group.Placa.toUpperCase(),
             Activo:Group.Activo,
-            Tipo:Group.Tipo
+            Tipo:Group.Tipo,
+            Marca:Group.Marca
         }
         await connectDB();
         const group= await (new Vehiculo(send)).save();
@@ -36,7 +37,8 @@ export async function PUT(request){
             Numero:Group.Numero,
             Placa:Group.Placa.toUpperCase(),
             Activo:Group.Activo,
-            Tipo:Group.Tipo
+            Tipo:Group.Tipo,
+            Marca:Group.Marca
         }
         await connectDB();
         const VehicleFound = await Vehiculo.findOne({_id:Group._id});
