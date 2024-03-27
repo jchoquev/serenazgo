@@ -3,7 +3,7 @@ import React, { useState,useEffect } from "react";
 import { Table,Button,Modal } from "flowbite-react"
 import moment from "moment";
 import axios from "axios";
-import { FaFilePdf } from "react-icons/fa";
+import { FaFilePdf , FaCar,FaMotorcycle} from "react-icons/fa";
 import MyDocument from "@/components/pdf/PDFViewer";
 import { PDFViewer } from '@react-pdf/renderer';
 moment.locale("es");
@@ -67,8 +67,24 @@ export default function Reporte({params}){
                                                         Responsables:TrResponsable(item,data),
                                                         Tactico:TrTacticos(item,data),
                                                         Ocurrencia:TrIncidentes(item,data),
+                                                        esMOto:false,
                                                     }
-                                                )}><FaFilePdf />
+                                                )}><FaCar />
+                                        </Button>
+                                        <Button size="xs" color="gray"  
+                                            onClick={
+                                                () => setOpenModal(
+                                                    {
+                                                        ...openModal,
+                                                        open:true,
+                                                        data:item,
+                                                        fecha,
+                                                        Responsables:TrResponsable(item,data),
+                                                        Tactico:TrTacticos(item,data),
+                                                        Ocurrencia:TrIncidentes(item,data),
+                                                        esMOto:true,
+                                                    }
+                                                )}><FaMotorcycle  />
                                         </Button>
                                     </Button.Group>
                                 </Table.Cell>
@@ -82,14 +98,14 @@ export default function Reporte({params}){
 }
 
 function ModalPDF({openModal,setOpenModal} ) {  
-    const {Tactico,Ocurrencia}=openModal
+    const {Tactico,Ocurrencia,esMOto}=openModal
     return (
       <>
         
         <Modal show={openModal.open} size={"5xl"} onClose={() => setOpenModal({...openModal,open:false})}>
           <Modal.Body>
             <PDFViewer className="w-full h-[30rem] " scale="100%">
-                <MyDocument data={openModal.data || {} } Tactico={Tactico||[]} Ocurrencia={Ocurrencia||[]} Fecha={openModal.fecha||""}  Responsables={openModal.Responsables  || []} />
+                <MyDocument data={openModal.data || {} } esMOto={esMOto} Tactico={Tactico||[]} Ocurrencia={Ocurrencia||[]} Fecha={openModal.fecha||""}  Responsables={openModal.Responsables  || []} />
             </PDFViewer>
           </Modal.Body>
           <Modal.Footer>

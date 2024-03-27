@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
 });
 
 // Create Document Component
-const MyDocument = ({data,Fecha,Responsables,Tactico,Ocurrencia}) => {
+const MyDocument = ({data,Fecha,Responsables,Tactico,Ocurrencia,esMOto}) => {
     const {IdPlaca,Numero,Kilometraje:{Inicial,Final},Turno:{Turno,HEntrada,HSalida}, Marca,Vale:{NumVale,KM:ValKM} }=data
     return (<Document key={uuid()}>
         {console.log(Tactico,Ocurrencia)}
@@ -44,17 +44,17 @@ const MyDocument = ({data,Fecha,Responsables,Tactico,Ocurrencia}) => {
               <Text>{Fecha.format('DD [de] MMMM [del] YYYY').toString().toUpperCase()} </Text>
             </View>
             <View style={{ marginTop:"10px",flexDirection: 'row', justifyContent: 'center',fontWeight:"bold"}}>
-              <Text>ACTA DE PATRULLAJE MUNICIPAL - PATRULLERO</Text>
+              <Text>ACTA DE PATRULLAJE MUNICIPAL - {esMOto?"MOTORIZADO":"PATRULLERO"} </Text>
             </View>
             <View style={{marginRight:"35px",marginLeft:"50px",marginTop:"10px"}}>
               <Table  tdStyle={{padding:"1px",fontSize:"8px"}} >
                 <TH>
-                    <TD weighting={1} style={{justifyContent: 'center',fontWeight:"bold",backgroundColor: '#D1D1D1',}}>DATOS DEL VEHICULO AL MOMENTO DEL RELEVO</TD>
+                    <TD weighting={1} style={{justifyContent: 'center',fontWeight:"bold",backgroundColor: '#D1D1D1',}}>DATOS {esMOto?"DE LA MOTO":"DEL VEHICULO"}  AL MOMENTO DEL RELEVO</TD>
                 </TH>
                 <TR>
-                    <TD style={{borderRight: 0,}}>PLACA DEL VEHICULO</TD>
+                    <TD style={{borderRight: 0,}}>PLACA {esMOto?"DE LA MOTO":"DEL VEHICULO"} </TD>
                     <TD style={{borderLeft: 0,}}>: {IdPlaca} </TD>
-                    <TD style={{borderRight: 0,}}>PATRULLERO N°</TD>
+                    <TD style={{borderRight: 0,}}>{esMOto?"MOTO":"PATRULLERO"} N°</TD>
                     <TD style={{borderLeft: 0,}}>: 0{Numero} </TD>
                     <TD style={{borderRight: 0,}}>MARCA</TD>
                     <TD style={{borderLeft: 0,}}>: {Marca}</TD>
@@ -128,8 +128,8 @@ const MyDocument = ({data,Fecha,Responsables,Tactico,Ocurrencia}) => {
                     <TD style={{justifyContent: 'center',fontWeight:"bold",backgroundColor: '#D1D1D1',}}>CUADRO DE REPORTE DE OCURRENCIAS DEL SERVICIO Y/O ACTA DE INTERVENCION</TD>
                 </TH>
                 <TR>
-                    {Tactico.length>0&&<TD>
-                      <View>
+                    <TD>
+                      {Tactico.length>0&&<View>
                         <Text style={{textAlign: 'justify',marginLeft:"10px",marginRight:"10px",}}>
                           En la fecha {Fecha.format('DD [de] MMMM [del] YYYY').toString().toUpperCase()}, Se hicieron  {" "}
                           {Tactico.length} estacionamientos en areas priorizadas que se detalla a continuacion:{"\n"}
@@ -141,8 +141,8 @@ const MyDocument = ({data,Fecha,Responsables,Tactico,Ocurrencia}) => {
                               La unidad movil llego a las {HLlegada} y se retiro a las {HSeira}, completando los minutos requeridos.
                           </Text>
                         })}
-                      </View>
-                    </TD>}
+                      </View>}
+                    </TD>
                 </TR>
               </Table>
             </View>
@@ -150,9 +150,9 @@ const MyDocument = ({data,Fecha,Responsables,Tactico,Ocurrencia}) => {
               <Table  tdStyle={{padding:"1px",fontSize:"8px"}} >
                 <TR>
                   <TD weighting={0.25} style={{justifyContent: 'center',border:0}}><Text>_______________________{"\n"}JEFE DE GRUPO</Text></TD>
-                  <TD weighting={0.25} style={{justifyContent: 'center',border:0}}><Text>_______________________{"\n"}CONDUCTOR</Text></TD>
-                  <TD weighting={0.25} style={{justifyContent: 'center',border:0}}><Text>_______________________{"\n"}OPERADOR</Text></TD>
-                  <TD weighting={0.25} style={{justifyContent: 'center',border:0}}><Text>_______________________{"\n"}PNP</Text></TD>
+                  <TD weighting={0.25} style={{justifyContent: 'center',border:0}}><Text>_______________________{"\n"}{esMOto?"MOTORIZADO (1)":"CONDUCTOR"}</Text></TD>
+                  <TD weighting={0.25} style={{justifyContent: 'center',border:0}}><Text>_______________________{"\n"}{esMOto?"MOTORIZADO (2)":"OPERADOR"}</Text></TD>
+                  <TD weighting={0.25} style={{justifyContent: 'center',border:0}}><Text>_______________________{"\n"}{esMOto?"MOTORIZADO (3)":"PNP"}</Text></TD>
                 </TR>
               </Table>
             </View>
