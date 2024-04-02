@@ -4,6 +4,7 @@ import { connectDB } from "@/libs/mongodb";
 import { Staff } from "@/models/staff";
 import bcrypt from "bcryptjs"
 import moment from "moment-timezone";
+import { getDate } from "@/functions/Time/timer";
 
 const handler = NextAuth({
   providers: [
@@ -18,13 +19,14 @@ const handler = NextAuth({
         let userFound=await Staff.findOne({NDocumento:credentials.username,Activo:true,FHeliminar:null})
                         .select("NDocumento fullNombres +Password NCelular Cargo._id Cargo.Cargo Grupo._id Grupo.Grupo Grupo.Turno uPassword");
         console.log(userFound)
-        const iSession= moment(userFound.Grupo.Turno.HEntrada,"HH:mm").tz('America/Lima')
-        let fSession=moment(userFound.Grupo.Turno.HSalida,"HH:mm").tz('America/Lima')
+        const iSession= getDate(userFound.Grupo.Turno.HEntrada,"HH:mm")
+        let fSession=getDate(userFound.Grupo.Turno.HSalida,"HH:mm")
         if(iSession>fSession) fSession=iSession.endOf("day");
         if(!userFound) throw new Error("El usuario no existe");
         const passwordMatch=await bcrypt.compare(credentials.password,userFound.Password);
         if(!passwordMatch) throw new Error("Ocurrio un error...");
         if(userFound.uPassword) userFound.new=true;
+
         return {
           NDocumento:userFound.NDocumento,
           fullNombres:userFound.fullNombres,
@@ -33,9 +35,9 @@ const handler = NextAuth({
           Cargo:userFound.Cargo,
           Grupo:userFound.Grupo,
           new:userFound.new,
-          iSession:iSession.toDate(),
-          fSession:fSession.toDate(),
-          time:fSession.diff(moment().tz('America/Lima'),"seconds")
+          iSession:iSession,
+          fSession:fSession,
+          //time:fSession.diff(moment().tz('America/Lima'),"seconds")
         };
       },
     }),

@@ -1,6 +1,7 @@
 import { ObjectId } from "mongodb";
 import { Schema, model ,models} from "mongoose";
 import { selectSchema } from "./select";
+import { getDateNow } from "@/functions/Time/timer";
 import { Mixed } from "mongoose";
 
 const ResponsableSchema=new Schema({
@@ -23,14 +24,14 @@ const ResponsableSchema=new Schema({
     Nombres:{type:String},
     Rol:{type:selectSchema,default:{}},
     NCelular:{type:String},
-    FHregistro:{type:Date,default:Date.now(),select:false},
-    FHactualizacion:{type:Date,default:Date.now(),select:false},
+    FHregistro:{type:Date,default:getDateNow,select:false},
+    FHactualizacion:{type:Date,default:getDateNow,select:false},
     FHeliminar:{type:Date,default:null}
 },{ collection:'Responsable'});
 
 ResponsableSchema.pre('findOneAndUpdate',function(next){
     const update = this.getUpdate();
-    update.FHactualizacion=Date.now();
+    update.FHactualizacion=getDateNow();
     next();
 });
 
@@ -40,8 +41,8 @@ const PuntosTacticoSchema=new Schema({
     Latitud:{type:Number,require:[true]},
     Longitud:{type:Number,require:[true]},
     Activo:{type:Boolean,default:true},
-    FHregistro:{type:Date,default:Date.now(),select:false},
-    FHactualizacion:{type:Date,default:Date.now(),select:false},
+    FHregistro:{type:Date,default:getDateNow,select:false},
+    FHactualizacion:{type:Date,default:getDateNow,select:false},
     FHeliminar:{type:Date,default:null,select:false}
 },{ collection: 'TacticoCoordenada' });
 
@@ -58,7 +59,7 @@ const TacticoSchema=new Schema({
     Completo:{type:Boolean,default:false},
     Revisar:{type:Boolean,default:false},
     Observaciones:{type:String},
-    FHregistro:{type:Date,default:Date.now},
+    FHregistro:{type:Date,default:getDateNow},
 },{ collection: 'Tacticos' });
 
 const TacticOcurrencia=new Schema({
@@ -91,14 +92,14 @@ const IncidenciaSchema=new Schema({
     Origen:{type:Mixed,default:{}},
     SIPCOP:{type:Boolean,default:false},
     Turno:{type:String,default:""},
-    FHregistro:{type:Date,default:Date.now},
-    FHactualizacion:{type:Date,default:Date.now},
+    FHregistro:{type:Date,default:getDateNow},
+    FHactualizacion:{type:Date,default:getDateNow},
     FHeliminar:{type:Date,default:null},
 },{ collection: 'Incidencias' });
 
 IncidenciaSchema.pre('findOneAndUpdate',function(next){
     const update = this.getUpdate();
-    update.FHactualizacion=Date.now();
+    update.FHactualizacion=getDateNow();
     next();
 });
 
@@ -112,7 +113,7 @@ const kmSchema=new Schema({
 const ValeSchema=new Schema({
     NumVale:{type:Number,default:0},
     KM:{type:Number,default:0},
-    FHregistro:{type:Date,default:Date.now},
+    FHregistro:{type:Date,default:getDateNow},
 },{ _id: false })
 
 const SipCopSchema =new Schema({
@@ -138,8 +139,8 @@ const SipCopSchema =new Schema({
     TacHoraFin:{type:String},
     Activo:{type:Boolean,default:false},
     Observacion:{type:String},
-    FHregistro:{type:Date,default:Date.now},
-    FHactualizacion:{type:Date,default:Date.now},
+    FHregistro:{type:Date,default:getDateNow},
+    FHactualizacion:{type:Date,default:getDateNow},
     FHeliminar:{type:Date,default:null},
 },{ collection: 'Sipcop' });
 
@@ -154,14 +155,14 @@ const RoleSchema=new Schema({
     Value:{type:String,default:"",require:[true]},
     Access:{type:[AccesSchema],default:[]},
     Protected:{type:Boolean,default:false},
-    FHregistro:{type:Date,default:Date.now},
-    FHactualizacion:{type:Date,default:Date.now},
+    FHregistro:{type:Date,default:getDateNow},
+    FHactualizacion:{type:Date,default:getDateNow},
     FHeliminar:{type:Date,default:null},
 },{ collection: 'Roles' })
 
 RoleSchema.pre('findOneAndUpdate',function(next){
     const update = this.getUpdate();
-    update.FHactualizacion=Date.now();
+    update.FHactualizacion=getDateNow();
     next();
 });
 

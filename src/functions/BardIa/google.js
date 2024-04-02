@@ -9,6 +9,7 @@ async function run(prompt) {
 }
 
 async function VehiculoTacticoIa(fecha,data){
+    if(data.length<=0) return new Promise((resolve) => {resolve("");});
     const promp=`
         todo esto es de un patrullero osea de vehiculo que pertenece a serenazgo tomalo en cuenta pero no menciones  [
         Escribeme un acta sobre patrullaje en áreas priorizadas con 
@@ -36,6 +37,7 @@ async function VehiculoTacticoIa(fecha,data){
             - no pongas nada como comentarios y no pongas titulo.
         ]
     `
+    console.log(promp)
     return new Promise(async (resolve) => {
         const resp=await run(promp)
         resolve(resp);
@@ -43,6 +45,7 @@ async function VehiculoTacticoIa(fecha,data){
 }
 
 function MotorizadoTacticoIa(fecha,data){
+    if(data.length<=0) return new Promise((resolve) => {resolve("");});
     const promp=`
         todo esto es de una unidad motorizada osea de una moto que pertenece a serenazgo de se tomalo en cuenta pero no menciones  [
         Escribeme un acta sobre patrullaje de una unidad motorizadas de 
