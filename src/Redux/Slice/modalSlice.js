@@ -365,17 +365,4 @@ export const modalSlice = createSlice({
     }).catch(_ => {
       dispatch(addToast({message:"Ocurrio un error al Listar las incidencias.",state:false}))
     });
-    /*
-    axios.post(`${process.env.API_URL}sipcop/updates/tactico`, form).then(({data})=> {
-          const {msg,ok}=data;
-          ok&&dispatch(updSipcopList(List.map((item)=>{
-            if(item._id===msg._id) return msg;
-            return item;
-          })));
-          ok&&dispatch(addToast({message:`Se INSERTO correctamente el punto  tactico de ${form.Direccion}.`,state:true}))
-          ok&&dispatch(udpModalTactico({key:"open",value:false}))
-        }).catch(_ => {
-          dispatch(addToast({message:"Ocurrio un error al INSERTAR el punto tactico.",state:false}))
-        });
-    */
   }
