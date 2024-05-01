@@ -4,7 +4,7 @@ const getDateNow=()=>{
 }
 
 const getDate=(strText,Format)=>{ 
-    return moment(strText,Format).format()//.tz('America/Lima').utc(-5).format();
+    return moment().format()//moment(strText,Format).format()//.tz('America/Lima').utc(-5).format();
 }
 
 const getDiffTimeSeconds=(strText)=>{ 
