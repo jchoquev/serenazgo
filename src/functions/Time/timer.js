@@ -3,9 +3,9 @@ const getDateNow=()=>{
     return moment().utcOffset('-05:00').tz('America/Lima').format()//.utc(-5).format();
 }
 
-const getDateHM=(strText,Format)=>{ 
-    let [hora, minuto] = horaString.split(':');
-    let Retorno=moment(strText,Format,true).utcOffset('-05:00').tz('America/Lima').set({ hour: hora, minute: minuto,second:0 });
+const getDateHM=(strText)=>{ 
+    let [hora, minuto] = strText.split(':');
+    let Retorno=moment().utcOffset('-05:00').tz('America/Lima').set({ hour: hora, minute: minuto,second:0 });
     return Retorno.format()
 }
 
