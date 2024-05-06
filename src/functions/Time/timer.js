@@ -5,7 +5,7 @@ const getDateNow=()=>{
 
 const getDateHM=(strText,format)=>{ 
     let [hora, minuto] = strText.split(':');
-    let Retorno=moment(strText,format)
+    let Retorno=moment(strText,format).utc(-5)
     return Retorno.format()
 }
 
