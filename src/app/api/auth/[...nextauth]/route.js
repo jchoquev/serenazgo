@@ -16,17 +16,17 @@ const handler = NextAuth({
       },
       async authorize(credentials) {
         await connectDB();
-        let userFound=await Staff.findOne({NDocumento:credentials.username,Activo:true,FHeliminar:null})
+        const {username,password,dateNow}=credentials
+        let userFound=await Staff.findOne({NDocumento:username,Activo:true,FHeliminar:null})
                         .select("NDocumento fullNombres +Password NCelular Cargo._id Cargo.Cargo Grupo._id Grupo.Grupo Grupo.Turno uPassword");
-        console.log(userFound)
-        const iSession= getDateHM(userFound.Grupo.Turno.HEntrada,"HH:mm")
-        let fSession=getDateHM(userFound.Grupo.Turno.HSalida,"HH:mm")
+        const iSession= getDateHM(`${dateNow} ${userFound.Grupo.Turno.HEntrada}`,"YYYY-MM-DD HH:mm")
+        let fSession=getDateHM(`${dateNow} ${userFound.Grupo.Turno.HSalida}`,"YYYY-MM-DD HH:mm")
         if(iSession>fSession) fSession=iSession.endOf("day");
         if(!userFound) throw new Error("El usuario no existe");
-        const passwordMatch=await bcrypt.compare(credentials.password,userFound.Password);
+        const passwordMatch=await bcrypt.compare(password,userFound.Password);
         if(!passwordMatch) throw new Error("Ocurrio un error...");
         if(userFound.uPassword) userFound.new=true;
-
+        //const {Password,...data}=userFound
         return {
           NDocumento:userFound.NDocumento,
           fullNombres:userFound.fullNombres,

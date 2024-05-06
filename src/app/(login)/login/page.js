@@ -2,6 +2,8 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import moment from "moment";
+
 import Image from "next/image";
 export default function Login(){
   const [error,setError]=useState(null);
@@ -14,6 +16,7 @@ export default function Login(){
       const res=await signIn("credentials",{
         username:formData.get("User"),
         password:formData.get("Password"),
+        dateNow:moment().format('YYYY-MM-DD'),
         redirect:false
       }) 
       if(res.error) return setError(res.error);
