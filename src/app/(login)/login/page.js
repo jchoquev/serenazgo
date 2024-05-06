@@ -15,10 +15,11 @@ export default function Login(){
         username:formData.get("User"),
         password:formData.get("Password"),
         redirect:false
-      })
+      }) 
       if(res.error) return setError(res.error);
       if(res.ok) return router.push("/admin")
-    } catch (_) {
+    } catch (_) { 
+  // hablando heuvadas
       return setError("Intentelo mas tarde...");
     }
 
